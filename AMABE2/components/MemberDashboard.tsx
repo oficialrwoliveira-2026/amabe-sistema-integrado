@@ -216,13 +216,15 @@ const MemberDashboard: React.FC<MemberDashboardProps> = ({
    const handleGenerateVoucher = (beneficiary: { name: string, id: string }) => {
       if (!selectedPartner) return;
 
-      // Verificar se o beneficiário já possui um voucher GERADO
-      const hasActiveVoucher = history.some(h =>
-         h.beneficiaryId === beneficiary.id && h.status === 'GERADO'
+      // Verificar se o beneficiário já possui um voucher GERADO para este parceiro específico
+      const hasActiveVoucherForPartner = history.some(h =>
+         h.beneficiaryId === beneficiary.id &&
+         h.partnerId === selectedPartner.id &&
+         h.status === 'GERADO'
       );
 
-      if (hasActiveVoucher) {
-         showAlert('Voucher Ativo', `Ops! ${beneficiary.name} já possui um voucher ativo. É necessário utilizá-lo antes de gerar um novo.`, 'warning');
+      if (hasActiveVoucherForPartner) {
+         showAlert('Voucher Ativo', `Ops! ${beneficiary.name} já possui um voucher ativo para ${selectedPartner.name}. É necessário utilizá-lo antes de gerar um novo para este parceiro.`, 'warning');
          return;
       }
 
