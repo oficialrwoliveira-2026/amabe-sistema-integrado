@@ -114,7 +114,7 @@ const App: React.FC = () => {
     try {
       const userRoleStr = String(user.role).toUpperCase();
       const isAdmin = userRoleStr === 'ADMIN';
-      const isPartner = userRoleStr === 'PARTNER';
+      const isPartner = userRoleStr === 'PARTNER' || userRoleStr === 'PARCEIRO';
 
       // Consultas independentes para evitar falhas em cascata
       // 1. Otimização: Filtrar no banco de dados para evitar download de dados desnecessários
@@ -798,7 +798,8 @@ const App: React.FC = () => {
   const addUsage = async (usage: BenefitUsage) => {
     try {
       // Tentar inserir com todos os campos (novas colunas)
-      const { error } = await supabase.from('benefit_usage').insert({
+      const { error } = await supabase.from('benefit_usage').upsert({
+        id: usage.id,
         member_id: usage.memberId,
         member_name: usage.memberName,
         beneficiary_name: usage.beneficiaryName,
@@ -807,9 +808,9 @@ const App: React.FC = () => {
         partner_name: usage.partnerName,
         offer_title: usage.offerTitle,
         offer_discount: usage.offerDiscount,
-        status: usage.status || 'GERADO',
+        status: usage.status || 'VALIDADO',
         date: new Date().toISOString()
-      });
+      }, { onConflict: 'id' });
 
       if (error) {
         console.warn('Erro ao registrar uso (tentando fallback):', error);

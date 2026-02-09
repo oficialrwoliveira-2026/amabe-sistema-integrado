@@ -12,6 +12,8 @@ import {
    Search,
    History,
    Ticket,
+   Clock,
+   PlusCircle,
    Building2,
    MapPin,
    Phone,
@@ -19,7 +21,6 @@ import {
    Hash,
    Tag,
    Image as ImageIcon,
-   PlusCircle,
    Save,
    Store,
    TicketPlus,
@@ -143,13 +144,13 @@ const PartnerDashboard: React.FC<PartnerDashboardProps> = ({
       }
 
       const usage: BenefitUsage = {
-         id: Math.random().toString(36).substr(2, 9),
+         id: activeVoucher ? activeVoucher.id : Math.random().toString(36).substr(2, 9),
          memberId: member.memberId!,
          memberName: member.name,
          beneficiaryName: member.name,
-         beneficiaryId: member.memberId!,
+         beneficiaryId: member.id, // Usar o ID real do membro/dependente
          partnerName: user.companyName || user.name,
-         date: new Date().toLocaleString('pt-BR'),
+         date: new Date().toISOString(),
          status: 'VALIDADO'
       };
 
@@ -283,24 +284,52 @@ const PartnerDashboard: React.FC<PartnerDashboardProps> = ({
                <h3 className="text-lg md:text-2xl font-black text-slate-900 italic uppercase">Uso Recente</h3>
             </div>
             <div className="space-y-4 md:space-y-6">
-               {history.length > 0 ? history.map((h) => (
-                  <div key={h.id} className="flex items-center justify-between p-4 md:p-8 bg-orange-50/20 rounded-2xl md:rounded-[40px] border border-orange-100/50 group hover:bg-white transition-all gap-3">
-                     <div className="flex items-center space-x-3 md:space-x-8">
-                        <div className="w-10 h-10 md:w-16 md:h-16 bg-white rounded-xl md:rounded-3xl flex items-center justify-center border border-emerald-100 text-emerald-500 shadow-sm shrink-0">
-                           <Check size={20} className="md:hidden" />
-                           <Check size={32} className="hidden md:block" />
+               {history.length > 0 ? history.map((h) => {
+                  const isValidated = h.status === 'VALIDADO';
+                  return (
+                     <div key={h.id} className={`flex items-center justify-between p-4 md:p-8 rounded-2xl md:rounded-[40px] border transition-all gap-3 ${isValidated
+                           ? 'bg-emerald-50/10 border-emerald-100/30'
+                           : 'bg-orange-50/20 border-orange-100/50'
+                        }`}>
+                        <div className="flex items-center space-x-3 md:space-x-8">
+                           <div className={`w-10 h-10 md:w-16 md:h-16 rounded-xl md:rounded-3xl flex items-center justify-center border shadow-sm shrink-0 ${isValidated
+                                 ? 'bg-white border-emerald-100 text-emerald-500'
+                                 : 'bg-white border-orange-100 text-orange-400 opacity-60'
+                              }`}>
+                              {isValidated ? (
+                                 <>
+                                    <Check size={20} className="md:hidden" />
+                                    <Check size={32} className="hidden md:block" />
+                                 </>
+                              ) : (
+                                 <>
+                                    <Clock size={20} className="md:hidden" />
+                                    <Clock size={32} className="hidden md:block" />
+                                 </>
+                              )}
+                           </div>
+                           <div className="min-w-0">
+                              <div className="flex items-center gap-2 mb-1">
+                                 <p className="text-sm md:text-xl font-black text-slate-900 truncate italic uppercase leading-tight">{h.memberName}</p>
+                                 <span className={`text-[6px] md:text-[8px] font-black px-2 py-0.5 rounded-full uppercase ${isValidated ? 'bg-emerald-100 text-emerald-600' : 'bg-orange-100 text-orange-600 animate-pulse'
+                                    }`}>
+                                    {isValidated ? 'Utilizado' : 'Pendente'}
+                                 </span>
+                              </div>
+                              <p className="text-[7px] md:text-[10px] font-black text-slate-400 uppercase tracking-widest">{h.memberId || 'CÓDIGO: ' + (h.code || '-')}</p>
+                           </div>
                         </div>
-                        <div className="min-w-0">
-                           <p className="text-sm md:text-xl font-black text-slate-900 truncate italic uppercase leading-tight">{h.memberName}</p>
-                           <p className="text-[7px] md:text-[10px] font-black text-orange-400 uppercase tracking-widest mt-1 md:mt-1.5">{h.memberId}</p>
+                        <div className="text-right shrink-0">
+                           <p className="font-black text-slate-900 italic text-sm md:text-lg">
+                              {h.date.includes('T') ? new Date(h.date).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) : (h.date.split(' ')[1] || '-')}
+                           </p>
+                           <p className="text-[7px] md:text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">
+                              {h.date.includes('T') ? new Date(h.date).toLocaleDateString('pt-BR') : (h.date.split(' ')[0] || '-')}
+                           </p>
                         </div>
                      </div>
-                     <div className="text-right shrink-0">
-                        <p className="text-sm md:text-lg font-black text-slate-900 italic">{h.date.split(' ')[1]}</p>
-                        <p className="text-[7px] md:text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">{h.date.split(' ')[0]}</p>
-                     </div>
-                  </div>
-               )) : (
+                  );
+               }) : (
                   <div className="py-12 md:py-24 text-center border-2 md:border-4 border-dashed border-orange-50 rounded-3xl md:rounded-[48px]">
                      <p className="text-orange-300 font-black uppercase tracking-[0.3em] md:tracking-[0.5em] italic text-[10px] md:text-base">Nenhuma atividade ainda</p>
                   </div>
