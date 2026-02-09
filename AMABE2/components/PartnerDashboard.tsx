@@ -234,8 +234,8 @@ const PartnerDashboard: React.FC<PartnerDashboardProps> = ({
    };
 
    const renderHome = () => (
-      <div className="space-y-6 md:space-y-12 animate-in fade-in duration-500 max-w-full">
-         <div className="flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8 bg-white p-6 md:p-12 rounded-[32px] md:rounded-[56px] border border-orange-50 shadow-sm">
+      <div className="space-y-6 md:space-y-8 lg:space-y-12 animate-in fade-in duration-500 max-w-full">
+         <div className="flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8 bg-white p-6 sm:p-10 lg:p-12 rounded-[24px] sm:rounded-[40px] lg:rounded-[56px] border border-orange-50 shadow-sm">
             <div className="max-w-md text-center md:text-left">
                <h1 className="text-2xl md:text-4xl font-black text-slate-900 tracking-tighter italic uppercase">Painel Parceiro</h1>
                <p className="text-slate-400 font-medium mt-1.5 md:mt-2 text-xs md:text-lg italic leading-relaxed">Valide benefícios em segundos.</p>
@@ -256,7 +256,7 @@ const PartnerDashboard: React.FC<PartnerDashboardProps> = ({
                { label: 'Membros', value: members.length, icon: Users, color: 'text-amber-600', bg: 'bg-amber-50' },
                { label: 'Selo', value: 'ATIVO', icon: ShieldCheck, color: 'text-emerald-600', bg: 'bg-emerald-50' },
             ].map((stat, i) => (
-               <div key={i} className="bg-white p-6 md:p-10 rounded-3xl md:rounded-[48px] shadow-sm border border-slate-100 flex items-center space-x-4 md:space-x-8 hover:shadow-md transition-all">
+               <div key={i} className="bg-white p-6 sm:p-8 lg:p-10 rounded-2xl sm:rounded-[36px] lg:rounded-[48px] shadow-sm border border-slate-100 flex items-center space-x-4 md:space-x-8 hover:shadow-md transition-all">
                   <div className={`w-12 h-12 md:w-20 md:h-20 rounded-2xl md:rounded-[28px] flex items-center justify-center shrink-0 ${stat.bg} ${stat.color}`}>
                      <stat.icon size={24} className="md:hidden" />
                      <stat.icon size={36} className="hidden md:block" />
@@ -269,7 +269,7 @@ const PartnerDashboard: React.FC<PartnerDashboardProps> = ({
             ))}
          </div>
 
-         <div className="bg-white p-6 md:p-12 rounded-[32px] md:rounded-[56px] shadow-sm border border-slate-100">
+         <div className="bg-white p-6 sm:p-10 lg:p-12 rounded-[24px] sm:rounded-[40px] lg:rounded-[56px] shadow-sm border border-slate-100">
             <div className="flex justify-between items-center mb-6 md:mb-12">
                <h3 className="text-lg md:text-2xl font-black text-slate-900 italic uppercase">Uso Recente</h3>
             </div>
@@ -303,7 +303,7 @@ const PartnerDashboard: React.FC<PartnerDashboardProps> = ({
 
    const renderValidation = () => (
       <div className="max-w-4xl mx-auto space-y-8 md:space-y-12 animate-in fade-in slide-in-from-bottom-8 duration-500">
-         <div className="bg-white p-8 md:p-16 rounded-[48px] md:rounded-[64px] shadow-sm border border-slate-100 text-center">
+         <div className="relative space-y-8 sm:space-y-12 lg:space-y-16 p-6 sm:p-10 lg:p-16 min-h-screen overflow-hidden bg-white rounded-[32px] sm:rounded-[48px] lg:rounded-[64px] shadow-sm border border-slate-100 text-center">
             <header className="mb-10 md:mb-16">
                <div className="w-16 h-16 md:w-24 md:h-24 bg-orange-600 rounded-[32px] md:rounded-[40px] flex items-center justify-center text-white shadow-2xl shadow-orange-600/20 mx-auto mb-6 md:mb-8 group-hover:rotate-3 transition-transform">
                   <ShieldCheck size={48} />

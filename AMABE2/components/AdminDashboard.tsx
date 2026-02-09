@@ -511,7 +511,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
   return (
     <div className="w-full max-w-full mx-auto pb-10 relative">
       {activeTab === 'dash' && (
-        <div className="relative space-y-16 p-10 lg:p-16 min-h-screen overflow-hidden">
+        <div className="relative space-y-8 sm:space-y-12 lg:space-y-16 p-6 sm:p-10 lg:p-16 min-h-screen overflow-hidden">
           {/* Background Tech Effects - Subtly refined */}
           <div className="absolute inset-0 tech-grid opacity-[0.02] pointer-events-none"></div>
           <div className="scanline"></div>
@@ -723,7 +723,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
             </div>
           </div>
 
-          <div className="bg-white rounded-[40px] sm:rounded-[56px] border border-slate-100 shadow-xl overflow-hidden p-6 sm:p-12 space-y-10 sm:space-y-12">
+          <div className="bg-white rounded-[32px] sm:rounded-[48px] lg:rounded-[64px] border border-slate-100 shadow-xl overflow-hidden p-6 sm:p-10 lg:p-16 space-y-10 sm:space-y-12">
             <div className="space-y-6 sm:space-y-8">
               <div className="flex items-center gap-3">
                 <ImageIcon size={20} className="text-orange-500" />

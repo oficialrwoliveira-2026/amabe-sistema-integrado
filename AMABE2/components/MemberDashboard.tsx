@@ -872,7 +872,7 @@ const MemberDashboard: React.FC<MemberDashboardProps> = ({
       const allFamily = [liveUser, ...(user.dependents || [])];
 
       return (
-         <div className="fixed inset-0 z-[150] bg-slate-900/90 backdrop-blur-xl flex items-center justify-center p-4 md:p-12 animate-in fade-in duration-500 overflow-y-auto no-scrollbar">
+         <div className="fixed inset-0 z-[150] bg-slate-900/90 backdrop-blur-xl flex items-center justify-center p-4 sm:p-6 lg:p-10 animate-in fade-in duration-500 overflow-y-auto no-scrollbar">
             <button
                onClick={() => setShowAllCards(false)}
                className="absolute top-10 right-10 w-16 h-16 bg-white/10 hover:bg-white/20 text-white rounded-full flex items-center justify-center transition-all z-20"
@@ -880,13 +880,13 @@ const MemberDashboard: React.FC<MemberDashboardProps> = ({
                <X size={32} />
             </button>
 
-            <div className="w-full max-w-7xl mx-auto py-20 px-4">
+            <div className="w-full max-w-7xl mx-auto py-12 sm:py-20 px-4 sm:px-6">
                <div className="text-center mb-16">
                   <h2 className="text-4xl md:text-6xl font-black italic uppercase tracking-tighter text-white leading-tight">Painel da Família</h2>
                   <p className="text-orange-500 font-bold text-xs md:text-sm uppercase tracking-[0.4em] mt-4 italic">Todas as carteirinhas AMABE Elite</p>
                </div>
 
-               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 md:gap-16">
+               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-12 lg:gap-16">
                   {allFamily.map((member, idx) => (
                      <div key={member.id} className="animate-in fade-in slide-in-from-bottom-8 duration-700" style={{ animationDelay: `${idx * 150}ms` }}>
                         <div className="mb-6 flex items-center justify-center gap-4">
@@ -912,7 +912,7 @@ const MemberDashboard: React.FC<MemberDashboardProps> = ({
       const allDependents = user.dependents || [];
 
       return (
-         <div className="max-w-6xl mx-auto space-y-16 md:space-y-24 animate-in fade-in duration-700">
+         <div className="max-w-6xl mx-auto space-y-12 sm:space-y-20 lg:space-y-24 animate-in fade-in duration-700 font-inter">
             {/* Seção Titular */}
             <section className="space-y-8 md:space-y-12">
                <div className="flex items-center justify-between px-4">
@@ -950,11 +950,11 @@ const MemberDashboard: React.FC<MemberDashboardProps> = ({
                   </div>
                </div>
 
-               <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
                   <div className="w-full">
                      <DigitalCard member={liveUser} />
                   </div>
-                  <div className="space-y-8 bg-white p-10 md:p-14 rounded-[48px] md:rounded-[64px] border border-slate-100 shadow-sm relative overflow-hidden">
+                  <div className="space-y-8 bg-white p-6 sm:p-10 lg:p-14 rounded-[32px] sm:rounded-[48px] lg:rounded-[64px] border border-slate-100 shadow-sm relative overflow-hidden">
                      <div className="absolute top-0 right-0 w-64 h-64 bg-orange-500/5 rounded-full blur-[80px] -mr-32 -mt-32"></div>
                      <h3 className="text-2xl font-black text-slate-900 italic tracking-tighter uppercase mb-6 flex items-center gap-3">
                         <Info className="text-orange-500" size={24} /> Informações do Titular
@@ -1014,7 +1014,7 @@ const MemberDashboard: React.FC<MemberDashboardProps> = ({
                {allDependents.length > 0 ? (
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
                      {allDependents.map((dep) => (
-                        <div key={dep.id} className="bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm hover:shadow-xl transition-all group relative">
+                        <div key={dep.id} className="bg-white p-6 sm:p-8 rounded-[32px] sm:rounded-[40px] border border-slate-100 shadow-sm hover:shadow-xl transition-all group relative">
                            {/* Botões de Ação */}
                            <div className="absolute top-6 right-6 flex gap-2 opacity-0 group-hover:opacity-100 transition-all">
                               <button
@@ -1450,7 +1450,7 @@ const MemberDashboard: React.FC<MemberDashboardProps> = ({
 
                {/* Coluna Central: Dados Pessoais e Endereço */}
                <div className="md:col-span-2 space-y-8">
-                  <div className="bg-white p-10 rounded-[56px] border border-slate-100 shadow-sm space-y-8">
+                  <div className="bg-white p-6 sm:p-8 lg:p-10 rounded-[32px] sm:rounded-[48px] lg:rounded-[56px] border border-slate-100 shadow-sm space-y-8">
                      <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-3 italic">
                         <Info size={16} className="text-orange-500" /> Informações Pessoais
                      </h3>
@@ -1460,7 +1460,7 @@ const MemberDashboard: React.FC<MemberDashboardProps> = ({
                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Nome</label>
                            <input
                               type="text"
-                              className="w-full bg-slate-50 border border-slate-100 rounded-3xl px-8 py-5 outline-none focus:ring-4 focus:ring-orange-50 font-bold text-slate-900 transition-all"
+                              className="w-full bg-slate-50 border border-slate-100 rounded-3xl px-6 py-4 sm:px-8 sm:py-5 outline-none focus:ring-4 focus:ring-orange-50 font-bold text-slate-900 transition-all"
                               value={profileForm.name}
                               onChange={e => {
                                  const val = e.target.value;
@@ -1563,7 +1563,7 @@ const MemberDashboard: React.FC<MemberDashboardProps> = ({
                      </div>
                   </div>
 
-                  <div className="bg-white p-10 rounded-[56px] border border-slate-100 shadow-sm space-y-8">
+                  <div className="bg-white p-6 sm:p-8 lg:p-10 rounded-[32px] sm:rounded-[48px] lg:rounded-[56px] border border-slate-100 shadow-sm space-y-8">
                      <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-3 italic">
                         <Smartphone size={16} className="text-orange-500" /> Contato e Redes
                      </h3>
@@ -1629,7 +1629,7 @@ const MemberDashboard: React.FC<MemberDashboardProps> = ({
 
             {/* Resumo Financeiro Dinâmico */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-               <div className="bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm">
+               <div className="bg-white p-6 sm:p-8 rounded-[32px] sm:rounded-[40px] border border-slate-100 shadow-sm">
                   <p className="text-[10px] font-black text-slate-400 uppercase italic mb-2">Próximo Vencimento</p>
                   <h3 className="text-3xl font-black text-slate-900 italic tracking-tighter">
                      {(() => {
@@ -1691,7 +1691,7 @@ const MemberDashboard: React.FC<MemberDashboardProps> = ({
          {showSelfPasswordChange && (
             <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 md:p-8 animate-in fade-in duration-500">
                <div className="absolute inset-0 bg-[#0F172A]/95 backdrop-blur-2xl" onClick={() => setShowSelfPasswordChange(false)}></div>
-               <div className="relative w-full max-w-md bg-white rounded-[48px] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-500 p-12 text-center">
+               <div className="relative w-full max-w-md bg-white rounded-[32px] sm:rounded-[48px] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-500 p-8 sm:p-12 text-center">
                   <button
                      onClick={() => setShowSelfPasswordChange(false)}
                      className="absolute top-8 right-8 text-slate-400 hover:text-slate-900 transition-colors"
@@ -1762,7 +1762,7 @@ const MemberDashboard: React.FC<MemberDashboardProps> = ({
          {renderPartnerModal()}
 
          {activeTab === 'dash' && (
-            <div className="space-y-16 animate-in fade-in duration-700 pb-20">
+            <div className="space-y-12 sm:space-y-16 animate-in fade-in duration-700 pb-20">
                {/* Hero Section / Banner de Notícias */}
                <div className="relative group">
                   {bannerNews.length > 0 ? (
@@ -1840,7 +1840,7 @@ const MemberDashboard: React.FC<MemberDashboardProps> = ({
                      </div>
                   ) : (
                      /* Layout Original / Fallback se não houver banner */
-                     <div className="bg-[#0F172A] rounded-[40px] md:rounded-[64px] p-8 md:p-12 lg:p-24 text-white shadow-2xl relative overflow-hidden group">
+                     <div className="bg-[#0F172A] rounded-[32px] sm:rounded-[48px] lg:rounded-[64px] p-6 sm:p-12 lg:p-24 text-white shadow-2xl relative overflow-hidden group">
                         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-orange-600/10 rounded-full blur-[120px] -mr-64 -mt-64 group-hover:bg-orange-600/20 transition-all duration-700"></div>
                         <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-emerald-600/5 rounded-full blur-[80px] -ml-32 -mb-32"></div>
 
@@ -1980,7 +1980,7 @@ const MemberDashboard: React.FC<MemberDashboardProps> = ({
 
                {/* Banner de CTA Final Rodapé Full Width */}
                <div className="px-4 mt-20">
-                  <div className="bg-[#0A101E] p-10 md:p-16 rounded-[48px] md:rounded-[64px] text-white relative overflow-hidden group shadow-2xl">
+                  <div className="bg-[#0A101E] p-6 sm:p-10 lg:p-16 rounded-[32px] sm:rounded-[48px] lg:rounded-[64px] text-white relative overflow-hidden group shadow-2xl">
                      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-orange-600/10 rounded-full blur-[120px] -mr-64 -mt-64 group-hover:bg-orange-600/20 transition-all duration-700"></div>
                      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-emerald-600/5 rounded-full blur-[100px] -ml-48 -mb-48"></div>
 

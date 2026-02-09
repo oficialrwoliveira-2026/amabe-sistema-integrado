@@ -7,6 +7,11 @@
     --glass-bg: rgba(255, 255, 255, 0.03);
     --glass-border: rgba(255, 255, 255, 0.08);
     --glass-highlight: rgba(255, 255, 255, 0.12);
+
+    /* Fluid Spacing & Sizing */
+    --fluid-px: clamp(1rem, 2vw + 0.5rem, 3rem);
+    --fluid-py: clamp(1.5rem, 3vw + 1rem, 4rem);
+    --fluid-gap: clamp(0.75rem, 1.5vw + 0.25rem, 2rem);
 }
 
 /* Global Styles */
@@ -48,6 +53,26 @@ body {
 .neon-orange-border {
     border-color: var(--neon-orange);
     box-shadow: 0 0 15px var(--neon-orange-glow);
+}
+
+.responsive-container {
+    padding-left: var(--fluid-px);
+    padding-right: var(--fluid-px);
+    padding-top: var(--fluid-py);
+    padding-bottom: var(--fluid-py);
+    width: 100%;
+    max-width: 1700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.card-container {
+    container-type: inline-size;
+    container-name: digital-card;
+    width: 100%;
+    max-width: 460px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .animate-float {
