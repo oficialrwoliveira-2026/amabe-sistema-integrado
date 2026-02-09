@@ -113,11 +113,11 @@ const DigitalCard: React.FC<DigitalCardProps> = ({ member, isDependent = false, 
             </div>
 
             <div className="shrink-0 ml-[2cqi]">
-              <div className="bg-white p-[0.3cqi] rounded-[1.8cqi] shadow-xl">
+              <div className="bg-white p-[0.5cqi] rounded-[2cqi] shadow-xl">
                 <img
-                  src={`https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${member.memberId || 'INVALID'}&margin=1&bgcolor=ffffff&color=000000`}
+                  src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${member.memberId || 'INVALID'}&margin=1&bgcolor=ffffff&color=000000`}
                   alt="QR Code"
-                  className="w-[10cqi] h-[10cqi] rounded-[1.2cqi]"
+                  className="w-[14cqi] h-[14cqi] rounded-[1.5cqi]"
                 />
               </div>
             </div>
