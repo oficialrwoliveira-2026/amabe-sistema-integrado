@@ -1,0 +1,7 @@
+{
+  "name": "AMABE - Sistema Integrado de Gestão",
+  "description": "Uma plataforma completa para associações, integrando gestão administrativa, clube de benefícios e carteirinha digital com QR Code.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
