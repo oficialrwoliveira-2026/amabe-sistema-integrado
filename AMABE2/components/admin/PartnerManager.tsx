@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { Building2, Search, Ticket, MapPin, Edit2, CheckCircle, Trash2, X, Camera, Image, Plus, Trash, Key } from 'lucide-react';
+import { Building2, Search, Ticket, MapPin, Edit2, CheckCircle, Trash2, X, Camera, Image, Plus, Trash, Key, Globe, Instagram, Facebook, Filter, Check } from 'lucide-react';
 import { Partner } from '../../types';
 import { CATEGORIES, PARA_CITIES } from '../../constants';
 
@@ -92,7 +92,7 @@ const PartnerManager: React.FC<PartnerManagerProps> = ({
                                 </div>
 
                                 <div className="flex flex-col items-end gap-3 px-2 py-1">
-                                    <div className={`px-4 py-1.5 rounded-full text-[8px] font-bold tracking-[0.2em] border ${partner.status === 'ACTIVE' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-orange-50 text-orange-600 border-orange-100'}`}>
+                                    <div className={`px-4 py-1.5 rounded-full text-[8px] font-bold tracking-[0.2em] border ${partner.status === 'ACTIVE' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-orange-50 text-orange-600 border-orange-100'} `}>
                                         {partner.status === 'ACTIVE' ? 'PLATINUM' : 'PENDENTE'}
                                     </div>
                                 </div>
@@ -307,27 +307,44 @@ const PartnerManager: React.FC<PartnerManagerProps> = ({
                             </div>
 
                             {/* Seção de Segurança */}
-                            <div className="space-y-3 pt-6 border-t border-slate-100">
-                                <div className="h-8 flex items-end pb-1">
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4 italic">Nova Senha de Acesso</label>
+                            <div className="space-y-6 pt-8 border-t border-slate-100">
+                                <div className="flex items-center gap-3 px-4">
+                                    <div className="w-10 h-10 bg-orange-50 rounded-2xl flex items-center justify-center text-orange-600">
+                                        <Key size={20} />
+                                    </div>
+                                    <label className="text-sm font-black uppercase tracking-widest italic text-slate-800">Senha de Acesso</label>
                                 </div>
-                                <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto relative z-10 mt-6 md:mt-0">
-                                    <input
-                                        type="text"
-                                        className="flex-1 bg-slate-50 border border-slate-100 rounded-3xl px-8 py-5 outline-none focus:ring-4 focus:ring-orange-50 font-bold text-slate-900"
-                                        value={partnerForm.password || ''}
-                                        onChange={e => setPartnerForm({ ...partnerForm, password: e.target.value })}
-                                        placeholder="Deixe em branco para não alterar"
-                                    />
-                                    <button
-                                        type="button"
-                                        onClick={() => setPartnerForm({ ...partnerForm, password: 'Amabe' + Math.floor(Math.random() * 900 + 100) + '*' })}
-                                        className="px-8 bg-slate-900 text-white rounded-3xl text-[10px] font-black uppercase tracking-widest hover:bg-orange-600 transition-all"
-                                    >
-                                        Gerar
-                                    </button>
+
+                                <div className="bg-slate-50/50 p-6 rounded-[32px] border border-slate-100/50 space-y-4">
+                                    <div className="flex flex-col md:flex-row gap-4">
+                                        <div className="flex-1 relative group">
+                                            <input
+                                                type="text"
+                                                className="w-full bg-white border border-slate-200 rounded-[24px] pl-8 pr-8 py-5 outline-none focus:ring-4 focus:ring-orange-50 font-bold text-slate-900 transition-all shadow-sm"
+                                                value={partnerForm.password || ''}
+                                                onChange={e => setPartnerForm({ ...partnerForm, password: e.target.value })}
+                                                placeholder="Digite uma senha ou use o gerador"
+                                            />
+                                            <div className="absolute right-6 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                <Edit2 size={16} className="text-slate-300" />
+                                            </div>
+                                        </div>
+                                        <button
+                                            type="button"
+                                            onClick={() => setPartnerForm({ ...partnerForm, password: 'Amabe' + Math.floor(Math.random() * 900 + 100) + '*' })}
+                                            className="px-10 bg-[#0A101E] text-white rounded-[24px] text-[10px] font-black uppercase tracking-[0.2em] hover:bg-orange-600 transition-all flex items-center justify-center gap-4 shadow-xl active:scale-95 whitespace-nowrap"
+                                        >
+                                            <Key size={14} className="text-orange-400" />
+                                            Gerar Automático
+                                        </button>
+                                    </div>
+                                    <div className="flex items-center gap-3 px-4 bg-orange-50/50 py-3 rounded-2xl border border-orange-100/50">
+                                        <div className="w-2 h-2 rounded-full bg-orange-500 animate-pulse"></div>
+                                        <p className="text-[9px] font-bold text-orange-600 uppercase tracking-widest italic">
+                                            * Deixe em branco para manter a senha atual ou digite/gere uma nova.
+                                        </p>
+                                    </div>
                                 </div>
-                                <p className="text-[9px] font-bold text-slate-400 ml-4 italic">* Se preenchido, a nova senha será aplicada ao salvar o parceiro.</p>
                             </div>
 
                             {/* Galeria de Fotos */}

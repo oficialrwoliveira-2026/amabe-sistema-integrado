@@ -36,11 +36,11 @@ const SystemNotification: React.FC<SystemNotificationProps> = ({
     };
 
     const colors = {
-        success: 'border-emerald-100 bg-emerald-50/30',
-        error: 'border-rose-100 bg-rose-50/30',
-        warning: 'border-amber-100 bg-amber-50/30',
-        info: 'border-blue-100 bg-blue-50/30',
-        confirm: 'border-orange-100 bg-orange-50/30'
+        success: 'border-emerald-200/50',
+        error: 'border-rose-200/50',
+        warning: 'border-amber-200/50',
+        info: 'border-blue-200/50',
+        confirm: 'border-orange-200/50'
     };
 
     return (
@@ -64,11 +64,11 @@ const SystemNotification: React.FC<SystemNotificationProps> = ({
                         {icons[type]}
                     </div>
 
-                    <h3 className="text-2xl font-black text-slate-900 italic uppercase tracking-tighter mb-4 leading-tight">
+                    <h3 className="text-2xl font-black text-[#0A101E] italic uppercase tracking-tighter mb-4 leading-tight">
                         {title}
                     </h3>
 
-                    <p className="text-sm font-bold text-slate-500 uppercase tracking-widest leading-relaxed mb-10">
+                    <p className="text-sm font-bold text-[#0A101E]/70 uppercase tracking-widest leading-relaxed mb-10">
                         {message}
                     </p>
 

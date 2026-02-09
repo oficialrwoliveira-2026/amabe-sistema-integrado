@@ -200,18 +200,30 @@ const MemberEditor: React.FC<MemberEditorProps> = ({
                                         />
                                     </div>
                                     <div className="space-y-3">
-                                        <div className="h-8 flex items-end pb-1">
-                                            <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-4 italic">Acesso Temporário (Senha)</label>
+                                        <div className="h-8 flex items-end pb-1 px-4">
+                                            <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest italic mb-2">Acesso Temporário (Senha)</label>
                                         </div>
-                                        <div className="relative">
-                                            <Key className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300" size={18} />
-                                            <input
-                                                type="text"
-                                                className="w-full bg-orange-50/30 border border-orange-100 rounded-3xl pl-16 pr-8 py-5 outline-none focus:ring-4 focus:ring-orange-100 font-bold text-slate-900 transition-all"
-                                                value={memberForm.password || ''}
-                                                onChange={e => setMemberForm(prev => ({ ...prev, password: e.target.value, mustChangePassword: true }))}
-                                                placeholder="Definir primeira senha..."
-                                            />
+                                        <div className="bg-slate-50/50 p-6 rounded-[32px] border border-slate-100/50 space-y-4">
+                                            <div className="flex flex-col md:flex-row gap-4">
+                                                <div className="flex-1 relative group">
+                                                    <input
+                                                        type="text"
+                                                        className="w-full bg-white border border-slate-200 rounded-[22px] pl-8 pr-8 py-5 outline-none focus:ring-4 focus:ring-orange-50 font-bold text-slate-900 transition-all shadow-sm"
+                                                        value={memberForm.password || ''}
+                                                        onChange={e => setMemberForm(prev => ({ ...prev, password: e.target.value, mustChangePassword: true }))}
+                                                        placeholder="Digite uma senha ou use o gerador"
+                                                    />
+                                                </div>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setMemberForm(prev => ({ ...prev, password: 'Amabe' + Math.floor(Math.random() * 900 + 100) + '*', mustChangePassword: true }))}
+                                                    className="px-8 bg-[#0A101E] text-white rounded-[22px] text-[9px] font-black uppercase tracking-widest hover:bg-orange-600 transition-all flex items-center justify-center gap-3 shadow-lg active:scale-95"
+                                                >
+                                                    <Key size={14} className="text-orange-400" />
+                                                    Gerar
+                                                </button>
+                                            </div>
+                                            <p className="text-[8px] font-bold text-slate-400 px-4 italic">* Definir a senha inicial do associado para o primeiro acesso.</p>
                                         </div>
                                     </div>
                                 </div>

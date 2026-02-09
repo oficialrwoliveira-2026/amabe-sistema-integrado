@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Bell, X } from 'lucide-react';
+import { Bell, X, Key } from 'lucide-react';
 import { User, UserRole, Partner, BenefitUsage, MemberStatus, DashboardTab, Payment, PaymentStatus, NewsItem, SystemNotification, SystemSettings } from './types';
 import LoginPage from './components/LoginPage';
 import RegisterPage from './components/RegisterPage';
@@ -26,6 +26,9 @@ const App: React.FC = () => {
   const [news, setNews] = useState<NewsItem[]>([]);
   const [systemNotification, setSystemNotification] = useState<SystemNotification | null>(null);
   const [systemSettings, setSystemSettings] = useState<SystemSettings | null>(null);
+  const [passwordResetUser, setPasswordResetUser] = useState<{ id: string; name: string } | null>(null);
+  const [customPassword, setCustomPassword] = useState('');
+  const [isResetting, setIsResetting] = useState(false);
 
   // Interface de Notificações Customizadas
   const [appNotification, setAppNotification] = useState<{
@@ -997,23 +1000,34 @@ const App: React.FC = () => {
     }
   };
 
-  const handleResetPassword = async (userId: string) => {
+  const handleResetPassword = (userId: string) => {
+    const targetUser = allUsers.find(u => u.id === userId) || partners.find(p => p.id === userId);
+    if (!targetUser) return;
+
+    setPasswordResetUser({ id: userId, name: targetUser.name });
+    setCustomPassword('Amabe' + Math.floor(Math.random() * 900 + 100) + '*');
+  };
+
+  const executePasswordReset = async (userId: string, newPass: string) => {
+    setIsResetting(true);
     try {
-      const newPassword = 'Amabe' + Math.floor(Math.random() * 900 + 100) + '*';
       const { data, error: edgeError } = await supabase.functions.invoke('admin-update-user', {
         body: {
           action: 'update',
           userId,
-          password: newPassword
+          password: newPass
         }
       });
 
       if (edgeError || (data && data.error)) throw new Error(data?.error || 'Erro ao resetar senha via Edge Function');
 
-      showAlert('Sucesso', `Senha resetada para: ${newPassword}. Por favor, anote e passe para o associado.`, 'success');
+      showAlert('Sucesso', `Senha de "${passwordResetUser?.name}" alterada com sucesso para: ${newPass}`, 'success');
+      setPasswordResetUser(null);
     } catch (err: any) {
       console.error('Erro ao resetar senha:', err);
       showAlert('Erro', 'Não foi possível resetar a senha: ' + err.message, 'error');
+    } finally {
+      setIsResetting(false);
     }
   };
 
@@ -1264,12 +1278,12 @@ const App: React.FC = () => {
                     <Bell size={28} className="animate-bounce" />
                   </div>
 
-                  <h2 className="text-3xl font-black text-slate-900 italic uppercase tracking-tighter leading-tight mb-4">
+                  <h2 className="text-3xl font-black text-[#0A101E] italic uppercase tracking-tighter leading-tight mb-4">
                     {systemNotification.title}
                   </h2>
 
                   <div className="prose prose-slate max-w-none">
-                    <p className="text-slate-500 font-bold text-sm leading-relaxed whitespace-pre-line">
+                    <p className="text-[#0A101E]/70 font-bold text-sm leading-relaxed whitespace-pre-line">
                       {systemNotification.message}
                     </p>
                   </div>
@@ -1305,6 +1319,66 @@ const App: React.FC = () => {
         onClose={() => setAppNotification(prev => ({ ...prev, isOpen: false }))}
         onConfirm={appNotification.onConfirm}
       />
+
+      {/* Modal de Reset de Senha */}
+      {passwordResetUser && (
+        <div className="fixed inset-0 bg-[#0A101E]/60 backdrop-blur-xl z-[100] flex items-center justify-center p-6 animate-in fade-in duration-300">
+          <div className="bg-white w-full max-w-lg rounded-[48px] shadow-2xl p-12 relative overflow-hidden animate-in zoom-in-95 duration-500">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-orange-50 rounded-bl-[64px] -mr-8 -mt-8 opacity-50"></div>
+
+            <div className="relative z-10 text-center space-y-8">
+              <div className="w-20 h-20 bg-orange-600 rounded-3xl flex items-center justify-center text-white shadow-xl mx-auto mb-2">
+                <Key size={32} />
+              </div>
+
+              <div>
+                <h3 className="text-2xl font-black text-slate-900 italic uppercase tracking-tighter leading-tight">
+                  Resetar Senha
+                </h3>
+                <p className="text-[10px] font-black text-orange-600 uppercase tracking-widest mt-2">{passwordResetUser.name}</p>
+              </div>
+
+              <div className="space-y-4">
+                <div className="text-left">
+                  <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-4 italic mb-2 block">Definir Nova Senha</label>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      className="w-full bg-slate-50 border border-slate-100 rounded-3xl px-8 py-5 outline-none focus:ring-4 focus:ring-orange-50 font-bold text-slate-900 transition-all text-center"
+                      value={customPassword}
+                      onChange={e => setCustomPassword(e.target.value)}
+                      placeholder="Digite a nova senha..."
+                    />
+                    <button
+                      onClick={() => setCustomPassword('Amabe' + Math.floor(Math.random() * 900 + 100) + '*')}
+                      className="mt-4 w-full py-4 text-[9px] font-black text-slate-400 uppercase tracking-widest hover:text-orange-600 transition-all italic underline underline-offset-8"
+                    >
+                      Gerar outra senha automática
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex gap-4 pt-4">
+                <button
+                  onClick={() => setPasswordResetUser(null)}
+                  disabled={isResetting}
+                  className="flex-1 py-5 bg-slate-100 text-slate-500 rounded-3xl font-black uppercase tracking-widest text-[10px] hover:bg-slate-200 transition-all"
+                >
+                  Cancelar
+                </button>
+                <button
+                  onClick={() => executePasswordReset(passwordResetUser.id, customPassword)}
+                  disabled={isResetting || !customPassword}
+                  className="flex-1 py-5 bg-[#0F172A] text-white rounded-3xl font-black uppercase tracking-widest text-[10px] hover:bg-orange-600 transition-all shadow-xl shadow-slate-900/10 flex items-center justify-center gap-3"
+                >
+                  {isResetting ? 'Sincronizando...' : 'confirmar Reset'}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
