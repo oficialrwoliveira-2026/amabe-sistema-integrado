@@ -19,8 +19,8 @@ const DigitalCard: React.FC<DigitalCardProps> = ({ member, activeTab, onClick })
       className={`relative w-full max-w-[460px] mx-auto group perspective-1000 ${onClick ? 'cursor-pointer active:scale-95 transition-transform' : ''}`}
     >
       {/* Container Principal da Carteirinha */}
-      <div className={`relative aspect-[1.586/1] rounded-[24px] xs:rounded-[32px] md:rounded-[40px] p-4 xs:p-7 md:p-10 text-white shadow-[0_40px_80px_-15px_rgba(0,0,0,0.4)] transition-all duration-700 overflow-hidden z-10 border border-white/10 ${isActive
-        ? 'bg-[#141B2D]'
+      <div className={`relative aspect-[1.586/1] rounded-[24px] xs:rounded-[32px] md:rounded-[40px] p-6 xs:p-8 md:p-12 text-white shadow-[0_40px_80px_-15px_rgba(0,0,0,0.5)] transition-all duration-700 overflow-hidden z-10 border border-white/10 ${isActive
+        ? 'bg-gradient-to-br from-[#141B2D] to-[#0A101E]'
         : 'bg-slate-700 grayscale'
         }`}>
 
@@ -42,18 +42,18 @@ const DigitalCard: React.FC<DigitalCardProps> = ({ member, activeTab, onClick })
         <div className="relative z-20 h-full flex flex-col justify-between">
 
           {/* Topo: Logo e Status - Puxado mais para o topo para melhor enquadramento */}
-          <div className="flex justify-between items-start -mt-2 md:-mt-3">
-            <div className="flex items-start space-x-2 md:space-x-3">
-              <div className="w-5 h-5 md:w-8 md:h-8 bg-[#FF5C12] rounded-[6px] md:rounded-[10px] flex items-center justify-center text-white shadow-[0_6px_15px_rgba(255,92,18,0.3)] shrink-0">
-                <span className="font-black text-xs md:text-lg italic leading-none">A</span>
+          <div className="flex justify-between items-start">
+            <div className="flex items-start space-x-2.5 md:space-x-4">
+              <div className="w-6 h-6 md:w-10 md:h-10 bg-gradient-to-br from-[#FF5C12] to-[#FF8C12] rounded-[8px] md:rounded-[12px] flex items-center justify-center text-white shadow-[0_8px_20px_rgba(255,92,18,0.4)] shrink-0">
+                <span className="font-black text-xs md:text-xl italic leading-none">A</span>
               </div>
               <div className="flex flex-col">
-                <h2 className="text-[10px] md:text-lg font-black tracking-tighter leading-none italic uppercase">AMABE</h2>
-                <p className="text-[5px] md:text-[7.5px] font-black tracking-[0.2em] md:tracking-[0.3em] text-[#FF5C12] uppercase mt-0.5 italic">Elite</p>
+                <h2 className="text-[11px] md:text-xl font-black tracking-tight leading-none italic uppercase opacity-95">AMABE</h2>
+                <p className="text-[6px] md:text-[9px] font-black tracking-[0.25em] md:tracking-[0.4em] text-[#FF5C12] uppercase mt-1 italic">Elite</p>
               </div>
             </div>
 
-            <div className={`px-2 py-0.5 md:px-4 md:py-2 rounded-full text-[6px] md:text-[9px] font-black tracking-widest border backdrop-blur-md flex items-center gap-1 md:gap-2 ${isActive ? 'bg-[#10B981]/10 text-[#10B981] border-[#10B981]/20' : 'bg-red-500/10 text-red-400 border-red-500/20'
+            <div className={`px-2.5 py-1 md:px-5 md:py-2.5 rounded-full text-[7px] md:text-[10px] font-black tracking-[0.15em] border backdrop-blur-md flex items-center gap-1.5 md:gap-2.5 ${isActive ? 'bg-[#10B981]/15 text-[#10B981] border-[#10B981]/25' : 'bg-red-500/15 text-red-400 border-red-500/25'
               }`}>
               <div className={`w-1 h-1 md:w-1.5 md:h-1.5 rounded-full ${isActive ? 'bg-[#10B981] shadow-[0_0_8px_rgba(16,185,129,0.8)]' : 'bg-red-400'}`}></div>
               <span className="hidden xs:inline">{isDependent ? 'DEPENDENTE' : (isActive ? 'USUARIO ATIVO' : 'CADASTRO INATIVO')}</span>
@@ -81,21 +81,21 @@ const DigitalCard: React.FC<DigitalCardProps> = ({ member, activeTab, onClick })
               </div>
             </div>
 
-            <div className="flex-1 min-w-0">
-              <h3 className="text-sm xs:text-xl md:text-[22px] font-black leading-tight truncate tracking-tight uppercase italic text-white drop-shadow-md">{member.name}</h3>
-              <div className="flex flex-col space-y-0.5 md:space-y-1 mt-0.5 md:mt-1">
-                <div className="flex items-center space-x-1.5 md:space-x-2">
-                  <div className="w-2.5 h-2.5 md:w-4 md:h-4 bg-white/5 rounded-full flex items-center justify-center">
-                    <CheckCircle2 size={6} className="text-[#FF5C12] md:hidden" />
-                    <CheckCircle2 size={10} className="text-[#FF5C12] hidden md:block" />
+            <div className="flex-1 min-w-0 flex flex-col justify-center">
+              <h3 className="text-sm xs:text-xl md:text-[24px] font-black leading-tight truncate tracking-tight uppercase italic text-white drop-shadow-lg">{member.name}</h3>
+              <div className="flex flex-col space-y-1 md:space-y-1.5 mt-1 md:mt-2">
+                <div className="flex items-center space-x-2 md:space-x-3">
+                  <div className="w-3 h-3 md:w-5 md:h-5 bg-white/5 rounded-full flex items-center justify-center">
+                    <CheckCircle2 size={8} className="text-[#FF5C12] md:hidden" />
+                    <CheckCircle2 size={12} className="text-[#FF5C12] hidden md:block" />
                   </div>
-                  <p className="text-[7px] md:text-[11px] font-black tracking-widest text-white/50 uppercase truncate leading-none">
+                  <p className="text-[8px] md:text-[13px] font-black tracking-widest text-white/60 uppercase truncate leading-none">
                     {isDependent ? `${member.relationship} • ` : ''}
                     {member.memberId || 'N/A'}
                   </p>
                 </div>
                 {(member.cpf || member.rg) && (
-                  <p className="text-[6px] md:text-[8px] font-bold tracking-widest text-white/40 uppercase leading-none pl-4 md:pl-7 truncate">
+                  <p className="text-[7px] md:text-[9.5px] font-bold tracking-[0.1em] text-white/40 uppercase leading-none pl-5 md:pl-8 truncate">
                     {member.cpf && `CPF: ${member.cpf}`} {member.rg && ` • RG: ${member.rg}`}
                   </p>
                 )}
@@ -104,31 +104,31 @@ const DigitalCard: React.FC<DigitalCardProps> = ({ member, activeTab, onClick })
           </div>
 
           {/* Rodapé: Datas e QR Code */}
-          <div className="flex items-end justify-between gap-6 md:gap-8 pt-1">
-            <div className="flex items-end gap-3 md:gap-6 min-w-0 flex-1">
+          <div className="flex items-end justify-between gap-6 md:gap-10">
+            <div className="flex items-end gap-4 md:gap-10 min-w-0 flex-1">
               {/* Membro Desde */}
-              <div className="flex flex-col gap-0.5 md:gap-1 shrink-0">
-                <p className="text-[5px] md:text-[7px] uppercase text-[#FF5C12] font-black tracking-widest italic leading-none opacity-80">Membro desde</p>
-                <p className="text-[9px] md:text-xs font-black italic text-white leading-none">2024</p>
+              <div className="flex flex-col gap-1 md:gap-1.5 shrink-0">
+                <p className="text-[6px] md:text-[8px] uppercase text-[#FF5C12] font-black tracking-[0.2em] italic leading-none opacity-90">Membro desde</p>
+                <p className="text-[10px] md:text-sm font-black italic text-white/95 leading-none">2024</p>
               </div>
 
               {/* Nascimento */}
-              <div className="flex flex-col gap-0.5 md:gap-1 min-w-0">
-                <p className="text-[5px] md:text-[7px] uppercase text-[#FF5C12] font-black tracking-widest italic leading-none opacity-80">Nascimento</p>
-                <div className="flex items-center space-x-1.5 md:space-x-2.5 bg-white/5 px-2 py-1 md:px-3 md:py-2 rounded-lg md:rounded-[14px] border border-white/10 backdrop-blur-sm shadow-inner overflow-hidden">
-                  <Calendar size={8} className="text-[#FF5C12] md:hidden" />
-                  <Calendar size={10} className="text-[#FF5C12] hidden md:block" />
-                  <span className="text-[7px] md:text-[10px] font-black italic text-white tracking-tight leading-none truncate">{member.birthDate || '--/--/----'}</span>
+              <div className="flex flex-col gap-1 md:gap-1.5 min-w-0">
+                <p className="text-[6px] md:text-[8px] uppercase text-[#FF5C12] font-black tracking-[0.2em] italic leading-none opacity-90">Nascimento</p>
+                <div className="flex items-center space-x-2 md:space-x-3 bg-white/5 px-2.5 py-1.5 md:px-4 md:py-2.5 rounded-lg md:rounded-[16px] border border-white/10 backdrop-blur-sm shadow-inner overflow-hidden">
+                  <Calendar size={10} className="text-[#FF5C12] md:hidden" />
+                  <Calendar size={12} className="text-[#FF5C12] hidden md:block" />
+                  <span className="text-[8px] md:text-[12px] font-black italic text-white tracking-tight leading-none truncate">{member.birthDate || '--/--/----'}</span>
                 </div>
               </div>
             </div>
 
             {/* QR Code Bottom Right */}
-            <div className="bg-white p-0.5 md:p-1 rounded-[6px] md:rounded-[10px] shadow-2xl transition-all duration-500 group-hover:scale-105 group-hover:-rotate-2 shrink-0 ml-auto">
+            <div className="bg-white p-1 md:p-1.5 rounded-[8px] md:rounded-[12px] shadow-2xl transition-all duration-500 group-hover:scale-105 group-hover:-rotate-2 shrink-0 ml-auto border border-white/20">
               <img
                 src={`https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${member.memberId || 'INVALID'}&margin=1&bgcolor=ffffff&color=000000`}
                 alt="QR Code"
-                className="w-7 h-7 xs:w-9 xs:h-9 md:w-12 md:h-12 rounded-lg"
+                className="w-8 h-8 xs:w-11 xs:h-11 md:w-16 md:h-16 rounded-lg"
               />
             </div>
           </div>
