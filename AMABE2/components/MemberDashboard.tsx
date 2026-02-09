@@ -898,7 +898,7 @@ const MemberDashboard: React.FC<MemberDashboardProps> = ({
                               <h4 className="text-lg font-black italic text-white uppercase mt-1">{member.name}</h4>
                            </div>
                         </div>
-                        <div className="transform scale-[0.9] lg:scale-100 transition-transform">
+                        <div className="lg:scale-100 transition-transform">
                            <DigitalCard member={member} />
                         </div>
                      </div>
@@ -1795,15 +1795,15 @@ const MemberDashboard: React.FC<MemberDashboardProps> = ({
                                           </a>
                                        )}
                                     </div>
-                                  {/* Botão Simplificado para Mobile */}
-                                  <div className="md:hidden absolute bottom-8 left-8 right-8 z-20">
-                                     <button
-                                        onClick={() => setSelectedNews(banner)}
-                                        className="w-full py-4 bg-white/10 backdrop-blur-md border border-white/20 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest flex items-center justify-center gap-2 active:scale-95 transition-transform"
-                                     >
-                                        Ver Destaque <ChevronRight size={14} />
-                                     </button>
-                                  </div>
+                                    {/* Botão Simplificado para Mobile */}
+                                    <div className="md:hidden absolute bottom-8 left-8 right-8 z-20">
+                                       <button
+                                          onClick={() => setSelectedNews(banner)}
+                                          className="w-full py-4 bg-white/10 backdrop-blur-md border border-white/20 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest flex items-center justify-center gap-2 active:scale-95 transition-transform"
+                                       >
+                                          Ver Destaque <ChevronRight size={14} />
+                                       </button>
+                                    </div>
                                  </div>
                               </div>
                            </div>
@@ -1893,36 +1893,36 @@ const MemberDashboard: React.FC<MemberDashboardProps> = ({
                            </div>
                         </div>
 
-                                                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8">
-                            {/* Notícias em Destaque Reais do Admin */}
-                            {news.filter(n => n.isFeatured).slice(0, 6).map((item) => (
-                               <div key={item.id} className="group bg-white rounded-3xl md:rounded-[48px] border border-slate-100 overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 flex flex-col">
-                                  <div className="relative h-32 md:h-48 overflow-hidden">
-                                     <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
-                                     <div className="absolute top-4 left-4 md:top-6 md:left-6">
-                                        <span className="px-3 py-1 bg-white/60 backdrop-blur-md rounded-full text-[7px] md:text-[9px] font-bold uppercase tracking-widest text-slate-900/60 border border-white/20 shadow-sm">
-                                           {item.category}
-                                        </span>
-                                     </div>
-                                  </div>
-                                  <div className="p-4 md:p-8 flex-1 flex flex-col">
-                                     <div className="flex items-center gap-1.5 mb-2">
-                                        <div className="w-1 h-1 rounded-full bg-orange-600 animate-pulse"></div>
-                                        <span className="text-[7px] md:text-[9px] font-black text-orange-600 uppercase tracking-widest italic">Destaque</span>
-                                     </div>
-                                     <h3 className="text-sm md:text-xl font-black text-slate-900 italic mb-4 leading-tight group-hover:text-orange-600 transition-colors uppercase tracking-tight line-clamp-2">
-                                        {item.title}
-                                     </h3>
-                                     <button
-                                        onClick={() => setSelectedNews(item)}
-                                        className="mt-auto w-full py-3 md:py-4 bg-slate-900 text-white rounded-xl md:rounded-2xl text-[8px] md:text-[10px] font-black uppercase tracking-widest hover:bg-orange-600 transition-all flex items-center justify-center gap-2 active:scale-95 group/btn"
-                                     >
-                                        Ler Matéria <ChevronRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
-                                     </button>
-                                  </div>
-                               </div>
-                            ))}
-                         </div>
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8">
+                           {/* Notícias em Destaque Reais do Admin */}
+                           {news.filter(n => n.isFeatured).slice(0, 6).map((item) => (
+                              <div key={item.id} className="group bg-white rounded-3xl md:rounded-[48px] border border-slate-100 overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 flex flex-col">
+                                 <div className="relative h-32 md:h-48 overflow-hidden">
+                                    <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
+                                    <div className="absolute top-4 left-4 md:top-6 md:left-6">
+                                       <span className="px-3 py-1 bg-white/60 backdrop-blur-md rounded-full text-[7px] md:text-[9px] font-bold uppercase tracking-widest text-slate-900/60 border border-white/20 shadow-sm">
+                                          {item.category}
+                                       </span>
+                                    </div>
+                                 </div>
+                                 <div className="p-4 md:p-8 flex-1 flex flex-col">
+                                    <div className="flex items-center gap-1.5 mb-2">
+                                       <div className="w-1 h-1 rounded-full bg-orange-600 animate-pulse"></div>
+                                       <span className="text-[7px] md:text-[9px] font-black text-orange-600 uppercase tracking-widest italic">Destaque</span>
+                                    </div>
+                                    <h3 className="text-sm md:text-xl font-black text-slate-900 italic mb-4 leading-tight group-hover:text-orange-600 transition-colors uppercase tracking-tight line-clamp-2">
+                                       {item.title}
+                                    </h3>
+                                    <button
+                                       onClick={() => setSelectedNews(item)}
+                                       className="mt-auto w-full py-3 md:py-4 bg-slate-900 text-white rounded-xl md:rounded-2xl text-[8px] md:text-[10px] font-black uppercase tracking-widest hover:bg-orange-600 transition-all flex items-center justify-center gap-2 active:scale-95 group/btn"
+                                    >
+                                       Ler Matéria <ChevronRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
+                                    </button>
+                                 </div>
+                              </div>
+                           ))}
+                        </div>
                      </div>
                   )}
 
