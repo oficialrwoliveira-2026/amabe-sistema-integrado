@@ -61,15 +61,15 @@ const DigitalCard: React.FC<DigitalCardProps> = ({ member, isDependent = false, 
 
           <div className="flex items-center space-x-[3cqi]">
             <div className="relative">
-              <div className="w-[12cqi] h-[12cqi] rounded-[2.5cqi] border-[0.5cqi] border-white/10 overflow-hidden shadow-2xl relative">
+              <div className="w-[18cqi] h-[18cqi] rounded-[3.5cqi] border-[0.6cqi] border-white/10 overflow-hidden shadow-2xl relative">
                 <img
                   src={member.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=ea580c&color=fff`}
                   className="w-full h-full object-cover"
                   alt="avatar"
                 />
               </div>
-              <div className="absolute -bottom-[1cqi] -right-[1cqi] w-[4cqi] h-[4cqi] bg-orange-600 rounded-[1cqi] flex items-center justify-center text-white shadow-lg border-[0.3cqi] border-[#141B2D]">
-                <ShieldCheck size="2.5cqi" />
+              <div className="absolute -bottom-[1cqi] -right-[1cqi] w-[5.5cqi] h-[5.5cqi] bg-orange-600 rounded-[1.5cqi] flex items-center justify-center text-white shadow-lg border-[0.4cqi] border-[#141B2D]">
+                <ShieldCheck size="3.5cqi" />
               </div>
             </div>
 
