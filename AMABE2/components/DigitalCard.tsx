@@ -19,7 +19,7 @@ const DigitalCard: React.FC<DigitalCardProps> = ({ member, activeTab, onClick })
       className={`relative w-full max-w-[460px] mx-auto group perspective-1000 ${onClick ? 'cursor-pointer active:scale-95 transition-transform' : ''}`}
     >
       {/* Container Principal da Carteirinha */}
-      <div className={`relative aspect-[1.586/1] rounded-[24px] xs:rounded-[32px] md:rounded-[40px] p-5 xs:p-8 md:p-12 text-white shadow-[0_40px_80px_-15px_rgba(0,0,0,0.5)] transition-all duration-700 overflow-hidden z-10 border border-white/10 ${isActive
+      <div className={`relative aspect-[1.586/1] rounded-[24px] xs:rounded-[32px] md:rounded-[40px] p-5 xs:p-8 md:p-10 text-white shadow-[0_40px_80px_-15px_rgba(0,0,0,0.5)] transition-all duration-700 overflow-hidden z-10 border border-white/10 ${isActive
         ? 'bg-gradient-to-br from-[#141B2D] to-[#0A101E]'
         : 'bg-slate-700 grayscale'
         }`}>
@@ -82,14 +82,14 @@ const DigitalCard: React.FC<DigitalCardProps> = ({ member, activeTab, onClick })
             </div>
 
             <div className="flex-1 min-w-0 flex flex-col justify-center">
-              <h3 className="text-[15px] xs:text-xl md:text-[24px] font-black leading-tight truncate tracking-tight uppercase italic text-white drop-shadow-lg">{member.name}</h3>
+              <h3 className="text-[15px] xs:text-xl md:text-[21px] font-black leading-tight truncate tracking-tight uppercase italic text-white drop-shadow-lg">{member.name}</h3>
               <div className="flex flex-col space-y-1 md:space-y-1.5 mt-1 md:mt-2">
                 <div className="flex items-center space-x-2 md:space-x-3">
                   <div className="w-3 h-3 md:w-5 md:h-5 bg-white/5 rounded-full flex items-center justify-center">
                     <CheckCircle2 size={8} className="text-[#FF5C12] md:hidden" />
                     <CheckCircle2 size={12} className="text-[#FF5C12] hidden md:block" />
                   </div>
-                  <p className="text-[9px] md:text-[13px] font-black tracking-widest text-white/60 uppercase truncate leading-none">
+                  <p className="text-[9px] md:text-[12px] font-black tracking-widest text-white/60 uppercase truncate leading-none">
                     {isDependent ? `${member.relationship} • ` : ''}
                     {member.memberId || 'N/A'}
                   </p>
@@ -118,7 +118,7 @@ const DigitalCard: React.FC<DigitalCardProps> = ({ member, activeTab, onClick })
                 <div className="flex items-center space-x-2 md:space-x-3 bg-white/5 px-2.5 py-1.5 md:px-4 md:py-2.5 rounded-lg md:rounded-[16px] border border-white/10 backdrop-blur-sm shadow-inner overflow-hidden">
                   <Calendar size={11} className="text-[#FF5C12] md:hidden" />
                   <Calendar size={12} className="text-[#FF5C12] hidden md:block" />
-                  <span className="text-[11px] md:text-[12px] font-black italic text-white tracking-tight leading-none truncate">{member.birthDate || '--/--/----'}</span>
+                  <span className="text-[11px] md:text-[11px] font-black italic text-white tracking-tight leading-none truncate">{member.birthDate || '--/--/----'}</span>
                 </div>
               </div>
             </div>
