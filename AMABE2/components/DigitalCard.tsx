@@ -19,7 +19,7 @@ const DigitalCard: React.FC<DigitalCardProps> = ({ member, activeTab, onClick })
       className={`relative w-full max-w-[460px] mx-auto group perspective-1000 ${onClick ? 'cursor-pointer active:scale-95 transition-transform' : ''}`}
     >
       {/* Container Principal da Carteirinha */}
-      <div className={`relative aspect-[1.586/1] rounded-[24px] xs:rounded-[32px] md:rounded-[40px] p-6 xs:p-8 md:p-12 text-white shadow-[0_40px_80px_-15px_rgba(0,0,0,0.5)] transition-all duration-700 overflow-hidden z-10 border border-white/10 ${isActive
+      <div className={`relative aspect-[1.586/1] rounded-[24px] xs:rounded-[32px] md:rounded-[40px] p-5 xs:p-8 md:p-12 text-white shadow-[0_40px_80px_-15px_rgba(0,0,0,0.5)] transition-all duration-700 overflow-hidden z-10 border border-white/10 ${isActive
         ? 'bg-gradient-to-br from-[#141B2D] to-[#0A101E]'
         : 'bg-slate-700 grayscale'
         }`}>
@@ -48,8 +48,8 @@ const DigitalCard: React.FC<DigitalCardProps> = ({ member, activeTab, onClick })
                 <span className="font-black text-xs md:text-xl italic leading-none">A</span>
               </div>
               <div className="flex flex-col">
-                <h2 className="text-[14px] md:text-xl font-black tracking-tight leading-none italic uppercase opacity-95">AMABE</h2>
-                <p className="text-[8px] md:text-[9px] font-black tracking-[0.25em] md:tracking-[0.4em] text-[#FF5C12] uppercase mt-1 italic">Elite</p>
+                <h2 className="text-[12px] md:text-xl font-black tracking-tight leading-none italic uppercase opacity-95">AMABE</h2>
+                <p className="text-[7.5px] md:text-[9px] font-black tracking-[0.25em] md:tracking-[0.4em] text-[#FF5C12] uppercase mt-1 italic">Elite</p>
               </div>
             </div>
 
@@ -82,20 +82,20 @@ const DigitalCard: React.FC<DigitalCardProps> = ({ member, activeTab, onClick })
             </div>
 
             <div className="flex-1 min-w-0 flex flex-col justify-center">
-              <h3 className="text-lg xs:text-xl md:text-[24px] font-black leading-tight truncate tracking-tight uppercase italic text-white drop-shadow-lg">{member.name}</h3>
+              <h3 className="text-[15px] xs:text-xl md:text-[24px] font-black leading-tight truncate tracking-tight uppercase italic text-white drop-shadow-lg">{member.name}</h3>
               <div className="flex flex-col space-y-1 md:space-y-1.5 mt-1 md:mt-2">
                 <div className="flex items-center space-x-2 md:space-x-3">
                   <div className="w-3 h-3 md:w-5 md:h-5 bg-white/5 rounded-full flex items-center justify-center">
                     <CheckCircle2 size={8} className="text-[#FF5C12] md:hidden" />
                     <CheckCircle2 size={12} className="text-[#FF5C12] hidden md:block" />
                   </div>
-                  <p className="text-[10px] md:text-[13px] font-black tracking-widest text-white/60 uppercase truncate leading-none">
+                  <p className="text-[9px] md:text-[13px] font-black tracking-widest text-white/60 uppercase truncate leading-none">
                     {isDependent ? `${member.relationship} • ` : ''}
                     {member.memberId || 'N/A'}
                   </p>
                 </div>
                 {(member.cpf || member.rg) && (
-                  <p className="text-[8.5px] md:text-[9.5px] font-bold tracking-[0.1em] text-white/40 uppercase leading-none pl-5 md:pl-8 truncate">
+                  <p className="text-[7.5px] md:text-[9.5px] font-bold tracking-[0.1em] text-white/40 uppercase leading-none pl-5 md:pl-8 truncate">
                     {member.cpf && `CPF: ${member.cpf}`} {member.rg && ` • RG: ${member.rg}`}
                   </p>
                 )}
@@ -108,17 +108,17 @@ const DigitalCard: React.FC<DigitalCardProps> = ({ member, activeTab, onClick })
             <div className="flex items-end gap-4 md:gap-10 min-w-0 flex-1">
               {/* Membro Desde */}
               <div className="flex flex-col gap-1 md:gap-1.5 shrink-0">
-                <p className="text-[8.5px] md:text-[8px] uppercase text-[#FF5C12] font-black tracking-[0.2em] italic leading-none opacity-90">Membro desde</p>
-                <p className="text-xs md:text-sm font-black italic text-white/95 leading-none">2024</p>
+                <p className="text-[7.5px] md:text-[8px] uppercase text-[#FF5C12] font-black tracking-[0.2em] italic leading-none opacity-90">Membro desde</p>
+                <p className="text-[11px] md:text-sm font-black italic text-white/95 leading-none">2024</p>
               </div>
 
               {/* Nascimento */}
               <div className="flex flex-col gap-1 md:gap-1.5 min-w-0">
-                <p className="text-[8.5px] md:text-[8px] uppercase text-[#FF5C12] font-black tracking-[0.2em] italic leading-none opacity-90">Nascimento</p>
+                <p className="text-[7.5px] md:text-[8px] uppercase text-[#FF5C12] font-black tracking-[0.2em] italic leading-none opacity-90">Nascimento</p>
                 <div className="flex items-center space-x-2 md:space-x-3 bg-white/5 px-2.5 py-1.5 md:px-4 md:py-2.5 rounded-lg md:rounded-[16px] border border-white/10 backdrop-blur-sm shadow-inner overflow-hidden">
-                  <Calendar size={12} className="text-[#FF5C12] md:hidden" />
+                  <Calendar size={11} className="text-[#FF5C12] md:hidden" />
                   <Calendar size={12} className="text-[#FF5C12] hidden md:block" />
-                  <span className="text-[10px] md:text-[12px] font-black italic text-white tracking-tight leading-none truncate">{member.birthDate || '--/--/----'}</span>
+                  <span className="text-[11px] md:text-[12px] font-black italic text-white tracking-tight leading-none truncate">{member.birthDate || '--/--/----'}</span>
                 </div>
               </div>
             </div>
@@ -128,7 +128,7 @@ const DigitalCard: React.FC<DigitalCardProps> = ({ member, activeTab, onClick })
               <img
                 src={`https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${member.memberId || 'INVALID'}&margin=1&bgcolor=ffffff&color=000000`}
                 alt="QR Code"
-                className="w-10 h-10 xs:w-11 xs:h-11 md:w-16 md:h-16 rounded-lg"
+                className="w-9 h-9 xs:w-11 xs:h-11 md:w-16 md:h-16 rounded-lg"
               />
             </div>
           </div>
