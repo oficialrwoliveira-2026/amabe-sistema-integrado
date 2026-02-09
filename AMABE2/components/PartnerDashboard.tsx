@@ -52,6 +52,7 @@ interface PartnerDashboardProps {
    showConfirm: (title: string, message: string, onConfirm: () => void, confirmText?: string, cancelText?: string) => void;
    onLoadFullProfile?: (userId: string) => Promise<any>;
    onLogout?: () => void;
+   setActiveTab: (tab: DashboardTab) => void;
 }
 
 const PartnerDashboard: React.FC<PartnerDashboardProps> = ({
@@ -65,7 +66,8 @@ const PartnerDashboard: React.FC<PartnerDashboardProps> = ({
    showAlert,
    showConfirm,
    onLoadFullProfile,
-   onLogout
+   onLogout,
+   setActiveTab
 }) => {
    const [showScanner, setShowScanner] = useState(false);
    const [manualId, setManualId] = useState('');
@@ -241,12 +243,11 @@ const PartnerDashboard: React.FC<PartnerDashboardProps> = ({
                <p className="text-slate-400 font-medium mt-1.5 md:mt-2 text-xs md:text-lg italic leading-relaxed">Valide benefícios em segundos.</p>
             </div>
             <button
-               onClick={() => setShowScanner(true)}
+               onClick={() => setActiveTab('validate')}
                className="w-full md:w-auto flex items-center justify-center space-x-3 md:space-x-4 bg-orange-600 text-white px-6 md:px-10 py-4 md:py-6 rounded-2xl md:rounded-[32px] font-black text-[10px] md:text-xs uppercase tracking-[0.2em] md:tracking-[0.3em] shadow-xl md:shadow-2xl shadow-orange-600/30 hover:bg-orange-700 active:scale-95 transition-all"
             >
-               <Smartphone size={20} className="md:hidden" />
-               <Smartphone size={24} className="hidden md:block" />
-               <span>Validar QR Code</span>
+               <Ticket size={24} />
+               <span>Validar Benefício</span>
             </button>
          </div>
 
@@ -305,46 +306,42 @@ const PartnerDashboard: React.FC<PartnerDashboardProps> = ({
       <div className="max-w-4xl mx-auto space-y-8 md:space-y-12 animate-in fade-in slide-in-from-bottom-8 duration-500">
          <div className="relative space-y-8 sm:space-y-12 lg:space-y-16 p-6 sm:p-10 lg:p-16 min-h-screen overflow-hidden bg-white rounded-[32px] sm:rounded-[48px] lg:rounded-[64px] shadow-sm border border-slate-100 text-center">
             <header className="mb-10 md:mb-16">
-               <div className="w-16 h-16 md:w-24 md:h-24 bg-orange-600 rounded-[32px] md:rounded-[40px] flex items-center justify-center text-white shadow-2xl shadow-orange-600/20 mx-auto mb-6 md:mb-8 group-hover:rotate-3 transition-transform">
+               <div className="w-16 h-16 md:w-24 md:h-24 bg-orange-600 rounded-[32px] md:rounded-[40px] flex items-center justify-center text-white shadow-2xl shadow-orange-600/20 mx-auto mb-6 md:mb-8 group-hover:scale-110 transition-transform">
                   <ShieldCheck size={48} />
                </div>
                <h2 className="text-2xl md:text-5xl font-black text-slate-900 tracking-tighter italic uppercase leading-tight">Validar Benefício</h2>
-               <p className="text-slate-400 font-medium mt-2 md:mt-4 text-xs md:text-lg italic">Aponte a câmera para o QR Code ou digite o cupom.</p>
+               <p className="text-slate-400 font-medium mt-2 md:mt-4 text-xs md:text-lg italic px-4">Digite o código da matrícula ou do cupom para validar.</p>
             </header>
 
             <div className="max-w-md mx-auto space-y-10 md:space-y-14">
                {!validationResult ? (
-                  <>
-                     <div
-                        onClick={() => setShowScanner(true)}
-                        className="aspect-square bg-slate-50 rounded-[40px] md:rounded-[60px] flex flex-col items-center justify-center border-4 border-dashed border-orange-100 relative overflow-hidden shadow-inner cursor-pointer hover:bg-orange-50/30 transition-all group"
-                     >
-                        <div className="absolute inset-x-0 top-0 h-2/3 bg-gradient-to-b from-orange-500/10 to-transparent animate-scan-bounce"></div>
-                        <Smartphone size={80} className="text-orange-200 mb-6 group-hover:scale-110 transition-transform" />
-                        <span className="bg-orange-600 text-white px-6 py-2 rounded-full text-[10px] md:text-xs font-black uppercase tracking-widest shadow-xl">Abrir Câmera</span>
-                     </div>
-
+                  <div className="space-y-10">
                      <div className="space-y-6">
-                        <div className="relative">
-                           <Ticket size={20} className="absolute left-6 top-1/2 -translate-y-1/2 text-orange-400" />
+                        <div className="relative group">
+                           <Ticket size={24} className="absolute left-6 top-1/2 -translate-y-1/2 text-orange-400 group-focus-within:scale-110 transition-transform" />
                            <input
                               type="text"
-                              placeholder="CÓDIGO DO CUPOM"
-                              className="w-full pl-16 pr-8 py-5 md:py-8 bg-slate-50 border border-slate-100 rounded-[28px] md:rounded-[40px] outline-none focus:ring-4 focus:ring-orange-100 font-black text-center text-sm md:text-xl uppercase tracking-[0.2em] transition-all shadow-inner"
+                              placeholder="CÓDIGO DO CUPOM OU MATRÍCULA"
+                              className="w-full pl-16 pr-8 py-6 md:py-10 bg-slate-50 border border-slate-100 rounded-[32px] md:rounded-[48px] outline-none focus:ring-8 focus:ring-orange-50 font-black text-center text-sm md:text-2xl uppercase tracking-[0.2em] transition-all shadow-inner placeholder:text-slate-300"
                               value={manualId}
                               onChange={(e) => setManualId(e.target.value)}
+                              autoFocus
                            />
                         </div>
                         <button
                            onClick={handleValidate}
                            disabled={!manualId}
-                           className="w-full py-5 md:py-8 bg-[#0F172A] text-white rounded-[28px] md:rounded-[40px] font-black text-xs md:text-sm uppercase tracking-[0.3em] shadow-xl hover:bg-slate-800 transition-all disabled:opacity-20 active:scale-95 flex items-center justify-center gap-3"
+                           className="w-full py-6 md:py-10 bg-[#0F172A] text-white rounded-[32px] md:rounded-[48px] font-black text-xs md:text-sm uppercase tracking-[0.3em] shadow-2xl shadow-slate-900/20 hover:bg-orange-600 transition-all disabled:opacity-20 active:scale-95 flex items-center justify-center gap-4 group"
                         >
-                           <Check size={20} />
-                           Validar Agora
+                           <Check size={24} className="group-hover:scale-110 transition-transform" />
+                           <span>Confirmar Validação</span>
                         </button>
                      </div>
-                  </>
+
+                     <div className="pt-10 border-t border-slate-50">
+                        <p className="text-[10px] font-black text-slate-300 uppercase tracking-widest italic leading-relaxed">A AMABE preza pela segurança dos seus parceiros e associados.</p>
+                     </div>
+                  </div>
                ) : (
                   <div className="py-10 animate-in zoom-in duration-500">
                      <div className={`w-24 h-24 md:w-36 md:h-36 rounded-[40px] md:rounded-[56px] flex items-center justify-center mx-auto shadow-2xl mb-8 ${validationResult.success ? 'bg-emerald-500 text-white shadow-emerald-500/20' : 'bg-red-500 text-white shadow-red-500/20'

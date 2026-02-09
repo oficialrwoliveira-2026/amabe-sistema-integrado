@@ -1246,6 +1246,7 @@ const App: React.FC = () => {
           showAlert={showAlert} showConfirm={showConfirm}
           onLogout={handleLogout}
           onLoadFullProfile={fetchFullProfileOnDemand}
+          setActiveTab={setActiveTab}
         />
       );
     }
