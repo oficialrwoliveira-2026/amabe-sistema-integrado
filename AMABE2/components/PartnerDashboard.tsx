@@ -103,28 +103,36 @@ const PartnerDashboard: React.FC<PartnerDashboardProps> = ({
 
    const handleValidate = () => {
       const input = manualId.trim().toUpperCase();
-      const isVoucher = input.length > 8 && !input.match(/AMB-\d{4}-\d{3}/);
-      let member: User | undefined;
+      if (!input) return;
 
-      if (isVoucher) {
-         member = members.find(m => m.status === MemberStatus.ACTIVE);
-         if (!input.startsWith('AMB-')) {
-            setValidationResult({ success: false, message: 'Código de cupom inválido.', type: 'VOUCHER' });
-            return;
-         }
+      let member: User | undefined;
+      let isVoucher = false;
+
+      // 1. Tentar localizar como Voucher no Histórico (Status GERADO)
+      const activeVoucher = history.find(h =>
+         h.code?.toUpperCase() === input &&
+         h.status === 'GERADO' &&
+         (h.partnerId === user.id || h.partnerName === (user.companyName || user.name))
+      );
+
+      if (activeVoucher) {
+         isVoucher = true;
+         member = members.find(m => m.memberId === activeVoucher.beneficiaryId || m.id === activeVoucher.beneficiaryId);
       } else {
+         // 2. Se não for voucher, tentar localizar por Matrícula direta
          member = members.find(m => m.memberId?.toUpperCase() === input);
       }
 
       if (!member) {
          setValidationResult({
             success: false,
-            message: isVoucher ? 'Cupom expirado ou inexistente.' : 'Matrícula não localizada.',
-            type: isVoucher ? 'VOUCHER' : 'MEMBER'
+            message: input.length < 8 ? 'Voucher não encontrado ou já utilizado.' : 'Matrícula não localizada.',
+            type: activeVoucher ? 'VOUCHER' : 'MEMBER'
          });
          return;
       }
 
+      // Validar status do membro (seja via voucher ou matrícula)
       if (member.status !== MemberStatus.ACTIVE) {
          setValidationResult({
             success: false,

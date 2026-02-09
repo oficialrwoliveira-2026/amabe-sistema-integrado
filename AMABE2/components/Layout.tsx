@@ -34,6 +34,8 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ user, onLogout, children, activeTab, setActiveTab, systemSettings }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const isMember = user.role === UserRole.MEMBER;
+  const isPartner = user.role === UserRole.PARTNER;
+  const useMobileNav = isMember || isPartner;
 
   const getMenuItems = () => {
     const common = [{
@@ -87,7 +89,7 @@ const Layout: React.FC<LayoutProps> = ({ user, onLogout, children, activeTab, se
 
   return (
     <div className="min-h-screen flex bg-[#F8FAFC] overflow-x-hidden">
-      {!isMember && isMobileMenuOpen && (
+      {!useMobileNav && isMobileMenuOpen && (
         <div
           className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[45] lg:hidden transition-opacity"
           onClick={() => setIsMobileMenuOpen(false)}
@@ -96,8 +98,8 @@ const Layout: React.FC<LayoutProps> = ({ user, onLogout, children, activeTab, se
 
       <aside className={`
         flex flex-col w-[280px] bg-[#030712] text-white fixed h-full shadow-[20px_0_60px_-15px_rgba(0,0,0,0.5)] z-50 transition-transform duration-500 ease-in-out border-r border-white/5
-        ${isMember ? 'hidden lg:flex' : 'flex'}
-        ${!isMember ? (isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0') : ''}
+        ${useMobileNav ? 'hidden lg:flex' : 'flex'}
+        ${!useMobileNav ? (isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0') : ''}
       `}>
         <div className="p-10 flex items-center justify-between relative overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-orange-600/5 to-transparent"></div>
@@ -116,7 +118,7 @@ const Layout: React.FC<LayoutProps> = ({ user, onLogout, children, activeTab, se
               <span className="text-[9px] text-orange-400 font-bold uppercase tracking-[0.4em] mt-1.5 opacity-80">Oficial</span>
             </div>
           </div>
-          {!isMember && (
+          {!useMobileNav && (
             <button onClick={() => setIsMobileMenuOpen(false)} className="lg:hidden p-2 text-slate-500 hover:text-white transition-colors relative z-10">
               <X size={24} />
             </button>
@@ -172,10 +174,10 @@ const Layout: React.FC<LayoutProps> = ({ user, onLogout, children, activeTab, se
         </div>
       </aside>
 
-      <main className={`flex-1 min-h-screen max-w-full overflow-x-hidden relative ${isMember ? '' : 'lg:ml-[280px]'}`}>
+      <main className={`flex-1 min-h-screen max-w-full overflow-x-hidden relative ${useMobileNav ? '' : 'lg:ml-[280px]'}`}>
         <header className="lg:hidden flex items-center justify-between px-6 py-5 bg-white/80 backdrop-blur-md sticky top-0 z-40 border-b border-slate-100">
           <div className="flex items-center space-x-3">
-            {!isMember && (
+            {!useMobileNav && (
               <button
                 onClick={() => setIsMobileMenuOpen(true)}
                 className="p-2.5 bg-slate-50 rounded-xl text-slate-600 border border-slate-100 shadow-sm active:scale-90 mr-2"
@@ -196,7 +198,7 @@ const Layout: React.FC<LayoutProps> = ({ user, onLogout, children, activeTab, se
           </div>
 
           <div className="flex items-center gap-3">
-            {isMember && (
+            {useMobileNav && (
               <button
                 onClick={onLogout}
                 className="p-2.5 bg-slate-50 rounded-xl text-slate-400 border border-slate-100 shadow-sm transition-all active:scale-90"
@@ -204,7 +206,7 @@ const Layout: React.FC<LayoutProps> = ({ user, onLogout, children, activeTab, se
                 <LogOut size={20} />
               </button>
             )}
-            {!isMember && (
+            {!useMobileNav && (
               <div className="w-10 h-10 rounded-xl overflow-hidden border-2 border-orange-500">
                 <img
                   src={user.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=ea580c&color=fff`}
@@ -216,55 +218,105 @@ const Layout: React.FC<LayoutProps> = ({ user, onLogout, children, activeTab, se
           </div>
         </header>
 
-        <div className={`responsive-container animate-in fade-in duration-700 ${isMember ? 'pb-28' : 'pb-10'}`}>
+        <div className={`responsive-container animate-in fade-in duration-700 ${useMobileNav ? 'pb-28' : 'pb-10'}`}>
           {children}
         </div>
 
-        {isMember && (
+        {useMobileNav && (
           <nav className="lg:hidden fixed bottom-0 left-0 right-0 h-20 bg-white/90 backdrop-blur-xl border-t border-slate-100 flex items-center justify-around px-2 z-50 shadow-[0_-10px_40px_rgba(0,0,0,0.05)]">
-            <button
-              onClick={() => handleTabClick('dash')}
-              className={`flex flex-col items-center justify-center w-14 h-full transition-all ${activeTab === 'dash' ? 'text-orange-600' : 'text-slate-300'}`}
-            >
-              <Home size={activeTab === 'dash' ? 24 : 22} strokeWidth={activeTab === 'dash' ? 3 : 2} />
-              <span className={`text-[8px] font-black uppercase mt-1 tracking-widest ${activeTab === 'dash' ? 'opacity-100' : 'opacity-0'}`}>Início</span>
-            </button>
+            {isMember ? (
+              <>
+                <button
+                  onClick={() => handleTabClick('dash')}
+                  className={`flex flex-col items-center justify-center w-14 h-full transition-all ${activeTab === 'dash' ? 'text-orange-600' : 'text-slate-300'}`}
+                >
+                  <Home size={activeTab === 'dash' ? 24 : 22} strokeWidth={activeTab === 'dash' ? 3 : 2} />
+                  <span className={`text-[8px] font-black uppercase mt-1 tracking-widest ${activeTab === 'dash' ? 'opacity-100' : 'opacity-0'}`}>Início</span>
+                </button>
 
-            <button
-              onClick={() => handleTabClick('club')}
-              className={`flex flex-col items-center justify-center w-14 h-full transition-all ${activeTab === 'club' ? 'text-orange-600' : 'text-slate-300'}`}
-            >
-              <Building2 size={activeTab === 'club' ? 24 : 22} strokeWidth={activeTab === 'club' ? 3 : 2} />
-              <span className={`text-[8px] font-black uppercase mt-1 tracking-widest ${activeTab === 'club' ? 'opacity-100' : 'opacity-0'}`}>Clube</span>
-            </button>
+                <button
+                  onClick={() => handleTabClick('club')}
+                  className={`flex flex-col items-center justify-center w-14 h-full transition-all ${activeTab === 'club' ? 'text-orange-600' : 'text-slate-300'}`}
+                >
+                  <Building2 size={activeTab === 'club' ? 24 : 22} strokeWidth={activeTab === 'club' ? 3 : 2} />
+                  <span className={`text-[8px] font-black uppercase mt-1 tracking-widest ${activeTab === 'club' ? 'opacity-100' : 'opacity-0'}`}>Clube</span>
+                </button>
 
-            <button
-              onClick={() => handleTabClick('card')}
-              className="relative -mt-10 flex items-center justify-center"
-            >
-              <div className={`w-16 h-16 rounded-full flex items-center justify-center transition-all duration-300 shadow-2xl ${activeTab === 'card'
-                ? 'bg-[#0F172A] scale-110 shadow-orange-600/20'
-                : 'bg-orange-600 scale-100 shadow-orange-600/40'
-                }`}>
-                <CreditCard size={28} className="text-white" strokeWidth={3} />
-              </div>
-            </button>
+                <button
+                  onClick={() => handleTabClick('card')}
+                  className="relative -mt-10 flex items-center justify-center"
+                >
+                  <div className={`w-16 h-16 rounded-full flex items-center justify-center transition-all duration-300 shadow-2xl ${activeTab === 'card'
+                    ? 'bg-[#0F172A] scale-110 shadow-orange-600/20'
+                    : 'bg-orange-600 scale-100 shadow-orange-600/40'
+                    }`}>
+                    <CreditCard size={28} className="text-white" strokeWidth={3} />
+                  </div>
+                </button>
 
-            <button
-              onClick={() => handleTabClick('payments')}
-              className={`flex flex-col items-center justify-center w-14 h-full transition-all ${activeTab === 'payments' ? 'text-orange-600' : 'text-slate-300'}`}
-            >
-              <DollarSign size={activeTab === 'payments' ? 24 : 22} strokeWidth={activeTab === 'payments' ? 3 : 2} />
-              <span className={`text-[8px] font-black uppercase mt-1 tracking-widest ${activeTab === 'payments' ? 'opacity-100' : 'opacity-0'}`}>Financeiro</span>
-            </button>
+                <button
+                  onClick={() => handleTabClick('payments')}
+                  className={`flex flex-col items-center justify-center w-14 h-full transition-all ${activeTab === 'payments' ? 'text-orange-600' : 'text-slate-300'}`}
+                >
+                  <DollarSign size={activeTab === 'payments' ? 24 : 22} strokeWidth={activeTab === 'payments' ? 3 : 2} />
+                  <span className={`text-[8px] font-black uppercase mt-1 tracking-widest ${activeTab === 'payments' ? 'opacity-100' : 'opacity-0'}`}>Financeiro</span>
+                </button>
 
-            <button
-              onClick={() => handleTabClick('profile')}
-              className={`flex flex-col items-center justify-center w-14 h-full transition-all ${activeTab === 'profile' ? 'text-orange-600' : 'text-slate-300'}`}
-            >
-              <UserIcon size={activeTab === 'profile' ? 24 : 22} strokeWidth={activeTab === 'profile' ? 3 : 2} />
-              <span className={`text-[8px] font-black uppercase mt-1 tracking-widest ${activeTab === 'profile' ? 'opacity-100' : 'opacity-0'}`}>Perfil</span>
-            </button>
+                <button
+                  onClick={() => handleTabClick('profile')}
+                  className={`flex flex-col items-center justify-center w-14 h-full transition-all ${activeTab === 'profile' ? 'text-orange-600' : 'text-slate-300'}`}
+                >
+                  <UserIcon size={activeTab === 'profile' ? 24 : 22} strokeWidth={activeTab === 'profile' ? 3 : 2} />
+                  <span className={`text-[8px] font-black uppercase mt-1 tracking-widest ${activeTab === 'profile' ? 'opacity-100' : 'opacity-0'}`}>Perfil</span>
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  onClick={() => handleTabClick('dash')}
+                  className={`flex flex-col items-center justify-center w-14 h-full transition-all ${activeTab === 'dash' ? 'text-orange-600' : 'text-slate-300'}`}
+                >
+                  <Home size={activeTab === 'dash' ? 24 : 22} strokeWidth={activeTab === 'dash' ? 3 : 2} />
+                  <span className={`text-[8px] font-black uppercase mt-1 tracking-widest ${activeTab === 'dash' ? 'opacity-100' : 'opacity-0'}`}>Início</span>
+                </button>
+
+                <button
+                  onClick={() => handleTabClick('offers')}
+                  className={`flex flex-col items-center justify-center w-14 h-full transition-all ${activeTab === 'offers' ? 'text-orange-600' : 'text-slate-300'}`}
+                >
+                  <TicketPlus size={activeTab === 'offers' ? 24 : 22} strokeWidth={activeTab === 'offers' ? 3 : 2} />
+                  <span className={`text-[8px] font-black uppercase mt-1 tracking-widest ${activeTab === 'offers' ? 'opacity-100' : 'opacity-0'}`}>Ofertas</span>
+                </button>
+
+                <button
+                  onClick={() => handleTabClick('validate')}
+                  className="relative -mt-10 flex items-center justify-center"
+                >
+                  <div className={`w-16 h-16 rounded-full flex items-center justify-center transition-all duration-300 shadow-2xl ${activeTab === 'validate'
+                    ? 'bg-[#0F172A] scale-110 shadow-orange-600/20'
+                    : 'bg-orange-600 scale-100 shadow-orange-600/40'
+                    }`}>
+                    <ShieldCheck size={28} className="text-white" strokeWidth={3} />
+                  </div>
+                </button>
+
+                <button
+                  onClick={() => handleTabClick('history')}
+                  className={`flex flex-col items-center justify-center w-14 h-full transition-all ${activeTab === 'history' ? 'text-orange-600' : 'text-slate-300'}`}
+                >
+                  <History size={activeTab === 'history' ? 24 : 22} strokeWidth={activeTab === 'history' ? 3 : 2} />
+                  <span className={`text-[8px] font-black uppercase mt-1 tracking-widest ${activeTab === 'history' ? 'opacity-100' : 'opacity-0'}`}>Relatórios</span>
+                </button>
+
+                <button
+                  onClick={() => handleTabClick('partners')}
+                  className={`flex flex-col items-center justify-center w-14 h-full transition-all ${activeTab === 'partners' ? 'text-orange-600' : 'text-slate-300'}`}
+                >
+                  <Settings size={activeTab === 'partners' ? 24 : 22} strokeWidth={activeTab === 'partners' ? 3 : 2} />
+                  <span className={`text-[8px] font-black uppercase mt-1 tracking-widest ${activeTab === 'partners' ? 'opacity-100' : 'opacity-0'}`}>Perfil</span>
+                </button>
+              </>
+            )}
           </nav>
         )}
       </main>
