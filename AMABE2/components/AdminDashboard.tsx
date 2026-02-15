@@ -332,7 +332,14 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
     const files = e.target.files;
     if (!files || files.length === 0) return;
 
+    const MAX_SIZE = 2 * 1024 * 1024; // 2MB
+
     const processFile = (file: File) => {
+      if (file.size > MAX_SIZE) {
+        showAlert('Arquivo muito grande', 'O tamanho máximo permitido é 2MB.', 'warning');
+        return;
+      }
+
       const reader = new FileReader();
       reader.onloadend = () => {
         const base64 = reader.result as string;
@@ -342,11 +349,14 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
         else if (type === 'news') setNewsForm(prev => ({ ...prev, image: base64 }));
         else if (type === 'notification') setNotificationForm(prev => ({ ...prev, image: base64 }));
       };
+      reader.onerror = () => {
+        showAlert('Erro no Upload', 'Ocorreu um erro ao ler o arquivo.', 'error');
+      };
       reader.readAsDataURL(file);
     };
 
     Array.from(files).forEach(processFile);
-  }, []);
+  }, [showAlert]);
 
   const handleRemoveGalleryImage = useCallback((index: number) => {
     setPartnerForm(prev => ({

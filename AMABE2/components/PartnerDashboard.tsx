@@ -560,7 +560,17 @@ const PartnerDashboard: React.FC<PartnerDashboardProps> = ({
                   <div className="flex flex-col md:flex-row items-center gap-10 border-b border-slate-50 pb-12">
                      <div className="relative group">
                         <div className="w-32 h-32 md:w-44 md:h-44 rounded-3xl md:rounded-[40px] border-4 border-slate-50 shadow-xl overflow-hidden bg-white group-hover:scale-[1.02] transition-transform duration-500">
-                           <img src={formData.logo || DEFAULT_COMPANY_LOGO} className="w-full h-full object-contain p-2" alt="Logo" />
+                           <img
+                              src={formData.logo || DEFAULT_COMPANY_LOGO}
+                              className="w-full h-full object-contain p-2"
+                              alt="Logo"
+                              onError={(e) => {
+                                 const target = e.target as HTMLImageElement;
+                                 if (target.src !== DEFAULT_COMPANY_LOGO) {
+                                    target.src = DEFAULT_COMPANY_LOGO;
+                                 }
+                              }}
+                           />
                         </div>
                         <button
                            type="button"

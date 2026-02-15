@@ -84,7 +84,17 @@ const PartnerManager: React.FC<PartnerManagerProps> = ({
                                 <div className="relative">
                                     <div className="absolute inset-0 bg-orange-600/10 rounded-[32px] blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
                                     <div className="relative w-16 h-16 md:w-20 md:h-20 rounded-[24px] md:rounded-[32px] overflow-hidden border-4 border-white shadow-xl bg-white p-4 flex items-center justify-center group-hover:scale-105 transition-transform duration-500">
-                                        <img src={partner.logo || DEFAULT_COMPANY_LOGO} className="w-full h-full object-contain" alt="" />
+                                        <img
+                                            src={partner.logo || DEFAULT_COMPANY_LOGO}
+                                            className="w-full h-full object-contain"
+                                            alt=""
+                                            onError={(e) => {
+                                                const target = e.target as HTMLImageElement;
+                                                if (target.src !== DEFAULT_COMPANY_LOGO) {
+                                                    target.src = DEFAULT_COMPANY_LOGO;
+                                                }
+                                            }}
+                                        />
                                     </div>
                                     <div className={`absolute -bottom-1 -right-1 w-7 h-7 rounded-2xl flex items-center justify-center border-[3px] border-white shadow-lg relative z-20 ${partner.status === 'ACTIVE' ? 'bg-emerald-500' : 'bg-orange-500'} animate-pulse`}>
                                         <CheckCircle size={12} className="text-white" />
@@ -184,7 +194,17 @@ const PartnerManager: React.FC<PartnerManagerProps> = ({
                                     <p className="text-[9px] font-bold text-orange-400 uppercase tracking-widest mb-4 md:mb-6">Logomarca</p>
                                     {partnerForm.logo ? (
                                         <div className="relative">
-                                            <img src={partnerForm.logo || DEFAULT_COMPANY_LOGO} className="w-20 h-20 md:w-24 md:h-24 mx-auto object-contain bg-white rounded-2xl p-4 shadow-2xl" alt="" />
+                                            <img
+                                                src={partnerForm.logo || DEFAULT_COMPANY_LOGO}
+                                                className="w-20 h-20 md:w-24 md:h-24 mx-auto object-contain bg-white rounded-2xl p-4 shadow-2xl"
+                                                alt=""
+                                                onError={(e) => {
+                                                    const target = e.target as HTMLImageElement;
+                                                    if (target.src !== DEFAULT_COMPANY_LOGO) {
+                                                        target.src = DEFAULT_COMPANY_LOGO;
+                                                    }
+                                                }}
+                                            />
                                             <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl">
                                                 <Edit2 size={24} />
                                             </div>
