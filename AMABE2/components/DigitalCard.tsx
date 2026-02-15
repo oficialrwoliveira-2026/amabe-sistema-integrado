@@ -74,19 +74,19 @@ const DigitalCard: React.FC<DigitalCardProps> = ({ member, isDependent = false, 
             </div>
 
             <div className="flex-1 min-w-0 flex flex-col justify-center">
-              <h3 className="text-[5.5cqi] font-black leading-tight truncate tracking-tight uppercase italic text-white drop-shadow-lg">{member.name}</h3>
+              <h3 className="text-[4.8cqi] font-black leading-tight truncate tracking-tight uppercase italic text-white drop-shadow-lg">{member.name}</h3>
               <div className="flex flex-col space-y-[0.5cqi] mt-[0.5cqi]">
                 <div className="flex items-center space-x-[1.5cqi]">
                   <div className="w-[2cqi] h-[2cqi] bg-white/5 rounded-full flex items-center justify-center">
                     <CheckCircle2 size="1.2cqi" className="text-[#FF5C12]" />
                   </div>
-                  <p className="text-[2.6cqi] font-black tracking-widest text-white/60 uppercase truncate leading-none">
+                  <p className="text-[2.4cqi] font-black tracking-widest text-white/60 uppercase truncate leading-none">
                     {isDependent ? `${member.relationship} • ` : ''}
                     {member.memberId || 'N/A'}
                   </p>
                 </div>
                 {(member.cpf || member.rg) && (
-                  <p className="text-[2.2cqi] font-bold tracking-[0.1em] text-white/40 uppercase leading-none pl-[3.5cqi] truncate">
+                  <p className="text-[2cqi] font-bold tracking-[0.1em] text-white/40 uppercase leading-none pl-[3.5cqi] truncate">
                     {member.cpf && `CPF: ${member.cpf}`} {member.rg && ` • RG: ${member.rg}`}
                   </p>
                 )}
@@ -94,30 +94,30 @@ const DigitalCard: React.FC<DigitalCardProps> = ({ member, isDependent = false, 
             </div>
           </div>
 
-          <div className="flex items-end justify-between">
-            <div className="flex items-end gap-[4cqi] min-w-0 flex-1">
+          <div className="flex items-end justify-between mt-auto">
+            <div className="flex items-end gap-[3cqi] min-w-0 flex-1">
               {/* Membro Desde */}
               <div className="flex flex-col gap-[0.5cqi] shrink-0">
-                <p className="text-[2cqi] uppercase text-[#FF5C12] font-black tracking-[0.2em] italic leading-none opacity-90">Membro desde</p>
-                <p className="text-[3.2cqi] font-black italic text-white/95 leading-none">2024</p>
+                <p className="text-[1.8cqi] uppercase text-[#FF5C12] font-black tracking-[0.2em] italic leading-none opacity-90">Membro desde</p>
+                <p className="text-[3cqi] font-black italic text-white/95 leading-none">2024</p>
               </div>
 
               {/* Nascimento */}
-              <div className="flex flex-col gap-[0.5cqi] min-w-0">
-                <p className="text-[2cqi] uppercase text-[#FF5C12] font-black tracking-[0.2em] italic leading-none opacity-90">Nascimento</p>
-                <div className="flex items-center space-x-[1.5cqi] bg-white/5 px-[2cqi] py-[1.2cqi] rounded-[1.5cqi] border border-white/10 backdrop-blur-sm shadow-inner overflow-hidden">
-                  <Calendar size="2.5cqi" className="text-[#FF5C12]" />
-                  <span className="text-[2.6cqi] font-black italic text-white tracking-tight leading-none truncate">{member.birthDate || '--/--/----'}</span>
+              <div className="flex flex-col gap-[0.5cqi] min-w-0 pb-[0.2cqi]">
+                <p className="text-[1.8cqi] uppercase text-[#FF5C12] font-black tracking-[0.2em] italic leading-none opacity-90">Nascimento</p>
+                <div className="flex items-center space-x-[1.2cqi] bg-white/5 px-[1.8cqi] py-[1cqi] rounded-[1.2cqi] border border-white/10 backdrop-blur-sm shadow-inner overflow-hidden">
+                  <Calendar size="2.2cqi" className="text-[#FF5C12]" />
+                  <span className="text-[2.4cqi] font-black italic text-white tracking-tight leading-none truncate">{member.birthDate || '--/--/----'}</span>
                 </div>
               </div>
             </div>
 
             <div className="shrink-0 ml-[2cqi]">
-              <div className="bg-white p-[0.5cqi] rounded-[2cqi] shadow-xl">
+              <div className="bg-white p-[0.6cqi] rounded-[1.8cqi] shadow-2xl transform translate-y-[1cqi]">
                 <img
                   src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${member.memberId || 'INVALID'}&margin=1&bgcolor=ffffff&color=000000`}
                   alt="QR Code"
-                  className="w-[14cqi] h-[14cqi] rounded-[1.5cqi]"
+                  className="w-[11cqi] h-[11cqi] rounded-[1cqi]"
                 />
               </div>
             </div>
