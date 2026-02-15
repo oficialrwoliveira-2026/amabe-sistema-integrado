@@ -383,8 +383,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
   }, [memberForm, editingMember, onUpdateMember, onAddMember, showAlert]);
 
   const handleSavePartner = useCallback(async () => {
-    if (!partnerForm.name || !partnerForm.logo || !partnerForm.email) {
-      showAlert('Campos Obrigatórios', 'Nome, Logo e E-mail são obrigatórios.', 'warning');
+    if (!partnerForm.name || !partnerForm.email) {
+      showAlert('Campos Obrigatórios', 'Nome e E-mail são obrigatórios.', 'warning');
       return;
     }
     setIsSaving(true);

@@ -74,7 +74,7 @@ const PartnerDashboard: React.FC<PartnerDashboardProps> = ({
    const [manualId, setManualId] = useState('');
    const [validationResult, setValidationResult] = useState<{ success: boolean; message: string; type: 'MEMBER' | 'VOUCHER' } | null>(null);
 
-   const currentPartner = partners.find(p => p.name === (user.companyName || user.name)) || partners[1];
+   const currentPartner = partners.find(p => p.id === user.id) || partners.find(p => p.name === (user.companyName || user.name)) || partners[0];
    const [formData, setFormData] = useState<Partner>(currentPartner);
    const [passwords, setPasswords] = useState({ current: '', new: '', confirm: '' });
    const [showPass, setShowPass] = useState(false);
@@ -531,271 +531,283 @@ const PartnerDashboard: React.FC<PartnerDashboardProps> = ({
       </div>
    );
 
-   const renderProfileEdit = () => (
-      <div className="max-w-6xl mx-auto space-y-8 md:space-y-12 animate-in fade-in slide-in-from-bottom-8 duration-500 pb-20">
-         <div className="bg-white p-6 md:p-16 rounded-[48px] md:rounded-[64px] shadow-sm border border-slate-100 relative">
-            <header className="mb-10 md:mb-16 border-b border-slate-50 pb-8 flex items-center justify-between">
-               <div>
-                  <h2 className="text-2xl md:text-5xl font-black text-[#0A101E] tracking-tighter italic uppercase leading-none">Dados Empresa</h2>
-                  <p className="text-slate-400 font-medium mt-2 text-xs md:text-lg italic opacity-80">Personalize seu perfil no clube.</p>
-               </div>
-               <div className="w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-orange-600 flex items-center justify-center text-white shadow-xl rotate-3 shrink-0">
-                  <Building2 size={28} />
-               </div>
-            </header>
+   const renderProfileEdit = () => {
+      if (!formData) {
+         return (
+            <div className="flex flex-col items-center justify-center py-20 bg-white rounded-[48px] border-2 border-dashed border-slate-100">
+               <Store size={64} className="text-slate-200 mb-4" />
+               <p className="text-slate-400 font-black uppercase tracking-widest italic">Dados do perfil não localizados.</p>
+               <button onClick={() => window.location.reload()} className="mt-6 text-orange-600 font-bold uppercase text-[10px] tracking-widest hover:underline">Recarregar Painel</button>
+            </div>
+         );
+      }
 
-            <form onSubmit={handleSaveProfile} className="space-y-12">
-               {/* Upload de Logo */}
-               <div className="flex flex-col md:flex-row items-center gap-10 border-b border-slate-50 pb-12">
-                  <div className="relative group">
-                     <div className="w-32 h-32 md:w-44 md:h-44 rounded-3xl md:rounded-[40px] border-4 border-slate-50 shadow-xl overflow-hidden bg-white group-hover:scale-[1.02] transition-transform duration-500">
-                        <img src={formData.logo || DEFAULT_COMPANY_LOGO} className="w-full h-full object-contain p-2" alt="Logo" />
-                     </div>
-                     <button
-                        type="button"
-                        onClick={() => logoInputRef.current?.click()}
-                        className="absolute -bottom-2 -right-2 w-10 h-10 md:w-14 md:h-14 bg-orange-600 text-white rounded-2xl flex items-center justify-center shadow-2xl hover:bg-orange-700 active:scale-90 border-4 border-white transition-all"
-                     >
-                        <Camera size={18} />
-                     </button>
-                     <input type="file" ref={logoInputRef} className="hidden" accept="image/*" onChange={handleLogoUpload} />
+      return (
+         <div className="max-w-6xl mx-auto space-y-8 md:space-y-12 animate-in fade-in slide-in-from-bottom-8 duration-500 pb-20">
+            <div className="bg-white p-6 md:p-16 rounded-[48px] md:rounded-[64px] shadow-sm border border-slate-100 relative">
+               <header className="mb-10 md:mb-16 border-b border-slate-50 pb-8 flex items-center justify-between">
+                  <div>
+                     <h2 className="text-2xl md:text-5xl font-black text-[#0A101E] tracking-tighter italic uppercase leading-none">Dados Empresa</h2>
+                     <p className="text-slate-400 font-medium mt-2 text-xs md:text-lg italic opacity-80">Personalize seu perfil no clube.</p>
                   </div>
-                  <div className="flex-1 text-center md:text-left">
-                     <h3 className="text-lg md:text-2xl font-black text-slate-800 uppercase italic tracking-tight">Logotipo da Marca</h3>
-                     <p className="text-slate-400 text-xs md:text-base font-medium mt-2 italic max-w-sm">Recomendamos imagens quadradas (PNG ou JPG) com fundo branco para melhor visibilidade.</p>
+                  <div className="w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-orange-600 flex items-center justify-center text-white shadow-xl rotate-3 shrink-0">
+                     <Building2 size={28} />
                   </div>
-               </div>
+               </header>
 
-               {/* Informações Gerais */}
-               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
-                  <div className="space-y-2 md:space-y-4">
-                     <label className="text-[9px] md:text-[11px] font-black text-orange-500 uppercase tracking-[0.3em] ml-2">Nome Fantasia</label>
+               <form onSubmit={handleSaveProfile} className="space-y-12">
+                  {/* Upload de Logo */}
+                  <div className="flex flex-col md:flex-row items-center gap-10 border-b border-slate-50 pb-12">
                      <div className="relative group">
-                        <Store className="absolute left-5 top-1/2 -translate-y-1/2 text-orange-500" size={20} />
-                        <input
-                           type="text"
-                           className="w-full pl-14 pr-5 py-4 md:pl-16 md:pr-8 md:py-6 bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl md:rounded-[36px] outline-none font-black text-slate-700 italic uppercase text-xs md:text-base transition-all focus:ring-4 focus:ring-orange-50"
-                           value={formData.name}
-                           onChange={e => setFormData({ ...formData, name: e.target.value })}
-                        />
-                     </div>
-                  </div>
-                  <div className="space-y-2 md:space-y-4">
-                     <label className="text-[9px] md:text-[11px] font-black text-orange-500 uppercase tracking-[0.3em] ml-2">Área de Atuação</label>
-                     <div className="relative">
-                        <Tag className="absolute left-5 top-1/2 -translate-y-1/2 text-orange-500" size={20} />
-                        <select
-                           className="w-full pl-14 pr-8 py-4 md:pl-16 md:pr-8 md:py-6 bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl md:rounded-[36px] outline-none font-black text-slate-700 uppercase appearance-none cursor-pointer text-xs md:text-base transition-all focus:ring-4 focus:ring-orange-50"
-                           value={formData.category}
-                           onChange={e => setFormData({ ...formData, category: e.target.value })}
-                        >
-                           {CATEGORIES.map(cat => <option key={cat} value={cat}>{cat}</option>)}
-                        </select>
-                     </div>
-                  </div>
-               </div>
-
-               <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-10">
-                  <div className="md:col-span-12 space-y-2 md:space-y-4">
-                     <label className="text-[9px] md:text-[11px] font-black text-orange-500 uppercase tracking-[0.3em] ml-2">Localização</label>
-                     <div className="relative">
-                        <MapPin className="absolute left-5 top-1/2 -translate-y-1/2 text-orange-500" size={20} />
-                        <input
-                           type="text"
-                           className="w-full pl-14 pr-5 py-4 md:pl-16 md:pr-8 md:py-6 bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl md:rounded-[36px] outline-none font-bold text-slate-600 text-[10px] md:text-sm italic"
-                           value={formData.address || ''}
-                           onChange={e => setFormData({ ...formData, address: e.target.value })}
-                        />
-                     </div>
-                  </div>
-                  <div className="md:col-span-4 space-y-2 md:space-y-4">
-                     <label className="text-[9px] md:text-[11px] font-black text-orange-500 uppercase tracking-[0.3em] ml-2">WhatsApp</label>
-                     <div className="relative group">
-                        <MessageCircle className="absolute left-5 top-1/2 -translate-y-1/2 text-emerald-500" size={20} />
-                        <input
-                           type="text"
-                           className="w-full pl-14 pr-5 py-4 md:pl-16 md:pr-8 md:py-6 bg-[#F0FDF4] border border-[#10B981]/20 rounded-2xl md:rounded-[36px] outline-none font-black text-emerald-800 text-xs md:text-sm"
-                           value={formData.whatsapp || ''}
-                           onChange={e => setFormData({ ...formData, whatsapp: e.target.value })}
-                        />
-                     </div>
-                  </div>
-                  <div className="md:col-span-4 space-y-2 md:space-y-4">
-                     <label className="text-[9px] md:text-[11px] font-black text-orange-500 uppercase tracking-[0.3em] ml-2">CNPJ</label>
-                     <div className="relative group">
-                        <Hash className="absolute left-5 top-1/2 -translate-y-1/2 text-orange-500" size={20} />
-                        <input
-                           type="text"
-                           className="w-full pl-14 pr-5 py-4 md:pl-16 md:pr-8 md:py-6 bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl md:rounded-[36px] outline-none font-black text-slate-700 text-xs md:text-sm"
-                           value={formData.cnpj || ''}
-                           onChange={e => setFormData({ ...formData, cnpj: e.target.value })}
-                        />
-                     </div>
-                  </div>
-                  <div className="md:col-span-4 space-y-2 md:space-y-4">
-                     <label className="text-[9px] md:text-[11px] font-black text-orange-500 uppercase tracking-[0.3em] ml-2">Desconto Padrão</label>
-                     <input
-                        type="text"
-                        className="w-full px-6 py-4 md:px-8 md:py-6 bg-orange-50/30 border border-orange-100 rounded-2xl md:rounded-[36px] outline-none font-black text-orange-700 italic uppercase text-xs md:text-base"
-                        value={formData.discount}
-                        onChange={e => setFormData({ ...formData, discount: e.target.value })}
-                     />
-                  </div>
-               </div>
-
-               {/* Redes Sociais */}
-               <div className="pt-6 border-t border-slate-50 space-y-8 md:space-y-10">
-                  <div className="flex items-center gap-3">
-                     <Globe size={18} className="text-orange-500" />
-                     <h3 className="text-[9px] md:text-[11px] font-black text-orange-500 uppercase tracking-[0.3em] italic">Redes Sociais e Presença Digital</h3>
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                     <div className="space-y-2">
-                        <label className="text-[8px] font-black text-slate-400 uppercase tracking-widest ml-1">Instagram (@usuario)</label>
-                        <div className="relative group">
-                           <Instagram className="absolute left-4 top-1/2 -translate-y-1/2 text-pink-500" size={16} />
-                           <input
-                              type="text"
-                              placeholder="@amabeclube"
-                              className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl outline-none font-bold text-slate-600 text-xs transition-all focus:ring-4 focus:ring-pink-50"
-                              value={formData.instagram || ''}
-                              onChange={e => setFormData({ ...formData, instagram: e.target.value })}
-                           />
+                        <div className="w-32 h-32 md:w-44 md:h-44 rounded-3xl md:rounded-[40px] border-4 border-slate-50 shadow-xl overflow-hidden bg-white group-hover:scale-[1.02] transition-transform duration-500">
+                           <img src={formData.logo || DEFAULT_COMPANY_LOGO} className="w-full h-full object-contain p-2" alt="Logo" />
                         </div>
-                     </div>
-                     <div className="space-y-2">
-                        <label className="text-[8px] font-black text-slate-400 uppercase tracking-widest ml-1">Facebook (Link ou Perfil)</label>
-                        <div className="relative group">
-                           <Facebook className="absolute left-4 top-1/2 -translate-y-1/2 text-blue-600" size={16} />
-                           <input
-                              type="text"
-                              placeholder="facebook.com/amabe"
-                              className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl outline-none font-bold text-slate-600 text-xs transition-all focus:ring-4 focus:ring-blue-50"
-                              value={formData.facebook || ''}
-                              onChange={e => setFormData({ ...formData, facebook: e.target.value })}
-                           />
-                        </div>
-                     </div>
-                     <div className="space-y-2">
-                        <label className="text-[8px] font-black text-slate-400 uppercase tracking-widest ml-1">Website Oficial</label>
-                        <div className="relative group">
-                           <Globe className="absolute left-4 top-1/2 -translate-y-1/2 text-orange-500" size={16} />
-                           <input
-                              type="text"
-                              placeholder="www.amabe.com"
-                              className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl outline-none font-bold text-slate-600 text-xs transition-all focus:ring-4 focus:ring-orange-50"
-                              value={formData.website || ''}
-                              onChange={e => setFormData({ ...formData, website: e.target.value })}
-                           />
-                        </div>
-                     </div>
-                  </div>
-               </div>
-
-               <div className="space-y-2 md:space-y-4">
-                  <label className="text-[9px] md:text-[11px] font-black text-orange-500 uppercase tracking-[0.3em] ml-2">Bio da Empresa</label>
-                  <textarea
-                     className="w-full p-6 md:p-10 bg-[#F8FAFC] border border-[#E2E8F0] rounded-[32px] md:rounded-[48px] outline-none font-bold text-slate-700 text-sm md:text-lg leading-relaxed min-h-[140px] md:min-h-[180px] italic shadow-inner no-scrollbar"
-                     value={formData.description}
-                     onChange={e => setFormData({ ...formData, description: e.target.value })}
-                  />
-               </div>
-
-               {/* Segurança e Senha */}
-               <div className="pt-6 border-t border-slate-50 space-y-8 md:space-y-10">
-                  <div className="flex items-center gap-3">
-                     <Lock size={18} className="text-orange-500" />
-                     <h3 className="text-[9px] md:text-[11px] font-black text-orange-500 uppercase tracking-[0.3em] italic">Segurança de Acesso</h3>
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                     <div className="space-y-2">
-                        <label className="text-[8px] font-black text-slate-400 uppercase tracking-widest ml-1">Senha Atual</label>
-                        <input
-                           type={showPass ? 'text' : 'password'}
-                           className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl outline-none font-bold text-slate-600 text-xs"
-                           value={passwords.current}
-                           onChange={e => setPasswords({ ...passwords, current: e.target.value })}
-                        />
-                     </div>
-                     <div className="space-y-2">
-                        <label className="text-[8px] font-black text-slate-400 uppercase tracking-widest ml-1">Nova Senha</label>
-                        <input
-                           type={showPass ? 'text' : 'password'}
-                           className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl outline-none font-bold text-slate-600 text-xs"
-                           value={passwords.new}
-                           onChange={e => setPasswords({ ...passwords, new: e.target.value })}
-                        />
-                     </div>
-                     <div className="space-y-2 relative">
-                        <label className="text-[8px] font-black text-slate-400 uppercase tracking-widest ml-1">Confirmar Nova</label>
-                        <input
-                           type={showPass ? 'text' : 'password'}
-                           className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl outline-none font-bold text-slate-600 text-xs"
-                           value={passwords.confirm}
-                           onChange={e => setPasswords({ ...passwords, confirm: e.target.value })}
-                        />
                         <button
                            type="button"
-                           onClick={() => setShowPass(!showPass)}
-                           className="absolute right-4 bottom-4 text-slate-300 hover:text-orange-600"
+                           onClick={() => logoInputRef.current?.click()}
+                           className="absolute -bottom-2 -right-2 w-10 h-10 md:w-14 md:h-14 bg-orange-600 text-white rounded-2xl flex items-center justify-center shadow-2xl hover:bg-orange-700 active:scale-90 border-4 border-white transition-all"
                         >
-                           {showPass ? <EyeOff size={18} /> : <Eye size={18} />}
+                           <Camera size={18} />
                         </button>
+                        <input type="file" ref={logoInputRef} className="hidden" accept="image/*" onChange={handleLogoUpload} />
+                     </div>
+                     <div className="flex-1 text-center md:text-left">
+                        <h3 className="text-lg md:text-2xl font-black text-slate-800 uppercase italic tracking-tight">Logotipo da Marca</h3>
+                        <p className="text-slate-400 text-xs md:text-base font-medium mt-2 italic max-w-sm">Recomendamos imagens quadradas (PNG ou JPG) com fundo branco para melhor visibilidade.</p>
                      </div>
                   </div>
-               </div>
 
-               {/* Galeria de Fotos */}
-               <div className="pt-6 border-t border-slate-50 space-y-8 md:space-y-10">
-                  <div className="flex items-center justify-between">
+                  {/* Informações Gerais */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
+                     <div className="space-y-2 md:space-y-4">
+                        <label className="text-[9px] md:text-[11px] font-black text-orange-500 uppercase tracking-[0.3em] ml-2">Nome Fantasia</label>
+                        <div className="relative group">
+                           <Store className="absolute left-5 top-1/2 -translate-y-1/2 text-orange-500" size={20} />
+                           <input
+                              type="text"
+                              className="w-full pl-14 pr-5 py-4 md:pl-16 md:pr-8 md:py-6 bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl md:rounded-[36px] outline-none font-black text-slate-700 italic uppercase text-xs md:text-base transition-all focus:ring-4 focus:ring-orange-50"
+                              value={formData.name}
+                              onChange={e => setFormData({ ...formData, name: e.target.value })}
+                           />
+                        </div>
+                     </div>
+                     <div className="space-y-2 md:space-y-4">
+                        <label className="text-[9px] md:text-[11px] font-black text-orange-500 uppercase tracking-[0.3em] ml-2">Área de Atuação</label>
+                        <div className="relative">
+                           <Tag className="absolute left-5 top-1/2 -translate-y-1/2 text-orange-500" size={20} />
+                           <select
+                              className="w-full pl-14 pr-8 py-4 md:pl-16 md:pr-8 md:py-6 bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl md:rounded-[36px] outline-none font-black text-slate-700 uppercase appearance-none cursor-pointer text-xs md:text-base transition-all focus:ring-4 focus:ring-orange-50"
+                              value={formData.category}
+                              onChange={e => setFormData({ ...formData, category: e.target.value })}
+                           >
+                              {CATEGORIES.map(cat => <option key={cat} value={cat}>{cat}</option>)}
+                           </select>
+                        </div>
+                     </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-10">
+                     <div className="md:col-span-12 space-y-2 md:space-y-4">
+                        <label className="text-[9px] md:text-[11px] font-black text-orange-500 uppercase tracking-[0.3em] ml-2">Localização</label>
+                        <div className="relative">
+                           <MapPin className="absolute left-5 top-1/2 -translate-y-1/2 text-orange-500" size={20} />
+                           <input
+                              type="text"
+                              className="w-full pl-14 pr-5 py-4 md:pl-16 md:pr-8 md:py-6 bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl md:rounded-[36px] outline-none font-bold text-slate-600 text-[10px] md:text-sm italic"
+                              value={formData.address || ''}
+                              onChange={e => setFormData({ ...formData, address: e.target.value })}
+                           />
+                        </div>
+                     </div>
+                     <div className="md:col-span-4 space-y-2 md:space-y-4">
+                        <label className="text-[9px] md:text-[11px] font-black text-orange-500 uppercase tracking-[0.3em] ml-2">WhatsApp</label>
+                        <div className="relative group">
+                           <MessageCircle className="absolute left-5 top-1/2 -translate-y-1/2 text-emerald-500" size={20} />
+                           <input
+                              type="text"
+                              className="w-full pl-14 pr-5 py-4 md:pl-16 md:pr-8 md:py-6 bg-[#F0FDF4] border border-[#10B981]/20 rounded-2xl md:rounded-[36px] outline-none font-black text-emerald-800 text-xs md:text-sm"
+                              value={formData.whatsapp || ''}
+                              onChange={e => setFormData({ ...formData, whatsapp: e.target.value })}
+                           />
+                        </div>
+                     </div>
+                     <div className="md:col-span-4 space-y-2 md:space-y-4">
+                        <label className="text-[9px] md:text-[11px] font-black text-orange-500 uppercase tracking-[0.3em] ml-2">CNPJ</label>
+                        <div className="relative group">
+                           <Hash className="absolute left-5 top-1/2 -translate-y-1/2 text-orange-500" size={20} />
+                           <input
+                              type="text"
+                              className="w-full pl-14 pr-5 py-4 md:pl-16 md:pr-8 md:py-6 bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl md:rounded-[36px] outline-none font-black text-slate-700 text-xs md:text-sm"
+                              value={formData.cnpj || ''}
+                              onChange={e => setFormData({ ...formData, cnpj: e.target.value })}
+                           />
+                        </div>
+                     </div>
+                     <div className="md:col-span-4 space-y-2 md:space-y-4">
+                        <label className="text-[9px] md:text-[11px] font-black text-orange-500 uppercase tracking-[0.3em] ml-2">Desconto Padrão</label>
+                        <input
+                           type="text"
+                           className="w-full px-6 py-4 md:px-8 md:py-6 bg-orange-50/30 border border-orange-100 rounded-2xl md:rounded-[36px] outline-none font-black text-orange-700 italic uppercase text-xs md:text-base"
+                           value={formData.discount}
+                           onChange={e => setFormData({ ...formData, discount: e.target.value })}
+                        />
+                     </div>
+                  </div>
+
+                  {/* Redes Sociais */}
+                  <div className="pt-6 border-t border-slate-50 space-y-8 md:space-y-10">
                      <div className="flex items-center gap-3">
-                        <ImagePlus size={18} className="text-orange-500" />
-                        <h3 className="text-[9px] md:text-[11px] font-black text-orange-500 uppercase tracking-[0.3em] italic">Galeria do Estabelecimento</h3>
+                        <Globe size={18} className="text-orange-500" />
+                        <h3 className="text-[9px] md:text-[11px] font-black text-orange-500 uppercase tracking-[0.3em] italic">Redes Sociais e Presença Digital</h3>
                      </div>
-                     <button
-                        type="button"
-                        onClick={() => galleryInputRef.current?.click()}
-                        className="text-[8px] md:text-[10px] font-black text-orange-600 uppercase tracking-widest bg-orange-50 px-4 py-2 rounded-xl hover:bg-orange-600 hover:text-white transition-all border border-orange-100"
-                     >
-                        Adicionar Fotos
-                     </button>
-                     <input type="file" ref={galleryInputRef} className="hidden" accept="image/*" multiple onChange={handleGalleryUpload} />
+                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div className="space-y-2">
+                           <label className="text-[8px] font-black text-slate-400 uppercase tracking-widest ml-1">Instagram (@usuario)</label>
+                           <div className="relative group">
+                              <Instagram className="absolute left-4 top-1/2 -translate-y-1/2 text-pink-500" size={16} />
+                              <input
+                                 type="text"
+                                 placeholder="@amabeclube"
+                                 className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl outline-none font-bold text-slate-600 text-xs transition-all focus:ring-4 focus:ring-pink-50"
+                                 value={formData.instagram || ''}
+                                 onChange={e => setFormData({ ...formData, instagram: e.target.value })}
+                              />
+                           </div>
+                        </div>
+                        <div className="space-y-2">
+                           <label className="text-[8px] font-black text-slate-400 uppercase tracking-widest ml-1">Facebook (Link ou Perfil)</label>
+                           <div className="relative group">
+                              <Facebook className="absolute left-4 top-1/2 -translate-y-1/2 text-blue-600" size={16} />
+                              <input
+                                 type="text"
+                                 placeholder="facebook.com/amabe"
+                                 className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl outline-none font-bold text-slate-600 text-xs transition-all focus:ring-4 focus:ring-blue-50"
+                                 value={formData.facebook || ''}
+                                 onChange={e => setFormData({ ...formData, facebook: e.target.value })}
+                              />
+                           </div>
+                        </div>
+                        <div className="space-y-2">
+                           <label className="text-[8px] font-black text-slate-400 uppercase tracking-widest ml-1">Website Oficial</label>
+                           <div className="relative group">
+                              <Globe className="absolute left-4 top-1/2 -translate-y-1/2 text-orange-500" size={16} />
+                              <input
+                                 type="text"
+                                 placeholder="www.amabe.com"
+                                 className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl outline-none font-bold text-slate-600 text-xs transition-all focus:ring-4 focus:ring-orange-50"
+                                 value={formData.website || ''}
+                                 onChange={e => setFormData({ ...formData, website: e.target.value })}
+                              />
+                           </div>
+                        </div>
+                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 md:gap-6">
-                     {(formData.gallery || []).length > 0 ? (formData.gallery || []).map((img, idx) => (
-                        <div key={idx} className="aspect-square rounded-3xl overflow-hidden relative group border border-slate-100 shadow-sm transition-all hover:scale-[1.03]">
-                           <img src={img} className="w-full h-full object-cover" alt="" />
+                  <div className="space-y-2 md:space-y-4">
+                     <label className="text-[9px] md:text-[11px] font-black text-orange-500 uppercase tracking-[0.3em] ml-2">Bio da Empresa</label>
+                     <textarea
+                        className="w-full p-6 md:p-10 bg-[#F8FAFC] border border-[#E2E8F0] rounded-[32px] md:rounded-[48px] outline-none font-bold text-slate-700 text-sm md:text-lg leading-relaxed min-h-[140px] md:min-h-[180px] italic shadow-inner no-scrollbar"
+                        value={formData.description}
+                        onChange={e => setFormData({ ...formData, description: e.target.value })}
+                     />
+                  </div>
+
+                  {/* Segurança e Senha */}
+                  <div className="pt-6 border-t border-slate-50 space-y-8 md:space-y-10">
+                     <div className="flex items-center gap-3">
+                        <Lock size={18} className="text-orange-500" />
+                        <h3 className="text-[9px] md:text-[11px] font-black text-orange-500 uppercase tracking-[0.3em] italic">Segurança de Acesso</h3>
+                     </div>
+                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div className="space-y-2">
+                           <label className="text-[8px] font-black text-slate-400 uppercase tracking-widest ml-1">Senha Atual</label>
+                           <input
+                              type={showPass ? 'text' : 'password'}
+                              className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl outline-none font-bold text-slate-600 text-xs"
+                              value={passwords.current}
+                              onChange={e => setPasswords({ ...passwords, current: e.target.value })}
+                           />
+                        </div>
+                        <div className="space-y-2">
+                           <label className="text-[8px] font-black text-slate-400 uppercase tracking-widest ml-1">Nova Senha</label>
+                           <input
+                              type={showPass ? 'text' : 'password'}
+                              className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl outline-none font-bold text-slate-600 text-xs"
+                              value={passwords.new}
+                              onChange={e => setPasswords({ ...passwords, new: e.target.value })}
+                           />
+                        </div>
+                        <div className="space-y-2 relative">
+                           <label className="text-[8px] font-black text-slate-400 uppercase tracking-widest ml-1">Confirmar Nova</label>
+                           <input
+                              type={showPass ? 'text' : 'password'}
+                              className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl outline-none font-bold text-slate-600 text-xs"
+                              value={passwords.confirm}
+                              onChange={e => setPasswords({ ...passwords, confirm: e.target.value })}
+                           />
                            <button
                               type="button"
-                              onClick={() => removeGalleryImage(idx)}
-                              className="absolute top-2 right-2 w-8 h-8 bg-red-500 text-white rounded-xl flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
+                              onClick={() => setShowPass(!showPass)}
+                              className="absolute right-4 bottom-4 text-slate-300 hover:text-orange-600"
                            >
-                              <Trash2 size={14} />
+                              {showPass ? <EyeOff size={18} /> : <Eye size={18} />}
                            </button>
                         </div>
-                     )) : (
-                        <div className="col-span-full py-16 text-center border-4 border-dashed border-slate-50 rounded-[40px] flex flex-col items-center justify-center bg-slate-50/30">
-                           <ImageIcon size={48} className="text-slate-200 mb-4" strokeWidth={1} />
-                           <p className="text-slate-400 font-black uppercase tracking-[0.3em] text-[10px] italic">Sua galeria está vazia</p>
-                        </div>
-                     )}
+                     </div>
                   </div>
-               </div>
 
-               <div className="pt-10">
-                  <button
-                     type="submit"
-                     className="w-full py-6 md:py-8 bg-orange-600 text-white rounded-[32px] md:rounded-[44px] font-black text-[11px] md:text-sm uppercase tracking-[0.4em] flex items-center justify-center gap-4 shadow-2xl shadow-orange-600/30 active:scale-95 transition-all hover:bg-orange-700"
-                  >
-                     <Save size={24} />
-                     <span>Salvar Alterações</span>
-                  </button>
-               </div>
-            </form>
+                  {/* Galeria de Fotos */}
+                  <div className="pt-6 border-t border-slate-50 space-y-8 md:space-y-10">
+                     <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                           <ImagePlus size={18} className="text-orange-500" />
+                           <h3 className="text-[9px] md:text-[11px] font-black text-orange-500 uppercase tracking-[0.3em] italic">Galeria do Estabelecimento</h3>
+                        </div>
+                        <button
+                           type="button"
+                           onClick={() => galleryInputRef.current?.click()}
+                           className="text-[8px] md:text-[10px] font-black text-orange-600 uppercase tracking-widest bg-orange-50 px-4 py-2 rounded-xl hover:bg-orange-600 hover:text-white transition-all border border-orange-100"
+                        >
+                           Adicionar Fotos
+                        </button>
+                        <input type="file" ref={galleryInputRef} className="hidden" accept="image/*" multiple onChange={handleGalleryUpload} />
+                     </div>
+
+                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 md:gap-6">
+                        {(formData.gallery || []).length > 0 ? (formData.gallery || []).map((img, idx) => (
+                           <div key={idx} className="aspect-square rounded-3xl overflow-hidden relative group border border-slate-100 shadow-sm transition-all hover:scale-[1.03]">
+                              <img src={img} className="w-full h-full object-cover" alt="" />
+                              <button
+                                 type="button"
+                                 onClick={() => removeGalleryImage(idx)}
+                                 className="absolute top-2 right-2 w-8 h-8 bg-red-500 text-white rounded-xl flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
+                              >
+                                 <Trash2 size={14} />
+                              </button>
+                           </div>
+                        )) : (
+                           <div className="col-span-full py-16 text-center border-4 border-dashed border-slate-50 rounded-[40px] flex flex-col items-center justify-center bg-slate-50/30">
+                              <ImageIcon size={48} className="text-slate-200 mb-4" strokeWidth={1} />
+                              <p className="text-slate-400 font-black uppercase tracking-[0.3em] text-[10px] italic">Sua galeria está vazia</p>
+                           </div>
+                        )}
+                     </div>
+                  </div>
+
+                  <div className="pt-10">
+                     <button
+                        type="submit"
+                        className="w-full py-6 md:py-8 bg-orange-600 text-white rounded-[32px] md:rounded-[44px] font-black text-[11px] md:text-sm uppercase tracking-[0.4em] flex items-center justify-center gap-4 shadow-2xl shadow-orange-600/30 active:scale-95 transition-all hover:bg-orange-700"
+                     >
+                        <Save size={24} />
+                        <span>Salvar Alterações</span>
+                     </button>
+                  </div>
+               </form>
+            </div>
          </div>
-      </div>
-   );
+      );
+   };
 
    return (
       <div className="w-full max-w-7xl mx-auto pb-10 md:pb-20">
