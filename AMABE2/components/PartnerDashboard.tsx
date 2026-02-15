@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { User, BenefitUsage, MemberStatus, DashboardTab, Partner, Offer } from '../types';
-import { CATEGORIES } from '../constants';
+import { CATEGORIES, DEFAULT_COMPANY_LOGO } from '../constants';
 import {
    ShieldCheck,
    TrendingUp,
@@ -288,13 +288,13 @@ const PartnerDashboard: React.FC<PartnerDashboardProps> = ({
                   const isValidated = h.status === 'VALIDADO';
                   return (
                      <div key={h.id} className={`flex items-center justify-between p-4 md:p-8 rounded-2xl md:rounded-[40px] border transition-all gap-3 ${isValidated
-                           ? 'bg-emerald-50/10 border-emerald-100/30'
-                           : 'bg-orange-50/20 border-orange-100/50'
+                        ? 'bg-emerald-50/10 border-emerald-100/30'
+                        : 'bg-orange-50/20 border-orange-100/50'
                         }`}>
                         <div className="flex items-center space-x-3 md:space-x-8">
                            <div className={`w-10 h-10 md:w-16 md:h-16 rounded-xl md:rounded-3xl flex items-center justify-center border shadow-sm shrink-0 ${isValidated
-                                 ? 'bg-white border-emerald-100 text-emerald-500'
-                                 : 'bg-white border-orange-100 text-orange-400 opacity-60'
+                              ? 'bg-white border-emerald-100 text-emerald-500'
+                              : 'bg-white border-orange-100 text-orange-400 opacity-60'
                               }`}>
                               {isValidated ? (
                                  <>
@@ -549,7 +549,7 @@ const PartnerDashboard: React.FC<PartnerDashboardProps> = ({
                <div className="flex flex-col md:flex-row items-center gap-10 border-b border-slate-50 pb-12">
                   <div className="relative group">
                      <div className="w-32 h-32 md:w-44 md:h-44 rounded-3xl md:rounded-[40px] border-4 border-slate-50 shadow-xl overflow-hidden bg-white group-hover:scale-[1.02] transition-transform duration-500">
-                        <img src={formData.logo} className="w-full h-full object-contain p-2" alt="Logo" />
+                        <img src={formData.logo || DEFAULT_COMPANY_LOGO} className="w-full h-full object-contain p-2" alt="Logo" />
                      </div>
                      <button
                         type="button"
