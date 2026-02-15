@@ -42,6 +42,9 @@ const PartnerManager: React.FC<PartnerManagerProps> = ({
     onRemoveGalleryImage,
     showAlert
 }) => {
+    const logoInputRef = React.useRef<HTMLInputElement>(null);
+    const galleryInputRef = React.useRef<HTMLInputElement>(null);
+
     const filteredPartners = (partners || []).filter(p =>
         (p.name || '').toLowerCase().includes(partnerSearch.toLowerCase()) ||
         (p.category || '').toLowerCase().includes(partnerSearch.toLowerCase())
@@ -66,7 +69,11 @@ const PartnerManager: React.FC<PartnerManagerProps> = ({
                         />
                     </div>
                     <button
-                        onClick={() => { setIsCreatingPartner(true); setEditingPartner(null); }}
+                        onClick={() => {
+                            setEditingPartner(null);
+                            setPartnerForm({});
+                            setIsCreatingPartner(true);
+                        }}
                         className="w-full md:w-auto px-8 py-5 bg-[#0F172A] text-white rounded-[28px] font-bold uppercase text-[10px] tracking-widest hover:bg-orange-600 transition-all shadow-xl shadow-slate-900/20 active:scale-95 flex items-center justify-center gap-3"
                     >
                         <Building2 size={16} /> Novo Parceiro
@@ -190,7 +197,7 @@ const PartnerManager: React.FC<PartnerManagerProps> = ({
                             </div>
 
                             <div className="relative z-10 space-y-8 flex md:block flex-col items-center">
-                                <div className="p-6 md:p-8 bg-white/5 rounded-[40px] border border-white/10 text-center group relative cursor-pointer overflow-hidden w-full max-w-[240px] md:max-w-none" onClick={(e) => { e.stopPropagation(); document.getElementById('partner-logo')?.click(); }}>
+                                <div className="p-6 md:p-8 bg-white/5 rounded-[40px] border border-white/10 text-center group relative cursor-pointer overflow-hidden w-full max-w-[240px] md:max-w-none" onClick={(e) => { e.stopPropagation(); logoInputRef.current?.click(); }}>
                                     <p className="text-[9px] font-bold text-orange-400 uppercase tracking-widest mb-4 md:mb-6">Logomarca</p>
                                     {partnerForm.logo ? (
                                         <div className="relative">
@@ -214,7 +221,7 @@ const PartnerManager: React.FC<PartnerManagerProps> = ({
                                             <Camera size={32} className="text-white/20 group-hover:text-orange-500 transition-colors" />
                                         </div>
                                     )}
-                                    <input type="file" id="partner-logo" className="hidden" accept="image/*" onChange={e => handleImageUpload(e, 'partner')} />
+                                    <input type="file" ref={logoInputRef} className="hidden" accept="image/*" onChange={e => handleImageUpload(e, 'partner')} />
                                 </div>
                             </div>
                         </div>
@@ -377,14 +384,14 @@ const PartnerManager: React.FC<PartnerManagerProps> = ({
                                         <label className="text-sm font-black uppercase tracking-widest italic">Galeria do Espaço</label>
                                     </div>
                                     <button
-                                        onClick={() => document.getElementById('gallery-upload')?.click()}
+                                        onClick={() => galleryInputRef.current?.click()}
                                         className="px-6 py-3 bg-slate-900 text-white rounded-2xl text-[9px] font-bold uppercase tracking-widest hover:bg-orange-600 transition-all flex items-center gap-2 shadow-lg active:scale-95"
                                     >
                                         <Plus size={14} /> Adicionar Foto
                                     </button>
                                     <input
                                         type="file"
-                                        id="gallery-upload"
+                                        ref={galleryInputRef}
                                         className="hidden"
                                         accept="image/*"
                                         multiple
