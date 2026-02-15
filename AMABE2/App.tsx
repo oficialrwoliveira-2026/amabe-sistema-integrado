@@ -1110,31 +1110,47 @@ const App: React.FC = () => {
   };
 
   const updatePartnerData = async (updatedPartner: Partner) => {
+    console.log('Iniciando atualização de parceiro:', updatedPartner.id);
     try {
-      // 1. Atualizar Perfil no Banco
-      const { error } = await supabase.from('profiles').update({
+      // Higienização básica para campos JSONB e arrays
+      const payload = {
         name: updatedPartner.name,
-        company_name: updatedPartner.companyName,
-        whatsapp: updatedPartner.whatsapp,
-        address: updatedPartner.address,
-        description: updatedPartner.description,
-        rules: updatedPartner.rules,
-        category: updatedPartner.category,
-        discount: updatedPartner.discount,
-        website: updatedPartner.website,
-        instagram: updatedPartner.instagram,
-        facebook: updatedPartner.facebook,
-        city: updatedPartner.city,
-        offers: updatedPartner.offers,
+        company_name: updatedPartner.companyName || updatedPartner.name,
+        whatsapp: updatedPartner.whatsapp || '',
+        address: updatedPartner.address || '',
+        description: updatedPartner.description || '',
+        rules: updatedPartner.rules || '',
+        category: updatedPartner.category || 'Outros',
+        discount: updatedPartner.discount || '',
+        website: updatedPartner.website || '',
+        instagram: updatedPartner.instagram || '',
+        facebook: updatedPartner.facebook || '',
+        city: updatedPartner.city || '',
+        offers: Array.isArray(updatedPartner.offers) ? updatedPartner.offers : [],
         avatar_url: updatedPartner.logo,
-        gallery: updatedPartner.gallery,
+        gallery: Array.isArray(updatedPartner.gallery) ? updatedPartner.gallery : [],
         updated_at: new Date().toISOString()
-      }).eq('id', updatedPartner.id);
+      };
 
-      if (error) throw error;
+      console.log('Payload de atualização:', {
+        id: updatedPartner.id,
+        logoSize: payload.avatar_url?.length || 0,
+        galleryCount: payload.gallery.length
+      });
+
+      // 1. Atualizar Perfil no Banco
+      const { error, data } = await supabase.from('profiles').update(payload).eq('id', updatedPartner.id).select();
+
+      if (error) {
+        console.error('Erro direct do Supabase:', error);
+        throw error;
+      }
+
+      console.log('Update result:', data);
 
       // 2. Se houver senha, atualizar via Edge Function
-      if (updatedPartner.password) {
+      if (updatedPartner.password && updatedPartner.password.trim().length > 0) {
+        console.log('Atualizando senha via Edge Function...');
         const { error: edgeError } = await supabase.functions.invoke('admin-update-user', {
           body: {
             action: 'update',
@@ -1145,7 +1161,10 @@ const App: React.FC = () => {
             status: 'ACTIVE'
           }
         });
-        if (edgeError) throw edgeError;
+        if (edgeError) {
+          console.error('Erro na Edge Function:', edgeError);
+          throw edgeError;
+        }
       }
 
       // 3. Sincronização local otimizada
@@ -1155,8 +1174,9 @@ const App: React.FC = () => {
       showAlert('Sucesso', 'Configurações atualizadas com sucesso!', 'success');
       return { success: true };
     } catch (err: any) {
-      console.error('Erro ao atualizar parceiro:', err);
-      showAlert('Erro ao Salvar', 'Não foi possível salvar as alterações: ' + (err.message || 'Erro desconhecido'), 'error');
+      console.error('Falha crítica na atualização:', err);
+      const errorMsg = err.message || err.error_description || 'Erro desconhecido';
+      showAlert('Erro ao Salvar', `Não foi possível salvar as alterações: ${errorMsg}`, 'error');
       throw err;
     }
   };
