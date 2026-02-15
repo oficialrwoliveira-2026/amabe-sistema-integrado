@@ -114,7 +114,7 @@ const App: React.FC = () => {
     try {
       const userRoleStr = String(user.role).toUpperCase();
       const isAdmin = userRoleStr === 'ADMIN';
-      const isPartner = userRoleStr === 'PARTNER' || userRoleStr === 'PARCEIRO';
+      const isPartner = userRoleStr === 'PARTNER' || userRoleStr === 'PARCEIRO' || userRoleStr === 'EMPRESA PARCEIRA';
 
       // Consultas independentes para evitar falhas em cascata
       // 1. Otimização: Filtrar no banco de dados para evitar download de dados desnecessários
@@ -206,7 +206,7 @@ const App: React.FC = () => {
         const mappedUsers: User[] = profilesData
           .filter(d => {
             const r = String(d.role || '').toUpperCase();
-            return r === 'MEMBER' || (r !== 'ADMIN' && r !== 'PARTNER' && r !== 'PARCEIRO');
+            return r === 'MEMBER' || (r !== 'ADMIN' && r !== 'PARTNER' && r !== 'PARCEIRO' && r !== 'EMPRESA PARCEIRA');
           })
           .map(d => ({
             ...d,
@@ -223,7 +223,7 @@ const App: React.FC = () => {
         const mappedPartners: Partner[] = profilesData
           .filter(p => {
             const r = String(p.role || '').toUpperCase();
-            return r === 'PARTNER' || r === 'PARCEIRO';
+            return r === 'PARTNER' || r === 'PARCEIRO' || r === 'EMPRESA PARCEIRA';
           })
           .map(p => ({
             ...p,
@@ -298,6 +298,7 @@ const App: React.FC = () => {
 
         const userRole = String(data.role || '').toUpperCase();
         const isAdmin = userRole === 'ADMIN';
+        const isPartner = userRole === 'PARTNER' || userRole === 'PARCEIRO' || userRole === 'EMPRESA PARCEIRA';
         if (data.status === 'PENDING' && !isAdmin) {
           console.warn('Acesso bloqueado: Usuário pendente e não é admin.');
           showAlert(
@@ -1176,8 +1177,14 @@ const App: React.FC = () => {
           activeTab={activeTab} setActiveTab={setActiveTab}
           partners={partners} members={allUsers}
           history={history} payments={payments} currentUser={user}
-          onApprovePartner={(id) => handleUpdateUser({ ...allUsers.find(u => u.id === id)!, status: 'ACTIVE' } as User)}
-          onApproveMember={(id) => handleUpdateUser({ ...allUsers.find(u => u.id === id)!, status: MemberStatus.ACTIVE } as User)}
+          onApprovePartner={(id) => {
+            const p = partners.find(p => p.id === id) || allUsers.find(u => u.id === id);
+            if (p) handleUpdateUser({ ...p, status: 'ACTIVE' } as unknown as User);
+          }}
+          onApproveMember={(id) => {
+            const m = allUsers.find(u => u.id === id) || partners.find(p => p.id === id);
+            if (m) handleUpdateUser({ ...m, status: MemberStatus.ACTIVE } as User);
+          }}
           onUpdatePartner={updatePartnerData} onAddPartner={addPartner}
           onToggleMemberStatus={handleToggleMemberStatus} onUpdateMember={handleUpdateUser}
           onAddMember={handleAddMember} news={news} onUpdateNews={handleUpdateNews}
