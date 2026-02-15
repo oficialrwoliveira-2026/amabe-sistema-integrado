@@ -1044,6 +1044,7 @@ const App: React.FC = () => {
   };
 
   const addPartner = async (newPartner: Partner) => {
+    console.log('Iniciando criação de novo parceiro:', newPartner.email);
     try {
       // 0. Verificar se o e-mail já existe
       const { data: existingProfile, error: checkError } = await supabase
@@ -1060,6 +1061,7 @@ const App: React.FC = () => {
       }
 
       // 1. Usar Edge Function para criar parceiro com e-mail confirmado
+      console.log('Criando usuário via Edge Function...');
       const { data: edgeResponse, error: edgeError } = await supabase.functions.invoke('admin-update-user', {
         body: {
           action: 'create',
@@ -1072,28 +1074,39 @@ const App: React.FC = () => {
       });
 
       if (edgeError || (edgeResponse && edgeResponse.error)) {
+        console.error('Erro na Edge Function de criação:', edgeError || edgeResponse?.error);
         throw new Error(edgeResponse?.error || 'Erro ao criar parceiro via admin');
       }
 
       const authUser = edgeResponse.data?.user;
 
       if (authUser) {
-        await supabase.from('profiles').update({
+        console.log('Usuário criado com sucesso. Atualizando perfil...', authUser.id);
+
+        const payload = {
           name: newPartner.name,
           company_name: newPartner.name,
-          whatsapp: newPartner.whatsapp,
-          address: newPartner.address,
+          whatsapp: newPartner.whatsapp || '',
+          address: newPartner.address || '',
           role: 'PARTNER',
           status: 'ACTIVE',
-          category: newPartner.category,
-          discount: newPartner.discount,
-          city: newPartner.city,
-          description: newPartner.description,
+          category: newPartner.category || 'Outros',
+          discount: newPartner.discount || '',
+          city: newPartner.city || '',
+          description: newPartner.description || '',
           avatar_url: newPartner.logo,
-          gallery: newPartner.gallery || []
-        }).eq('id', authUser.id);
+          gallery: Array.isArray(newPartner.gallery) ? newPartner.gallery : [],
+          updated_at: new Date().toISOString()
+        };
 
-        // Atualização local para evitar Refetch global (Otimização I/O)
+        const { error: profileError } = await supabase.from('profiles').update(payload).eq('id', authUser.id);
+
+        if (profileError) {
+          console.error('Erro ao atualizar perfil recém-criado:', profileError);
+          throw profileError;
+        }
+
+        // Atualização local para evitar Refetch global
         const partnerToAdd: Partner = {
           ...newPartner,
           id: authUser.id,
@@ -1105,7 +1118,8 @@ const App: React.FC = () => {
         showAlert('Sucesso', 'Parceiro adicionado com sucesso!', 'success');
       }
     } catch (error: any) {
-      showAlert('Erro ao Adicionar', 'Falha ao adicionar parceiro: ' + error.message, 'error');
+      console.error('Falha crítica na criação de parceiro:', error);
+      showAlert('Erro ao Adicionar', 'Falha ao adicionar parceiro: ' + (error.message || 'Erro desconhecido'), 'error');
     }
   };
 

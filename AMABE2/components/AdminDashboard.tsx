@@ -138,39 +138,31 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
     }
   }, [editingMember, onLoadFullProfile]);
 
+  // Sincronização de formulários - Refatorada para ser mais robusta
   useEffect(() => {
     if (editingPartner) {
-      setPartnerForm(editingPartner);
+      console.log('AdminDashboard: Sincronizando partnerForm com editingPartner:', editingPartner.id);
       setIsCreatingPartner(true);
+
+      // Busca a versão mais recente do parceiro na lista global
+      const livePartner = partners.find(p => p.id === editingPartner.id);
+
+      setPartnerForm(prev => {
+        // Se o ID mudou ou o formulário está vazio, inicializa com o parceiro live
+        if (!prev.id || prev.id !== editingPartner.id) {
+          console.log('AdminDashboard: Inicializando formulário para novo parceiro em edição');
+          return { ... (livePartner || editingPartner), password: '' };
+        }
+        // Se já estamos editando o mesmo parceiro, só atualizamos campos que NÃO foram alterados localmente
+        // Isso evita que o upload de imagem (logo) seja sobrescrito por um refresh do banco
+        return { ...livePartner, ...prev };
+      });
+
       if (onLoadFullProfile && (!editingPartner.gallery || editingPartner.gallery.length === 0)) {
         onLoadFullProfile(editingPartner.id);
       }
     }
-  }, [editingPartner, onLoadFullProfile]);
-
-  useEffect(() => {
-    if (editingMember) {
-      // Encontrar a versão mais recente do membro na lista oficial
-      const liveMember = members.find(m => m.id === editingMember.id);
-      if (liveMember) {
-        setMemberForm(prev => ({ ...prev, ...liveMember }));
-      }
-    }
-  }, [members, editingMember]);
-
-  useEffect(() => {
-    // Only Sync if the editingPartner ID itself changed to avoid trashing local form state with old DB data during edits
-    if (editingPartner) {
-      const livePartner = partners.find(p => p.id === editingPartner.id);
-      if (livePartner) {
-        setPartnerForm(prev => {
-          // Only update if we don't have a local logo changes or if names/emails mismatch
-          if (prev.id !== livePartner.id) return livePartner;
-          return { ...livePartner, ...prev }; // Keep local changes (like logo) over DB data
-        });
-      }
-    }
-  }, [editingPartner]); // Removed 'partners' from dependencies to prevent unintended overwrites
+  }, [editingPartner, onLoadFullProfile, partners]); // Adicionado partners para reagir a updates do banco, mas setPartnerForm protege as mudanças locais
 
   useEffect(() => {
     if (systemNotification) {
@@ -347,13 +339,18 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
       const reader = new FileReader();
       reader.onloadend = () => {
         const base64 = reader.result as string;
+        console.log(`AdminDashboard: Leitura concluída para ${file.name}. Tamanho base64:`, base64.length);
         if (type === 'member') setMemberForm(prev => ({ ...prev, avatar: base64 }));
-        else if (type === 'partner') setPartnerForm(prev => ({ ...prev, logo: base64 }));
+        else if (type === 'partner') {
+          console.log('AdminDashboard: Atualizando partnerForm.logo');
+          setPartnerForm(prev => ({ ...prev, logo: base64 }));
+        }
         else if (type === 'gallery') setPartnerForm(prev => ({ ...prev, gallery: [...(prev.gallery || []), base64] }));
         else if (type === 'news') setNewsForm(prev => ({ ...prev, image: base64 }));
         else if (type === 'notification') setNotificationForm(prev => ({ ...prev, image: base64 }));
       };
-      reader.onerror = () => {
+      reader.onerror = (err) => {
+        console.error('AdminDashboard: Erro ao ler arquivo:', err);
         showAlert('Erro no Upload', 'Ocorreu um erro ao ler o arquivo.', 'error');
       };
       reader.readAsDataURL(file);

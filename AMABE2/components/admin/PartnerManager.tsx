@@ -50,6 +50,11 @@ const PartnerManager: React.FC<PartnerManagerProps> = ({
         (p.category || '').toLowerCase().includes(partnerSearch.toLowerCase())
     );
 
+    console.log('PartnerManager: Renderizando formulário. Logo presente:', !!partnerForm.logo);
+    if (partnerForm.logo && partnerForm.logo.length > 100) {
+        console.log('PartnerManager: Logo parece ser Base64 válido (tamanho):', partnerForm.logo.length);
+    }
+
     return (
         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700">
             <header className="flex flex-col md:flex-row items-start md:items-center justify-between bg-white/70 backdrop-blur-xl p-6 md:p-10 rounded-[32px] md:rounded-[40px] border border-white/20 shadow-sm relative overflow-hidden group">
