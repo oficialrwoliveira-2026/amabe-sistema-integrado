@@ -609,6 +609,7 @@ const App: React.FC = () => {
 
 
   const handleUpdateUser = async (updatedUser: User) => {
+    console.log('App: Iniciando atualização do usuário:', updatedUser.id, 'Status pretendido:', updatedUser.status);
     // 0. Atualização Otimista da UI
     if (user && updatedUser.id === user.id) setUser(updatedUser);
     setAllUsers(prev => prev.map(m => m.id === updatedUser.id ? updatedUser : m));
@@ -674,9 +675,14 @@ const App: React.FC = () => {
   };
 
   const handleToggleMemberStatus = async (id: string) => {
+    console.log('App: handleToggleMemberStatus disparado para ID:', id);
     const target = allUsers.find(u => u.id === id);
-    if (!target) return;
+    if (!target) {
+      console.warn('App: Usuário não encontrado em allUsers para toggle:', id);
+      return;
+    }
     const newStatus = target.status === MemberStatus.ACTIVE ? MemberStatus.INACTIVE : MemberStatus.ACTIVE;
+    console.log(`App: Alternando status de ${target.status} para ${newStatus}`);
     await handleUpdateUser({ ...target, status: newStatus });
   };
 
