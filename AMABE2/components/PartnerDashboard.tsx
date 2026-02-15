@@ -172,6 +172,8 @@ const PartnerDashboard: React.FC<PartnerDashboardProps> = ({
          const reader = new FileReader();
          reader.onloadend = () => {
             setFormData(prev => ({ ...prev, logo: reader.result as string }));
+            // Reset the input value so the same file can be selected again
+            e.target.value = '';
          };
          reader.readAsDataURL(file as Blob);
       }
@@ -191,6 +193,8 @@ const PartnerDashboard: React.FC<PartnerDashboardProps> = ({
             };
             reader.readAsDataURL(file as Blob);
          });
+         // Reset the input value so the same file(s) can be selected again
+         e.target.value = '';
       }
    };
 
@@ -201,15 +205,21 @@ const PartnerDashboard: React.FC<PartnerDashboardProps> = ({
       }));
    };
 
-   const handleSaveProfile = (e: React.FormEvent) => {
+   const handleSaveProfile = async (e: React.FormEvent) => {
       e.preventDefault();
       if (passwords.new && passwords.new !== passwords.confirm) {
          showAlert('Senhas Diferentes', 'As novas senhas não coincidem!', 'warning');
          return;
       }
-      onUpdatePartner(formData);
-      showAlert('Sucesso', 'Perfil atualizado com sucesso!', 'success');
-      setPasswords({ current: '', new: '', confirm: '' });
+
+      try {
+         await onUpdatePartner(formData);
+         showAlert('Sucesso', 'Perfil atualizado com sucesso!', 'success');
+         setPasswords({ current: '', new: '', confirm: '' });
+      } catch (error) {
+         // App.tsx handleUpdateUser will show an alert if configured, but we catch to avoid clearing passwords
+         console.error('Save failed:', error);
+      }
    };
 
    const handleCreateOffer = (e: React.FormEvent) => {

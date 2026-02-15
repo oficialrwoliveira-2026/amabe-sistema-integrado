@@ -1127,7 +1127,8 @@ const App: React.FC = () => {
         city: updatedPartner.city,
         offers: updatedPartner.offers,
         avatar_url: updatedPartner.logo,
-        gallery: updatedPartner.gallery
+        gallery: updatedPartner.gallery,
+        updated_at: new Date().toISOString()
       }).eq('id', updatedPartner.id);
 
       if (error) throw error;
@@ -1144,18 +1145,19 @@ const App: React.FC = () => {
             status: 'ACTIVE'
           }
         });
-        if (edgeError) console.error('Erro ao atualizar senha via Edge Function:', edgeError);
+        if (edgeError) throw edgeError;
       }
 
-      // 3. Sincronização local otimizada (Otimização I/O)
+      // 3. Sincronização local otimizada
       setPartners(prev => prev.map(p => p.id === updatedPartner.id ? { ...p, ...updatedPartner } : p));
       setAllUsers(prev => prev.map(u => u.id === updatedPartner.id ? { ...u, ...updatedPartner } as unknown as User : u));
 
-      showAlert('Sucesso', 'Parceiro atualizado com sucesso!', 'success');
-    } catch (err) {
+      showAlert('Sucesso', 'Configurações atualizadas com sucesso!', 'success');
+      return { success: true };
+    } catch (err: any) {
       console.error('Erro ao atualizar parceiro:', err);
-      // Re-buscar em caso de erro crítico
-      fetchPrivateData();
+      showAlert('Erro ao Salvar', 'Não foi possível salvar as alterações: ' + (err.message || 'Erro desconhecido'), 'error');
+      throw err;
     }
   };
 
