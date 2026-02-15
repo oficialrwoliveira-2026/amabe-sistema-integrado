@@ -159,14 +159,18 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
   }, [members, editingMember]);
 
   useEffect(() => {
+    // Only Sync if the editingPartner ID itself changed to avoid trashing local form state with old DB data during edits
     if (editingPartner) {
-      // Encontrar a versão mais recente do parceiro na lista oficial
       const livePartner = partners.find(p => p.id === editingPartner.id);
       if (livePartner) {
-        setPartnerForm(prev => ({ ...prev, ...livePartner }));
+        setPartnerForm(prev => {
+          // Only update if we don't have a local logo changes or if names/emails mismatch
+          if (prev.id !== livePartner.id) return livePartner;
+          return { ...livePartner, ...prev }; // Keep local changes (like logo) over DB data
+        });
       }
     }
-  }, [partners, editingPartner]);
+  }, [editingPartner]); // Removed 'partners' from dependencies to prevent unintended overwrites
 
   useEffect(() => {
     if (systemNotification) {
@@ -356,6 +360,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
     };
 
     Array.from(files).forEach(processFile);
+
+    // Reset the input value so the same file can be selected again
+    e.target.value = '';
   }, [showAlert]);
 
   const handleRemoveGalleryImage = useCallback((index: number) => {

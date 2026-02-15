@@ -190,7 +190,7 @@ const PartnerManager: React.FC<PartnerManagerProps> = ({
                             </div>
 
                             <div className="relative z-10 space-y-8 flex md:block flex-col items-center">
-                                <div className="p-6 md:p-8 bg-white/5 rounded-[40px] border border-white/10 text-center group relative cursor-pointer overflow-hidden w-full max-w-[240px] md:max-w-none" onClick={() => document.getElementById('partner-logo')?.click()}>
+                                <div className="p-6 md:p-8 bg-white/5 rounded-[40px] border border-white/10 text-center group relative cursor-pointer overflow-hidden w-full max-w-[240px] md:max-w-none" onClick={(e) => { e.stopPropagation(); document.getElementById('partner-logo')?.click(); }}>
                                     <p className="text-[9px] font-bold text-orange-400 uppercase tracking-widest mb-4 md:mb-6">Logomarca</p>
                                     {partnerForm.logo ? (
                                         <div className="relative">
