@@ -56,6 +56,13 @@ const MemberEditor: React.FC<MemberEditorProps> = ({
         setMemberForm(prev => ({ ...prev, dependents: newDeps }));
     };
 
+    const avatarInputRef = React.useRef<HTMLInputElement>(null);
+
+    console.log('MemberEditor: Renderizando formulário. Avatar presente:', !!memberForm.avatar);
+    if (memberForm.avatar && memberForm.avatar.length > 100) {
+        console.log('MemberEditor: Avatar parece ser Base64 válido (tamanho):', memberForm.avatar.length);
+    }
+
     return (
         <div className="fixed inset-0 bg-[#0A101E]/80 backdrop-blur-xl z-[60] flex items-center justify-center p-0 md:p-6 animate-in fade-in duration-300">
             <div className="bg-white w-full max-w-5xl md:rounded-[56px] overflow-hidden flex flex-col md:flex-row shadow-2xl animate-in zoom-in-95 duration-500 h-full md:h-auto max-h-none md:max-h-[95vh]">
@@ -80,7 +87,7 @@ const MemberEditor: React.FC<MemberEditorProps> = ({
                         <div className="flex flex-col items-center mb-12">
                             <div
                                 className="group relative cursor-pointer"
-                                onClick={() => document.getElementById('member-avatar')?.click()}
+                                onClick={(e) => { e.stopPropagation(); avatarInputRef.current?.click(); }}
                             >
                                 <div className="relative">
                                     {memberForm.avatar ? (
@@ -100,7 +107,7 @@ const MemberEditor: React.FC<MemberEditorProps> = ({
                                 </div>
                                 <input
                                     type="file"
-                                    id="member-avatar"
+                                    ref={avatarInputRef}
                                     className="hidden"
                                     accept="image/*"
                                     onChange={e => handleImageUpload(e, 'member')}

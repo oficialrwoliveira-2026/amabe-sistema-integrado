@@ -128,15 +128,30 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
   }, [currentUser]);
 
   // --- Effects ---
+  // Sincronização de Associados - Protegendo mudanças locais (como avatar)
   useEffect(() => {
     if (editingMember) {
-      setMemberForm(editingMember);
+      console.log('AdminDashboard: Sincronizando memberForm com editingMember:', editingMember.id);
       setIsCreatingMember(true);
+
+      // Busca a versão mais recente do membro na lista global
+      const liveMember = members.find(m => m.id === editingMember.id);
+
+      setMemberForm(prev => {
+        // Se o ID mudou ou o formulário está vazio, inicializa com o membro live
+        if (!prev.id || prev.id !== editingMember.id) {
+          console.log('AdminDashboard: Inicializando formulário para novo associado em edição');
+          return { ... (liveMember || editingMember), password: '' };
+        }
+        // Protege campos alterados localmente (como avatar)
+        return { ...liveMember, ...prev };
+      });
+
       if (onLoadFullProfile && (!editingMember.dependents || editingMember.dependents.length === 0)) {
         onLoadFullProfile(editingMember.id);
       }
     }
-  }, [editingMember, onLoadFullProfile]);
+  }, [editingMember, onLoadFullProfile, members]);
 
   // Sincronização de formulários - Refatorada para ser mais robusta
   useEffect(() => {
