@@ -201,7 +201,7 @@ const PartnerManager: React.FC<PartnerManagerProps> = ({
 
                         <div className="flex-1 p-8 md:p-16 overflow-y-auto no-scrollbar bg-white">
                             <div className="flex justify-end mb-8">
-                                <button onClick={() => setIsCreatingPartner(false)} className="p-4 bg-slate-50 rounded-2xl text-slate-400 hover:text-slate-900 transition-all">
+                                <button onClick={() => { setIsCreatingPartner(false); setEditingPartner(null); }} className="p-4 bg-slate-50 rounded-2xl text-slate-400 hover:text-slate-900 transition-all">
                                     <X size={24} />
                                 </button>
                             </div>
