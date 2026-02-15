@@ -542,6 +542,7 @@ const App: React.FC = () => {
             city: data.city || null,
             whatsapp: data.whatsapp || null,
             cnpj: data.cnpj || null,
+            company_name: data.role === 'PARTNER' ? data.name : null,
             role: data.role,
             status: 'PENDING'
           }
