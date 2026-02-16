@@ -619,10 +619,10 @@ const MemberDashboard: React.FC<MemberDashboardProps> = ({
                            <h3 className="flex items-center gap-3 text-xl font-black text-slate-900 uppercase italic mb-8">
                               <ImageIcon className="text-orange-600" size={24} /> Galeria de Fotos
                            </h3>
-                                                      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+                           <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
                               {selectedPartner.gallery && selectedPartner.gallery.length > 0 ? selectedPartner.gallery.map((img, idx) => (
-                                 <div 
-                                    key={idx} 
+                                 <div
+                                    key={idx}
                                     onClick={(e) => { e.stopPropagation(); setSelectedImage(img); }}
                                     className="group/gallery-item relative aspect-square md:aspect-video rounded-[32px] overflow-hidden border border-slate-100 shadow-sm cursor-zoom-in hover:shadow-2xl transition-all duration-500 hover:-translate-y-1"
                                  >
@@ -1320,885 +1320,944 @@ const MemberDashboard: React.FC<MemberDashboardProps> = ({
                      </div>
                   ))
                ) : filteredPartners.length > 0 ? filteredPartners.map(p => (
-                   <div
-                      key={p.id}
-                      onClick={() => setSelectedPartner(p)}
-                      className="group bg-white rounded-[40px] md:rounded-[48px] border border-slate-100 shadow-sm hover:shadow-2xl transition-all duration-500 cursor-pointer relative overflow-hidden flex flex-col min-h-[380px] md:min-h-[460px] hover:-translate-y-2"
-                   >
-                      {/* Hero Image Background for Elegant Look */}
-                      {p.gallery && p.gallery.length > 0 ? (
-                         <div className="relative h-44 md:h-52 overflow-hidden">
-                            <img 
-                               src={p.gallery[0]} 
-                               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[3000ms]" 
-                               alt="" 
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-black/10"></div>
-                            <div className="absolute top-4 left-4 md:top-8 md:left-8">
-                               <div className="w-14 h-14 md:w-24 md:h-24 bg-white/95 rounded-[24px] md:rounded-[36px] p-3 md:p-5 shadow-2xl flex items-center justify-center border border-white/50 backdrop-blur-xl">
-                                  <img src={p.logo} className="w-full h-full object-contain" alt="" />
-                               </div>
-                            </div>
-                         </div>
-                      ) : (
-                         <div className="p-8 md:p-12 pb-0 flex justify-center">
-                            <div className="w-20 h-20 md:w-32 md:h-32 bg-slate-50 rounded-[32px] md:rounded-[48px] p-4 md:p-6 flex items-center justify-center border border-slate-100 shadow-inner group-hover:scale-110 group-hover:-rotate-3 transition-all duration-500">
-                               <img src={p.logo} className="w-full h-full object-contain" alt="" />
-                            </div>
-                         </div>
-                      )}
+                  <div
+                     key={p.id}
+                     onClick={() => setSelectedPartner(p)}
+                     className="group bg-white rounded-[40px] md:rounded-[48px] border border-slate-100 shadow-sm hover:shadow-2xl transition-all duration-500 cursor-pointer relative overflow-hidden flex flex-col min-h-[380px] md:min-h-[460px] hover:-translate-y-2"
+                  >
+                     {/* Hero Image Background for Elegant Look */}
+                     {p.gallery && p.gallery.length > 0 ? (
+                        <div className="relative h-44 md:h-52 overflow-hidden">
+                           <img
+                              src={p.gallery[0]}
+                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[3000ms]"
+                              alt=""
+                           />
+                           <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-black/10"></div>
+                           <div className="absolute top-4 left-4 md:top-8 md:left-8">
+                              <div className="w-14 h-14 md:w-24 md:h-24 bg-white/95 rounded-[24px] md:rounded-[36px] p-3 md:p-5 shadow-2xl flex items-center justify-center border border-white/50 backdrop-blur-xl">
+                                 <img src={p.logo} className="w-full h-full object-contain" alt="" />
+                              </div>
+                           </div>
+                        </div>
+                     ) : (
+                        <div className="p-8 md:p-12 pb-0 flex justify-center">
+                           <div className="w-20 h-20 md:w-32 md:h-32 bg-slate-50 rounded-[32px] md:rounded-[48px] p-4 md:p-6 flex items-center justify-center border border-slate-100 shadow-inner group-hover:scale-110 group-hover:-rotate-3 transition-all duration-500">
+                              <img src={p.logo} className="w-full h-full object-contain" alt="" />
+                           </div>
+                        </div>
+                     )}
 
-                      <div className="p-6 md:p-8 pt-5 md:pt-6 flex flex-col flex-1 relative z-10">
-                         <div className="mb-6">
-                            <div className="flex items-center justify-between mb-2">
-                               <span className="text-[9px] md:text-[11px] font-black text-white px-4 py-1.5 bg-orange-600 rounded-full lowercase tracking-tighter italic border border-orange-400/20 shadow-lg shadow-orange-500/30">{p.category}</span>
-                               <div className="flex items-center gap-1 opacity-20">
-                                  <div className="w-1.5 h-1.5 rounded-full bg-slate-400"></div>
-                                  <div className="w-1.5 h-1.5 rounded-full bg-slate-400"></div>
-                               </div>
-                            </div>
-                            <h4 className="text-base md:text-2xl font-black uppercase italic text-slate-900 tracking-tighter leading-tight group-hover:text-orange-600 transition-colors line-clamp-1">{p.name}</h4>
-                            <p className="text-slate-500 text-[10px] md:text-sm font-medium leading-relaxed line-clamp-2 md:line-clamp-2 italic mt-2 opacity-70">
-                               {p.description || "Referência em qualidade e benefícios exclusivos para membros."}
-                            </p>
-                         </div>
+                     <div className="p-6 md:p-8 pt-5 md:pt-6 flex flex-col flex-1 relative z-10">
+                        <div className="mb-6">
+                           <div className="flex items-center justify-between mb-2">
+                              <span className="text-[9px] md:text-[11px] font-black text-white px-4 py-1.5 bg-orange-600 rounded-full lowercase tracking-tighter italic border border-orange-400/20 shadow-lg shadow-orange-500/30">{p.category}</span>
+                              <div className="flex items-center gap-1 opacity-20">
+                                 <div className="w-1.5 h-1.5 rounded-full bg-slate-400"></div>
+                                 <div className="w-1.5 h-1.5 rounded-full bg-slate-400"></div>
+                              </div>
+                           </div>
+                           <h4 className="text-base md:text-2xl font-black uppercase italic text-slate-900 tracking-tighter leading-tight group-hover:text-orange-600 transition-colors line-clamp-1">{p.name}</h4>
+                           <p className="text-slate-500 text-[10px] md:text-sm font-medium leading-relaxed line-clamp-2 md:line-clamp-2 italic mt-2 opacity-70">
+                              {p.description || "Referência em qualidade e benefícios exclusivos para membros."}
+                           </p>
+                        </div>
 
-                         {/* Premium Gallery Stack */}
-                         {p.gallery && p.gallery.length > 0 && (
-                            <div className="flex -space-x-4 md:-space-x-6 mb-8 mt-auto py-2 group/gallery">
-                               {p.gallery.slice(0, 3).map((img, i) => (
-                                  <div 
-                                     key={i} 
-                                     onClick={(e) => { e.stopPropagation(); setSelectedImage(img); }}
-                                     className="w-12 h-12 md:w-20 md:h-20 rounded-2xl md:rounded-[28px] overflow-hidden border-2 border-white shadow-2xl relative hover:-translate-y-3 transition-all duration-500 hover:rotate-3 cursor-zoom-in z-10 hover:z-30"
-                                     style={{ zIndex: 10 + i }}
-                                  >
-                                     <img src={img} className="w-full h-full object-cover" alt="" />
-                                     {i === 2 && p.gallery!.length > 3 && (
-                                        <div className="absolute inset-0 bg-orange-600/90 flex items-center justify-center backdrop-blur-[1px]">
-                                           <span className="text-white text-[9px] md:text-xs font-black">+{p.gallery!.length - 3}</span>
-                                        </div>
-                                     )}
-                                  </div>
-                               ))}
-                               <div className="flex flex-col justify-center ml-8 pl-4 opacity-0 group-hover:opacity-100 transition-all duration-700 translate-x-4 group-hover:translate-x-0">
-                                  <span className="text-[7px] md:text-[9px] font-black text-orange-600 uppercase tracking-widest leading-none mb-1">Visualizar</span>
-                                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Galeria</span>
-                               </div>
-                            </div>
-                         )}
+                        {/* Premium Gallery Stack */}
+                        {p.gallery && p.gallery.length > 0 && (
+                           <div className="flex -space-x-4 md:-space-x-6 mb-8 mt-auto py-2 group/gallery">
+                              {p.gallery.slice(0, 3).map((img, i) => (
+                                 <div
+                                    key={i}
+                                    onClick={(e) => { e.stopPropagation(); setSelectedImage(img); }}
+                                    className="w-12 h-12 md:w-20 md:h-20 rounded-2xl md:rounded-[28px] overflow-hidden border-2 border-white shadow-2xl relative hover:-translate-y-3 transition-all duration-500 hover:rotate-3 cursor-zoom-in z-10 hover:z-30"
+                                    style={{ zIndex: 10 + i }}
+                                 >
+                                    <img src={img} className="w-full h-full object-cover" alt="" />
+                                    {i === 2 && p.gallery!.length > 3 && (
+                                       <div className="absolute inset-0 bg-orange-600/90 flex items-center justify-center backdrop-blur-[1px]">
+                                          <span className="text-white text-[9px] md:text-xs font-black">+{p.gallery!.length - 3}</span>
+                                       </div>
+                                    )}
+                                 </div>
+                              ))}
+                              <div className="flex flex-col justify-center ml-8 pl-4 opacity-0 group-hover:opacity-100 transition-all duration-700 translate-x-4 group-hover:translate-x-0">
+                                 <span className="text-[7px] md:text-[9px] font-black text-orange-600 uppercase tracking-widest leading-none mb-1">Visualizar</span>
+                                 <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Galeria</span>
+                              </div>
+                           </div>
+                        )}
 
-                         <div className="flex flex-col items-center gap-5 mt-auto pt-6 border-t border-slate-50/50 text-center">
-                            <div className="flex flex-col items-center">
-                               <span className="text-[8px] font-black text-slate-300 uppercase tracking-widest leading-none mb-2">Vantagem Exclusiva</span>
-                               <div className="flex items-baseline gap-1">
-                                  <p className="text-xl md:text-4xl font-black italic tracking-tighter uppercase text-orange-600 leading-none">{p.discount}</p>
-                               </div>
-                            </div>
-                            <button className="w-full px-10 py-4 md:py-6 bg-[#0A101E] text-white rounded-full font-black text-[9px] md:text-[11px] uppercase tracking-[0.3em] flex items-center justify-center gap-2 group-hover:bg-orange-600 transition-all shadow-xl active:scale-95 shadow-slate-900/10 hover:shadow-orange-600/20">
-                               Resgatar Benefício <ChevronRight size={18} />
-                            </button>
-                         </div>
-                      </div>
-                   </div>
-                )) : (
-         <div className="col-span-full py-32 text-center border-4 border-dashed border-slate-100 rounded-[64px] bg-slate-50/50">
-            <Building2 size={64} className="mx-auto text-slate-200 mb-6 opacity-50" />
-            <p className="text-slate-400 font-black uppercase tracking-[0.3em] md:tracking-[0.5em] italic">Nenhum parceiro encontrado</p>
-            <p className="text-slate-300 font-bold text-xs mt-4 italic">Tente mudar a categoria ou termo de busca</p>
-         </div>
-      )
-   }
+                        <div className="flex flex-col items-center gap-5 mt-auto pt-6 border-t border-slate-50/50 text-center">
+                           <div className="flex flex-col items-center">
+                              <span className="text-[8px] font-black text-slate-300 uppercase tracking-widest leading-none mb-2">Vantagem Exclusiva</span>
+                              <div className="flex items-baseline gap-1">
+                                 <p className="text-xl md:text-4xl font-black italic tracking-tighter uppercase text-orange-600 leading-none">{p.discount}</p>
+                              </div>
+                           </div>
+                           <button className="w-full px-10 py-4 md:py-6 bg-[#0A101E] text-white rounded-full font-black text-[9px] md:text-[11px] uppercase tracking-[0.3em] flex items-center justify-center gap-2 group-hover:bg-orange-600 transition-all shadow-xl active:scale-95 shadow-slate-900/10 hover:shadow-orange-600/20">
+                              Resgatar Benefício <ChevronRight size={18} />
+                           </button>
+                        </div>
+                     </div>
+                  </div>
+               )) : (
+                  <div className="col-span-full py-32 text-center border-4 border-dashed border-slate-100 rounded-[64px] bg-slate-50/50">
+                     <Building2 size={64} className="mx-auto text-slate-200 mb-6 opacity-50" />
+                     <p className="text-slate-400 font-black uppercase tracking-[0.3em] md:tracking-[0.5em] italic">Nenhum parceiro encontrado</p>
+                     <p className="text-slate-300 font-bold text-xs mt-4 italic">Tente mudar a categoria ou termo de busca</p>
+                  </div>
+               )
+               }
             </div >
-   { renderPartnerModal() }
-{ renderLightbox() }
+            {renderPartnerModal()}
+            {renderLightbox()}
          </div >
       );
    };
 
-const renderProfile = () => {
-   return (
-      <div className="max-w-4xl mx-auto space-y-12 animate-in fade-in slide-in-from-bottom-8 duration-700">
-         <header className="flex flex-col md:flex-row md:items-center justify-between gap-8 px-4">
-            <div className="flex items-center gap-5">
-               <div className="w-14 h-14 bg-[#0F172A] rounded-2xl flex items-center justify-center text-white shadow-xl">
-                  <UserIcon size={28} />
-               </div>
-               <div>
-                  <h2 className="text-3xl md:text-5xl font-black italic uppercase tracking-tighter text-slate-900 leading-tight">Meu Perfil</h2>
-                  <p className="text-slate-400 font-bold text-[10px] md:text-xs uppercase tracking-[0.2em] mt-1 italic">Gerencie sua identidade AMABE Elite</p>
-               </div>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-4">
-               <button
-                  type="button"
-                  onClick={handleSaveProfile}
-                  className="px-10 py-4 bg-orange-600 text-white rounded-2xl font-black text-xs uppercase tracking-widest flex items-center justify-center gap-3 shadow-xl shadow-orange-600/20 hover:bg-orange-700 hover:scale-105 transition-all active:scale-95 relative z-10"
-               >
-                  Salvar Alterações
-               </button>
-               <button
-                  type="button"
-                  onClick={() => setShowSelfPasswordChange(true)}
-                  className="px-10 py-4 bg-slate-900 text-white rounded-2xl font-black text-xs uppercase tracking-widest flex items-center justify-center gap-3 shadow-xl hover:bg-orange-600 transition-all active:scale-95 relative z-10"
-               >
-                  <Key size={18} /> Alterar Senha
-               </button>
-            </div>
-         </header>
-
-         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-            {/* Preview da Carteira em Tempo Real */}
-            <div className="lg:col-span-3 mb-4">
-               <div className="bg-[#0A101E] p-8 md:p-12 rounded-[56px] shadow-2xl relative overflow-hidden group">
-                  <div className="absolute top-0 right-0 w-96 h-96 bg-orange-600/10 rounded-full blur-[100px] -mr-48 -mt-48 transition-all group-hover:bg-orange-600/20"></div>
-                  <div className="absolute bottom-0 left-0 w-32 h-32 bg-emerald-600/5 rounded-full blur-3xl -ml-16 -mb-16"></div>
-                  <div className="relative z-10 flex flex-col md:flex-row items-center gap-10">
-                     <div className="hidden md:flex items-center justify-center relative w-full md:w-[460px] shrink-0">
-                        <div className="relative">
-                           <div className="absolute inset-0 bg-orange-600/20 blur-[80px] rounded-full"></div>
-                           <div className="relative flex flex-col items-center animate-in zoom-in duration-700">
-                              <div className="w-24 h-24 md:w-32 md:h-32 bg-orange-600 rounded-[32px] md:rounded-[48px] flex items-center justify-center text-white shadow-2xl shadow-orange-600/40 rotate-6 border-[3px] border-white/20">
-                                 <ShieldCheck size={60} strokeWidth={1.5} className="md:hidden" />
-                                 <ShieldCheck size={80} strokeWidth={1.5} className="hidden md:block" />
-                              </div>
-                              <div className="mt-6 text-center">
-                                 <h1 className="text-3xl md:text-4xl font-black tracking-tighter italic uppercase text-white leading-none">AMABE</h1>
-                                 <p className="text-orange-500 font-black text-[10px] md:text-[11px] uppercase tracking-[0.8em] mt-2 mr-[-0.8em] italic">Elite Club</p>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                     <div className="flex-1 flex items-center justify-center md:justify-start">
-                        <div className="relative group/logo">
-                           <h2 className="text-4xl md:text-6xl font-black text-white/10 uppercase tracking-[0.2em] italic select-none group-hover/logo:text-white/20 transition-colors duration-700">
-                              Elite Access
-                           </h2>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-
-            {/* Coluna Lateral: Foto e SIM */}
-            <div className="space-y-8">
-               <div className="bg-white p-8 rounded-[48px] border border-slate-100 shadow-sm text-center space-y-6">
-                  <div className="relative group mx-auto w-40 h-40">
-                     <div className="w-full h-full rounded-[48px] overflow-hidden border-4 border-slate-50 shadow-xl bg-slate-100 flex items-center justify-center relative">
-                        {profileForm.avatar ? (
-                           <img src={profileForm.avatar} className="w-full h-full object-cover" alt="Profile" />
-                        ) : (
-                           <UserCircle size={80} className="text-slate-300" />
-                        )}
-                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center">
-                           <Camera className="text-white" size={40} />
-                        </div>
-                     </div>
-                     <input
-                        type="file"
-                        accept="image/*"
-                        onChange={(e) => {
-                           const file = e.target.files?.[0];
-                           if (file) {
-                              const reader = new FileReader();
-                              reader.onloadend = () => {
-                                 const result = reader.result as string;
-                                 setProfileForm(prev => ({ ...prev, avatar: result }));
-                                 updateGlobalUser({ avatar: result });
-                              };
-                              reader.readAsDataURL(file);
-                           }
-                        }}
-                        className="absolute inset-0 opacity-0 cursor-pointer"
-                     />
+   const renderProfile = () => {
+      return (
+         <div className="max-w-4xl mx-auto space-y-12 animate-in fade-in slide-in-from-bottom-8 duration-700">
+            <header className="flex flex-col md:flex-row md:items-center justify-between gap-8 px-4">
+               <div className="flex items-center gap-5">
+                  <div className="w-14 h-14 bg-[#0F172A] rounded-2xl flex items-center justify-center text-white shadow-xl">
+                     <UserIcon size={28} />
                   </div>
                   <div>
-                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">ID Associado</p>
-                     <p className="text-xl font-black text-slate-900 italic tracking-tighter uppercase">{user.memberId}</p>
-                  </div>
-                  <div className="pt-6 border-t border-slate-50">
-                     <div className="bg-orange-50 p-4 rounded-3xl border border-orange-100">
-                        <p className="text-[9px] font-black text-orange-600 uppercase tracking-widest mb-1">Cadastro SIM</p>
-                        <input
-                           type="text"
-                           className="w-full bg-transparent text-center font-black text-slate-900 italic outline-none placeholder:text-orange-200"
-                           placeholder="000.000.000"
-                           value={profileForm.simRegistry}
-                           onChange={e => {
-                              const val = e.target.value;
-                              setProfileForm(prev => ({ ...prev, simRegistry: val }));
-                              updateGlobalUser({ simRegistry: val });
-                           }}
-                        />
-                     </div>
+                     <h2 className="text-3xl md:text-5xl font-black italic uppercase tracking-tighter text-slate-900 leading-tight">Meu Perfil</h2>
+                     <p className="text-slate-400 font-bold text-[10px] md:text-xs uppercase tracking-[0.2em] mt-1 italic">Gerencie sua identidade AMABE Elite</p>
                   </div>
                </div>
-            </div>
-
-            {/* Coluna Central: Dados Pessoais e Endereço */}
-            <div className="md:col-span-2 space-y-8">
-               <div className="bg-white p-6 sm:p-8 lg:p-10 rounded-[32px] sm:rounded-[48px] lg:rounded-[56px] border border-slate-100 shadow-sm space-y-8">
-                  <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-3 italic">
-                     <Info size={16} className="text-orange-500" /> Informações Pessoais
-                  </h3>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                     <div className="space-y-2">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Nome</label>
-                        <input
-                           type="text"
-                           className="w-full bg-slate-50 border border-slate-100 rounded-3xl px-6 py-4 sm:px-8 sm:py-5 outline-none focus:ring-4 focus:ring-orange-50 font-bold text-slate-900 transition-all"
-                           value={profileForm.name}
-                           onChange={e => {
-                              const val = e.target.value;
-                              setProfileForm(prev => ({ ...prev, name: val }));
-                              updateGlobalUser({ name: val });
-                           }}
-                        />
-                     </div>
-                     <div className="space-y-2">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Cidade</label>
-                        <input
-                           type="text"
-                           className="w-full bg-slate-50 border border-slate-100 rounded-3xl px-8 py-5 outline-none focus:ring-4 focus:ring-orange-50 font-bold text-slate-900 transition-all font-sans"
-                           placeholder="Ex: São Paulo"
-                           value={profileForm.city}
-                           onChange={e => {
-                              const val = e.target.value;
-                              setProfileForm(prev => ({ ...prev, city: val }));
-                              updateGlobalUser({ city: val });
-                           }}
-                        />
-                     </div>
-                     <div className="space-y-2">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Sobrenome</label>
-                        <input
-                           type="text"
-                           className="w-full bg-slate-50 border border-slate-100 rounded-3xl px-8 py-5 outline-none focus:ring-4 focus:ring-orange-50 font-bold text-slate-900 transition-all"
-                           value={profileForm.surname}
-                           onChange={e => {
-                              const val = e.target.value;
-                              setProfileForm(prev => ({ ...prev, surname: val }));
-                              updateGlobalUser({ surname: val });
-                           }}
-                        />
-                     </div>
-                     <div className="space-y-2">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">CPF</label>
-                        <input
-                           type="text"
-                           className="w-full bg-slate-50 border border-slate-100 rounded-3xl px-8 py-5 outline-none focus:ring-4 focus:ring-orange-50 font-bold text-slate-900 transition-all"
-                           value={profileForm.cpf}
-                           onChange={e => {
-                              const val = e.target.value;
-                              setProfileForm(prev => ({ ...prev, cpf: val }));
-                              updateGlobalUser({ cpf: val });
-                           }}
-                        />
-                     </div>
-                     <div className="space-y-2">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">RG</label>
-                        <input
-                           type="text"
-                           className="w-full bg-slate-50 border border-slate-100 rounded-3xl px-8 py-5 outline-none focus:ring-4 focus:ring-orange-50 font-bold text-slate-900 transition-all"
-                           value={profileForm.rg}
-                           onChange={e => {
-                              const val = e.target.value;
-                              setProfileForm(prev => ({ ...prev, rg: val }));
-                              updateGlobalUser({ rg: val });
-                           }}
-                        />
-                     </div>
-                     <div className="space-y-2">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Data de Nascimento</label>
-                        <input
-                           type="date"
-                           className="w-full bg-slate-50 border border-slate-100 rounded-3xl px-8 py-5 outline-none focus:ring-4 focus:ring-orange-50 font-bold text-slate-900 transition-all font-sans"
-                           value={profileForm.birthDate}
-                           onChange={e => {
-                              const val = e.target.value;
-                              setProfileForm(prev => ({ ...prev, birthDate: val }));
-                              updateGlobalUser({ birthDate: val });
-                           }}
-                        />
-                     </div>
-                     <div className="space-y-2">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Cidade</label>
-                        <input
-                           type="text"
-                           className="w-full bg-slate-50 border border-slate-100 rounded-3xl px-8 py-5 outline-none focus:ring-4 focus:ring-orange-50 font-bold text-slate-900 transition-all font-sans"
-                           placeholder="Sua cidade"
-                           value={profileForm.city}
-                           onChange={e => {
-                              const val = e.target.value;
-                              setProfileForm(prev => ({ ...prev, city: val }));
-                              updateGlobalUser({ city: val });
-                           }}
-                        />
-                     </div>
-                  </div>
-
-                  <div className="space-y-2 pt-4">
-                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4 line-clamp-1">Endereço Completo</label>
-                     <input
-                        type="text"
-                        className="w-full bg-slate-50 border border-slate-100 rounded-3xl px-8 py-5 outline-none focus:ring-4 focus:ring-orange-50 font-bold text-slate-900 transition-all"
-                        placeholder="Rua, Número, Bairro, Cidade - UF"
-                        value={profileForm.address}
-                        onChange={e => { setProfileForm(prev => ({ ...prev, address: e.target.value })); updateGlobalUser({ address: e.target.value }); }}
-                     />
-                  </div>
-               </div>
-
-               <div className="bg-white p-6 sm:p-8 lg:p-10 rounded-[32px] sm:rounded-[48px] lg:rounded-[56px] border border-slate-100 shadow-sm space-y-8">
-                  <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-3 italic">
-                     <Smartphone size={16} className="text-orange-500" /> Contato e Redes
-                  </h3>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                     <div className="space-y-2">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">WhatsApp</label>
-                        <input
-                           type="text"
-                           className="w-full bg-slate-50 border border-slate-100 rounded-3xl px-8 py-5 outline-none focus:ring-4 focus:ring-orange-50 font-bold text-slate-900 transition-all"
-                           placeholder="(00) 00000-0000"
-                           value={profileForm.whatsapp}
-                           onChange={e => { setProfileForm(prev => ({ ...prev, whatsapp: e.target.value })); updateGlobalUser({ whatsapp: e.target.value }); }}
-                        />
-                     </div>
-                     <div className="space-y-2">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Instagram</label>
-                        <input
-                           type="text"
-                           className="w-full bg-slate-50 border border-slate-100 rounded-3xl px-8 py-5 outline-none focus:ring-4 focus:ring-orange-50 font-bold text-slate-900 transition-all"
-                           placeholder="@usuario"
-                           value={profileForm.instagram}
-                           onChange={e => { const val = e.target.value; setProfileForm(prev => ({ ...prev, instagram: val })); updateGlobalUser({ instagram: val }); }}
-                        />
-                     </div>
-                     <div className="space-y-2">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Facebook</label>
-                        <input
-                           type="text"
-                           className="w-full bg-slate-50 border border-slate-100 rounded-3xl px-8 py-5 outline-none focus:ring-4 focus:ring-orange-50 font-bold text-slate-900 transition-all"
-                           value={profileForm.facebook}
-                           onChange={e => { const val = e.target.value; setProfileForm(prev => ({ ...prev, facebook: val })); updateGlobalUser({ facebook: val }); }}
-                        />
-                     </div>
-                     <div className="space-y-2">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Website / Outros</label>
-                        <input
-                           type="text"
-                           className="w-full bg-slate-50 border border-slate-100 rounded-3xl px-8 py-5 outline-none focus:ring-4 focus:ring-orange-50 font-bold text-slate-900 transition-all"
-                           placeholder="https://exemplo.com"
-                           value={profileForm.website}
-                           onChange={e => { const val = e.target.value; setProfileForm(prev => ({ ...prev, website: val })); updateGlobalUser({ website: val }); }}
-                        />
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
-   );
-};
-
-const renderFinancial = () => {
-   return (
-      <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700">
-         <div className="flex items-center gap-4 mb-10">
-            <div className="w-12 h-12 bg-emerald-600 rounded-2xl flex items-center justify-center text-white shadow-xl"><DollarSign size={24} /></div>
-            <div>
-               <h2 className="text-3xl font-black text-slate-900 italic uppercase">Financeiro</h2>
-               <p className="text-slate-400 font-bold text-[10px] uppercase tracking-widest mt-1">Transparência Clube AMABE</p>
-            </div>
-         </div>
-
-         {/* Resumo Financeiro Dinâmico */}
-         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-white p-6 sm:p-8 rounded-[32px] sm:rounded-[40px] border border-slate-100 shadow-sm">
-               <p className="text-[10px] font-black text-slate-400 uppercase italic mb-2">Próximo Vencimento</p>
-               <h3 className="text-3xl font-black text-slate-900 italic tracking-tighter">
-                  {(() => {
-                     const unpaidPayments = payments
-                        .filter(p => p.status !== PaymentStatus.PAID)
-                        .sort((a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime());
-
-                     if (unpaidPayments.length > 0) {
-                        return new Date(unpaidPayments[0].dueDate).toLocaleDateString('pt-BR');
-                     }
-                     return 'Nenhum débito';
-                  })()}
-               </h3>
-               <div className={`mt-6 flex items-center gap-2 px-4 py-2 rounded-full w-fit ${payments.some(p => p.status === PaymentStatus.OVERDUE)
-                  ? 'text-rose-600 bg-rose-50'
-                  : 'text-amber-600 bg-amber-50'
-                  }`}>
-                  <Clock size={14} />
-                  <span className="text-[10px] font-black uppercase tracking-widest">
-                     {payments.some(p => p.status === PaymentStatus.OVERDUE) ? 'Pagamento Atrasado' : 'Aguardando Pagamento'}
-                  </span>
-               </div>
-            </div>
-            <div className="bg-[#0A101E] p-8 rounded-[40px] text-white shadow-2xl">
-               <p className="text-[10px] font-black text-orange-400 uppercase italic mb-2">Plano de Assinatura</p>
-               <h3 className="text-3xl font-black italic tracking-tighter">R$ 89,90/mês</h3>
-               <p className="mt-6 text-[10px] text-slate-400 font-bold uppercase tracking-widest">Individual Elite</p>
-            </div>
-         </div>
-
-         <div className="space-y-4">
-            <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest px-4 italic">Histórico de Mensalidades</h3>
-            {payments.map((p) => (
-               <div key={p.id} className="bg-white p-6 rounded-[32px] border border-slate-100 flex items-center justify-between">
-                  <div className="flex items-center gap-5">
-                     <div className={`w-14 h-14 rounded-2xl flex items-center justify-center ${p.status === PaymentStatus.PAID ? 'bg-emerald-50 text-emerald-600' : (new Date(p.dueDate) < new Date() ? 'bg-rose-50 text-rose-600' : 'bg-amber-50 text-amber-600')}`}><CreditCard size={28} /></div>
-                     <div>
-                        <p className="text-[8px] font-black text-slate-400 uppercase italic mb-1">Vencimento {new Date(p.dueDate).toLocaleDateString('pt-BR')}</p>
-                        <h4 className="text-lg font-black text-slate-900 italic tracking-tighter">R$ {p.amount.toFixed(2)}</h4>
-                     </div>
-                  </div>
-                  <span className={`px-4 py-1.5 rounded-full text-[8px] font-black uppercase border ${p.status === PaymentStatus.PAID
-                     ? 'bg-emerald-50 text-emerald-600 border-emerald-100'
-                     : (new Date(p.dueDate) < new Date() ? 'bg-rose-50 text-rose-600 border-rose-100' : 'bg-amber-50 text-amber-600 border-amber-100')
-                     }`}>
-                     {p.status === PaymentStatus.PAID ? 'PAGO' : (new Date(p.dueDate) < new Date() ? 'ATRASADO' : 'PENDENTE')}
-                  </span>
-               </div>
-            ))}
-         </div>
-      </div>
-   );
-};
-
-return (
-   <div className="min-h-screen bg-[#F8FAFC]">
-      {/* Renderização Condicional de Modais e Notificações */}
-      {renderPasswordChangeModal()}
-      {showSelfPasswordChange && (
-         <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 md:p-8 animate-in fade-in duration-500">
-            <div className="absolute inset-0 bg-[#0F172A]/95 backdrop-blur-2xl" onClick={() => setShowSelfPasswordChange(false)}></div>
-            <div className="relative w-full max-w-md bg-white rounded-[32px] sm:rounded-[48px] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-500 p-8 sm:p-12 text-center">
-               <button
-                  onClick={() => setShowSelfPasswordChange(false)}
-                  className="absolute top-8 right-8 text-slate-400 hover:text-slate-900 transition-colors"
-               >
-                  <X size={24} />
-               </button>
-               <div className="w-20 h-20 bg-orange-600 rounded-3xl flex items-center justify-center text-white mx-auto mb-8 shadow-xl shadow-orange-600/20">
-                  <Key size={36} />
-               </div>
-               <h3 className="text-3xl font-black text-slate-900 italic uppercase tracking-tighter mb-4">Alterar Senha</h3>
-               <p className="text-slate-500 font-medium italic mb-10 leading-relaxed">
-                  Defina uma nova senha de acesso para sua conta AMABE Elite.
-               </p>
-
-               <div className="space-y-6 text-left">
-                  <div className="space-y-2">
-                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4 italic">Nova Senha</label>
-                     <input
-                        type="password"
-                        className="w-full bg-slate-50 border border-slate-100 rounded-3xl px-8 py-5 outline-none focus:ring-4 focus:ring-orange-50 font-bold text-slate-900 transition-all"
-                        placeholder="••••••••"
-                        value={newPasswords.password}
-                        onChange={e => setNewPasswords({ ...newPasswords, password: e.target.value })}
-                     />
-                  </div>
-                  <div className="space-y-2">
-                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4 italic">Confirmar Nova Senha</label>
-                     <input
-                        type="password"
-                        className="w-full bg-slate-50 border border-slate-100 rounded-3xl px-8 py-5 outline-none focus:ring-4 focus:ring-orange-50 font-bold text-slate-900 transition-all"
-                        placeholder="••••••••"
-                        value={newPasswords.confirm}
-                        onChange={e => setNewPasswords({ ...newPasswords, confirm: e.target.value })}
-                     />
-                  </div>
-
+               <div className="flex flex-col sm:flex-row gap-4">
                   <button
-                     onClick={() => {
-                        if (newPasswords.password !== newPasswords.confirm) {
-                           showAlert('Senhas Diferentes', 'As senhas não coincidem!', 'warning');
-                           return;
-                        }
-                        if (newPasswords.password.length < 4) {
-                           showAlert('Senha Curta', 'A senha deve ter pelo menos 4 caracteres.', 'warning');
-                           return;
-                        }
-                        onUpdateUser({
-                           ...user,
-                           password: newPasswords.password
-                        });
-                        setShowSelfPasswordChange(false);
-                        setNewPasswords({ password: '', confirm: '' });
-                        showAlert('Sucesso', 'Sua senha foi atualizada com sucesso!', 'success');
-                     }}
-                     className="w-full py-6 bg-orange-600 text-white rounded-[32px] font-black uppercase tracking-[0.4em] text-xs hover:bg-[#0A101E] transition-all transform hover:-translate-y-1 shadow-2xl mt-4"
+                     type="button"
+                     onClick={handleSaveProfile}
+                     className="px-10 py-4 bg-orange-600 text-white rounded-2xl font-black text-xs uppercase tracking-widest flex items-center justify-center gap-3 shadow-xl shadow-orange-600/20 hover:bg-orange-700 hover:scale-105 transition-all active:scale-95 relative z-10"
                   >
-                     Confirmar Alteração
+                     Salvar Alterações
+                  </button>
+                  <button
+                     type="button"
+                     onClick={() => setShowSelfPasswordChange(true)}
+                     className="px-10 py-4 bg-slate-900 text-white rounded-2xl font-black text-xs uppercase tracking-widest flex items-center justify-center gap-3 shadow-xl hover:bg-orange-600 transition-all active:scale-95 relative z-10"
+                  >
+                     <Key size={18} /> Alterar Senha
                   </button>
                </div>
+            </header>
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+               {/* Preview da Carteira em Tempo Real */}
+               <div className="lg:col-span-3 mb-4">
+                  <div className="bg-[#0A101E] p-8 md:p-12 rounded-[56px] shadow-2xl relative overflow-hidden group">
+                     <div className="absolute top-0 right-0 w-96 h-96 bg-orange-600/10 rounded-full blur-[100px] -mr-48 -mt-48 transition-all group-hover:bg-orange-600/20"></div>
+                     <div className="absolute bottom-0 left-0 w-32 h-32 bg-emerald-600/5 rounded-full blur-3xl -ml-16 -mb-16"></div>
+                     <div className="relative z-10 flex flex-col md:flex-row items-center gap-10">
+                        <div className="hidden md:flex items-center justify-center relative w-full md:w-[460px] shrink-0">
+                           <div className="relative">
+                              <div className="absolute inset-0 bg-orange-600/20 blur-[80px] rounded-full"></div>
+                              <div className="relative flex flex-col items-center animate-in zoom-in duration-700">
+                                 <div className="w-24 h-24 md:w-32 md:h-32 bg-orange-600 rounded-[32px] md:rounded-[48px] flex items-center justify-center text-white shadow-2xl shadow-orange-600/40 rotate-6 border-[3px] border-white/20">
+                                    <ShieldCheck size={60} strokeWidth={1.5} className="md:hidden" />
+                                    <ShieldCheck size={80} strokeWidth={1.5} className="hidden md:block" />
+                                 </div>
+                                 <div className="mt-6 text-center">
+                                    <h1 className="text-3xl md:text-4xl font-black tracking-tighter italic uppercase text-white leading-none">AMABE</h1>
+                                    <p className="text-orange-500 font-black text-[10px] md:text-[11px] uppercase tracking-[0.8em] mt-2 mr-[-0.8em] italic">Elite Club</p>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div className="flex-1 flex items-center justify-center md:justify-start">
+                           <div className="relative group/logo">
+                              <h2 className="text-4xl md:text-6xl font-black text-white/10 uppercase tracking-[0.2em] italic select-none group-hover/logo:text-white/20 transition-colors duration-700">
+                                 Elite Access
+                              </h2>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+
+               {/* Coluna Lateral: Foto e SIM */}
+               <div className="space-y-8">
+                  <div className="bg-white p-8 rounded-[48px] border border-slate-100 shadow-sm text-center space-y-6">
+                     <div className="relative group mx-auto w-40 h-40">
+                        <div className="w-full h-full rounded-[48px] overflow-hidden border-4 border-slate-50 shadow-xl bg-slate-100 flex items-center justify-center relative">
+                           {profileForm.avatar ? (
+                              <img src={profileForm.avatar} className="w-full h-full object-cover" alt="Profile" />
+                           ) : (
+                              <UserCircle size={80} className="text-slate-300" />
+                           )}
+                           <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center">
+                              <Camera className="text-white" size={40} />
+                           </div>
+                        </div>
+                        <input
+                           type="file"
+                           accept="image/*"
+                           onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (file) {
+                                 const reader = new FileReader();
+                                 reader.onloadend = () => {
+                                    const result = reader.result as string;
+                                    setProfileForm(prev => ({ ...prev, avatar: result }));
+                                    updateGlobalUser({ avatar: result });
+                                 };
+                                 reader.readAsDataURL(file);
+                              }
+                           }}
+                           className="absolute inset-0 opacity-0 cursor-pointer"
+                        />
+                     </div>
+                     <div>
+                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">ID Associado</p>
+                        <p className="text-xl font-black text-slate-900 italic tracking-tighter uppercase">{user.memberId}</p>
+                     </div>
+                     <div className="pt-6 border-t border-slate-50">
+                        <div className="bg-orange-50 p-4 rounded-3xl border border-orange-100">
+                           <p className="text-[9px] font-black text-orange-600 uppercase tracking-widest mb-1">Cadastro SIM</p>
+                           <input
+                              type="text"
+                              className="w-full bg-transparent text-center font-black text-slate-900 italic outline-none placeholder:text-orange-200"
+                              placeholder="000.000.000"
+                              value={profileForm.simRegistry}
+                              onChange={e => {
+                                 const val = e.target.value;
+                                 setProfileForm(prev => ({ ...prev, simRegistry: val }));
+                                 updateGlobalUser({ simRegistry: val });
+                              }}
+                           />
+                        </div>
+                     </div>
+                  </div>
+               </div>
+
+               {/* Coluna Central: Dados Pessoais e Endereço */}
+               <div className="md:col-span-2 space-y-8">
+                  <div className="bg-white p-6 sm:p-8 lg:p-10 rounded-[32px] sm:rounded-[48px] lg:rounded-[56px] border border-slate-100 shadow-sm space-y-8">
+                     <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-3 italic">
+                        <Info size={16} className="text-orange-500" /> Informações Pessoais
+                     </h3>
+
+                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div className="space-y-2">
+                           <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Nome</label>
+                           <input
+                              type="text"
+                              className="w-full bg-slate-50 border border-slate-100 rounded-3xl px-6 py-4 sm:px-8 sm:py-5 outline-none focus:ring-4 focus:ring-orange-50 font-bold text-slate-900 transition-all"
+                              value={profileForm.name}
+                              onChange={e => {
+                                 const val = e.target.value;
+                                 setProfileForm(prev => ({ ...prev, name: val }));
+                                 updateGlobalUser({ name: val });
+                              }}
+                           />
+                        </div>
+                        <div className="space-y-2">
+                           <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Cidade</label>
+                           <input
+                              type="text"
+                              className="w-full bg-slate-50 border border-slate-100 rounded-3xl px-8 py-5 outline-none focus:ring-4 focus:ring-orange-50 font-bold text-slate-900 transition-all font-sans"
+                              placeholder="Ex: São Paulo"
+                              value={profileForm.city}
+                              onChange={e => {
+                                 const val = e.target.value;
+                                 setProfileForm(prev => ({ ...prev, city: val }));
+                                 updateGlobalUser({ city: val });
+                              }}
+                           />
+                        </div>
+                        <div className="space-y-2">
+                           <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Sobrenome</label>
+                           <input
+                              type="text"
+                              className="w-full bg-slate-50 border border-slate-100 rounded-3xl px-8 py-5 outline-none focus:ring-4 focus:ring-orange-50 font-bold text-slate-900 transition-all"
+                              value={profileForm.surname}
+                              onChange={e => {
+                                 const val = e.target.value;
+                                 setProfileForm(prev => ({ ...prev, surname: val }));
+                                 updateGlobalUser({ surname: val });
+                              }}
+                           />
+                        </div>
+                        <div className="space-y-2">
+                           <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">CPF</label>
+                           <input
+                              type="text"
+                              className="w-full bg-slate-50 border border-slate-100 rounded-3xl px-8 py-5 outline-none focus:ring-4 focus:ring-orange-50 font-bold text-slate-900 transition-all"
+                              value={profileForm.cpf}
+                              onChange={e => {
+                                 const val = e.target.value;
+                                 setProfileForm(prev => ({ ...prev, cpf: val }));
+                                 updateGlobalUser({ cpf: val });
+                              }}
+                           />
+                        </div>
+                        <div className="space-y-2">
+                           <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">RG</label>
+                           <input
+                              type="text"
+                              className="w-full bg-slate-50 border border-slate-100 rounded-3xl px-8 py-5 outline-none focus:ring-4 focus:ring-orange-50 font-bold text-slate-900 transition-all"
+                              value={profileForm.rg}
+                              onChange={e => {
+                                 const val = e.target.value;
+                                 setProfileForm(prev => ({ ...prev, rg: val }));
+                                 updateGlobalUser({ rg: val });
+                              }}
+                           />
+                        </div>
+                        <div className="space-y-2">
+                           <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Data de Nascimento</label>
+                           <input
+                              type="date"
+                              className="w-full bg-slate-50 border border-slate-100 rounded-3xl px-8 py-5 outline-none focus:ring-4 focus:ring-orange-50 font-bold text-slate-900 transition-all font-sans"
+                              value={profileForm.birthDate}
+                              onChange={e => {
+                                 const val = e.target.value;
+                                 setProfileForm(prev => ({ ...prev, birthDate: val }));
+                                 updateGlobalUser({ birthDate: val });
+                              }}
+                           />
+                        </div>
+                        <div className="space-y-2">
+                           <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Cidade</label>
+                           <input
+                              type="text"
+                              className="w-full bg-slate-50 border border-slate-100 rounded-3xl px-8 py-5 outline-none focus:ring-4 focus:ring-orange-50 font-bold text-slate-900 transition-all font-sans"
+                              placeholder="Sua cidade"
+                              value={profileForm.city}
+                              onChange={e => {
+                                 const val = e.target.value;
+                                 setProfileForm(prev => ({ ...prev, city: val }));
+                                 updateGlobalUser({ city: val });
+                              }}
+                           />
+                        </div>
+                     </div>
+
+                     <div className="space-y-2 pt-4">
+                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4 line-clamp-1">Endereço Completo</label>
+                        <input
+                           type="text"
+                           className="w-full bg-slate-50 border border-slate-100 rounded-3xl px-8 py-5 outline-none focus:ring-4 focus:ring-orange-50 font-bold text-slate-900 transition-all"
+                           placeholder="Rua, Número, Bairro, Cidade - UF"
+                           value={profileForm.address}
+                           onChange={e => { setProfileForm(prev => ({ ...prev, address: e.target.value })); updateGlobalUser({ address: e.target.value }); }}
+                        />
+                     </div>
+                  </div>
+
+                  <div className="bg-white p-6 sm:p-8 lg:p-10 rounded-[32px] sm:rounded-[48px] lg:rounded-[56px] border border-slate-100 shadow-sm space-y-8">
+                     <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-3 italic">
+                        <Smartphone size={16} className="text-orange-500" /> Contato e Redes
+                     </h3>
+
+                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div className="space-y-2">
+                           <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">WhatsApp</label>
+                           <input
+                              type="text"
+                              className="w-full bg-slate-50 border border-slate-100 rounded-3xl px-8 py-5 outline-none focus:ring-4 focus:ring-orange-50 font-bold text-slate-900 transition-all"
+                              placeholder="(00) 00000-0000"
+                              value={profileForm.whatsapp}
+                              onChange={e => { setProfileForm(prev => ({ ...prev, whatsapp: e.target.value })); updateGlobalUser({ whatsapp: e.target.value }); }}
+                           />
+                        </div>
+                        <div className="space-y-2">
+                           <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Instagram</label>
+                           <input
+                              type="text"
+                              className="w-full bg-slate-50 border border-slate-100 rounded-3xl px-8 py-5 outline-none focus:ring-4 focus:ring-orange-50 font-bold text-slate-900 transition-all"
+                              placeholder="@usuario"
+                              value={profileForm.instagram}
+                              onChange={e => { const val = e.target.value; setProfileForm(prev => ({ ...prev, instagram: val })); updateGlobalUser({ instagram: val }); }}
+                           />
+                        </div>
+                        <div className="space-y-2">
+                           <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Facebook</label>
+                           <input
+                              type="text"
+                              className="w-full bg-slate-50 border border-slate-100 rounded-3xl px-8 py-5 outline-none focus:ring-4 focus:ring-orange-50 font-bold text-slate-900 transition-all"
+                              value={profileForm.facebook}
+                              onChange={e => { const val = e.target.value; setProfileForm(prev => ({ ...prev, facebook: val })); updateGlobalUser({ facebook: val }); }}
+                           />
+                        </div>
+                        <div className="space-y-2">
+                           <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Website / Outros</label>
+                           <input
+                              type="text"
+                              className="w-full bg-slate-50 border border-slate-100 rounded-3xl px-8 py-5 outline-none focus:ring-4 focus:ring-orange-50 font-bold text-slate-900 transition-all"
+                              placeholder="https://exemplo.com"
+                              value={profileForm.website}
+                              onChange={e => { const val = e.target.value; setProfileForm(prev => ({ ...prev, website: val })); updateGlobalUser({ website: val }); }}
+                           />
+                        </div>
+                     </div>
+                  </div>
+               </div>
             </div>
          </div>
-      )}
-      {renderNotification()}
-      {renderAllCardsModal()}
-      {renderVoucherSelectionModal()}
-      {renderVoucherTicket()}
-      {renderAddDependentModal()}
-      {renderPartnerModal()}
+      );
+   };
 
-      {activeTab === 'dash' && (
-         <div className="space-y-12 sm:space-y-16 animate-in fade-in duration-700 pb-20">
-            {/* Hero Section / Banner de Notícias */}
-            <div className="relative group">
-               {bannerNews.length > 0 ? (
-                  <div className="relative h-[300px] md:h-[500px] rounded-[64px] overflow-hidden shadow-2xl">
-                     {bannerNews.map((banner, idx) => (
-                        <div
-                           key={banner.id}
-                           className={`absolute inset-0 transition-all duration-1000 ease-in-out ${idx === currentBannerIndex ? 'opacity-100 scale-100' : 'opacity-0 scale-105 pointer-events-none'}`}
-                        >
-                           <img src={banner.image} className="w-full h-full object-cover" alt="" />
-                           <div className="absolute inset-0 bg-gradient-to-t from-[#0A101E] via-[#0A101E]/40 to-transparent flex items-end">
-                              <div className="hidden md:flex px-6 md:px-12 lg:px-24 pb-16 md:pb-20 w-full flex flex-col items-center md:items-start text-center md:text-left">
-                                 <p className="text-orange-500 font-black text-[10px] md:text-[13px] uppercase tracking-[0.4em] mb-4 italic animate-in fade-in slide-in-from-bottom duration-700">{banner.category}</p>
-                                 <h2 className="text-2xl md:text-5xl lg:text-6xl font-black tracking-tighter italic mb-4 md:mb-8 uppercase leading-tight md:leading-[1.1] text-white animate-in fade-in slide-in-from-bottom duration-1000 delay-200">
-                                    {banner.title}
-                                 </h2>
-                                 <p className="text-slate-300 text-[10px] md:text-base font-medium leading-relaxed mb-6 md:mb-10 line-clamp-3 md:line-clamp-2 max-w-lg animate-in fade-in slide-in-from-bottom duration-1000 delay-300">
-                                    {banner.excerpt}
-                                 </p>
-                                 <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6 animate-in fade-in slide-in-from-bottom duration-1000 delay-500 w-full md:w-auto">
-                                    <button
-                                       onClick={() => setSelectedNews(banner)}
-                                       className="w-full md:w-auto px-10 py-5 bg-orange-600 text-white rounded-[24px] text-[10px] font-black uppercase tracking-[0.2em] hover:bg-white hover:text-orange-600 transition-all shadow-2xl flex items-center justify-center gap-3 group/btn"
-                                    >
-                                       Ler Matéria Completa <ChevronRight size={18} className="group-hover/btn:translate-x-1 transition-transform" />
-                                    </button>
-                                    {banner.link && (
-                                       <a href={banner.link} target="_blank" rel="noreferrer" className="text-white/60 hover:text-white text-[9px] md:text-[10px] font-black uppercase tracking-widest flex items-center gap-2 transition-colors">
-                                          Abrir Link <ArrowUpRight size={14} />
-                                       </a>
+   const renderFinancial = () => {
+      // Agrupar pagamentos por ano
+      const paymentsByYear = payments.reduce((acc: { [key: string]: any[] }, p) => {
+         const year = new Date(p.dueDate).getFullYear().toString();
+         if (!acc[year]) acc[year] = [];
+         acc[year].push(p);
+         return acc;
+      }, {});
+
+      const sortedYears = Object.keys(paymentsByYear).sort((a, b) => b.localeCompare(a));
+
+      return (
+         <div className="max-w-4xl mx-auto space-y-12 animate-in fade-in slide-in-from-bottom-8 duration-700 pb-20 px-4">
+            <header className="flex items-center gap-6 mb-12">
+               <div className="w-16 h-16 bg-[#0F172A] rounded-3xl flex items-center justify-center text-white shadow-2xl rotate-3">
+                  <DollarSign size={32} />
+               </div>
+               <div>
+                  <h2 className="text-3xl md:text-5xl font-black text-slate-900 italic uppercase tracking-tighter">Financeiro</h2>
+                  <p className="text-slate-400 font-bold text-[10px] md:text-xs uppercase tracking-[0.2em] mt-1 italic">Gestão de Mensalidades Elite</p>
+               </div>
+            </header>
+
+            {/* Resumo Financeiro Premium */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+               <div className="bg-white p-10 rounded-[48px] border border-slate-100 shadow-sm relative overflow-hidden group hover:shadow-xl transition-all">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-orange-50 rounded-bl-[64px] -mr-8 -mt-8 opacity-50 transition-transform group-hover:scale-110"></div>
+                  <p className="relative z-10 text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 italic">Próximo Vencimento</p>
+                  <h3 className="relative z-10 text-4xl font-black text-slate-900 italic tracking-tighter">
+                     {(() => {
+                        const unpaid = payments
+                           .filter(p => p.status !== PaymentStatus.PAID)
+                           .sort((a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime());
+                        return unpaid.length > 0 ? new Date(unpaid[0].dueDate).toLocaleDateString('pt-BR') : 'Nenhum débito';
+                     })()}
+                  </h3>
+                  <div className={`relative z-10 mt-8 flex items-center gap-3 px-6 py-2.5 rounded-2xl w-fit font-black text-[10px] uppercase tracking-widest ${payments.some(p => p.status === PaymentStatus.OVERDUE)
+                        ? 'text-rose-600 bg-rose-50 border border-rose-100'
+                        : 'text-amber-600 bg-amber-50 border border-amber-100'
+                     }`}>
+                     <Clock size={16} />
+                     {payments.some(p => p.status === PaymentStatus.OVERDUE) ? 'Pagamento Atrasado' : 'Aguardando Pagamento'}
+                  </div>
+               </div>
+
+               <div className="bg-[#0A101E] p-10 rounded-[48px] text-white shadow-2xl relative overflow-hidden group">
+                  <div className="absolute top-0 right-0 w-48 h-48 bg-orange-600/10 rounded-full blur-3xl -mr-24 -mt-24"></div>
+                  <p className="text-[10px] font-black text-orange-400 uppercase tracking-widest mb-3 italic">Assinatura Ativa</p>
+                  <h3 className="text-4xl font-black italic tracking-tighter text-white">R$ 89,90<span className="text-lg opacity-40 ml-2">/mês</span></h3>
+                  <div className="mt-8 flex items-center gap-3">
+                     <div className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center border border-white/10">
+                        <ShieldCheck size={20} className="text-orange-500" />
+                     </div>
+                     <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest">Plano Individual Elite</p>
+                  </div>
+               </div>
+            </div>
+
+            {/* Histórico Agrupado */}
+            <div className="space-y-12">
+               {sortedYears.map(year => (
+                  <div key={year} className="space-y-6">
+                     <div className="flex items-center gap-4 px-6">
+                        <h3 className="text-xl font-black text-slate-900 italic tracking-tighter uppercase">{year}</h3>
+                        <div className="h-[2px] flex-1 bg-slate-100 rounded-full"></div>
+                        <span className="text-[10px] font-black text-slate-300 uppercase tracking-[0.2em]">{paymentsByYear[year].length} Parcelas</span>
+                     </div>
+
+                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {paymentsByYear[year].sort((a: any, b: any) => new Date(b.dueDate).getTime() - new Date(a.dueDate).getTime()).map((p: any) => {
+                           const isPaid = p.status === PaymentStatus.PAID;
+                           const isOverdue = !isPaid && new Date(p.dueDate) < new Date();
+
+                           return (
+                              <div key={p.id} className="group bg-white p-6 md:p-8 rounded-[40px] border border-slate-100 hover:border-orange-200 hover:shadow-xl transition-all duration-500 relative flex items-center justify-between overflow-hidden">
+                                 {isPaid && (
+                                    <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-50 rounded-bl-full -mr-12 -mt-12 opacity-50"></div>
+                                 )}
+
+                                 <div className="flex items-center gap-5 relative z-10">
+                                    <div className={`w-14 h-14 md:w-16 md:h-16 rounded-[24px] flex items-center justify-center transition-colors ${isPaid ? 'bg-emerald-50 text-emerald-600' : (isOverdue ? 'bg-rose-50 text-rose-600' : 'bg-amber-50 text-amber-600')
+                                       }`}>
+                                       <CreditCard size={isPaid ? 32 : 28} className={isPaid ? 'rotate-3' : ''} />
+                                    </div>
+                                    <div>
+                                       <p className="text-[8px] md:text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1 italic">
+                                          Venc. {new Date(p.dueDate).toLocaleDateString('pt-BR')}
+                                       </p>
+                                       <h4 className="text-lg md:text-2xl font-black text-slate-900 italic tracking-tighter">R$ {p.amount.toFixed(2)}</h4>
+                                    </div>
+                                 </div>
+
+                                 <div className="flex flex-col items-end gap-2 relative z-10">
+                                    <span className={`px-5 py-2 rounded-full text-[9px] font-black uppercase tracking-widest border transition-all ${isPaid
+                                          ? 'bg-emerald-500 text-white border-emerald-500 shadow-lg shadow-emerald-500/20'
+                                          : (isOverdue ? 'bg-rose-50 text-rose-600 border-rose-100' : 'bg-slate-50 text-slate-400 border-slate-100')
+                                       }`}>
+                                       {isPaid ? 'PAGO' : (isOverdue ? 'ATRASADO' : 'PENDENTE')}
+                                    </span>
+                                    {!isPaid && (
+                                       <button className="text-[7px] font-black text-orange-600 uppercase tracking-widest hover:underline underline-offset-4 decoration-2">
+                                          Ver Boleto
+                                       </button>
                                     )}
                                  </div>
-                                 {/* Botão Simplificado para Mobile */}
-                                 <div className="md:hidden absolute bottom-8 left-8 right-8 z-20">
-                                    <button
-                                       onClick={() => setSelectedNews(banner)}
-                                       className="w-full py-4 bg-white/10 backdrop-blur-md border border-white/20 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest flex items-center justify-center gap-2 active:scale-95 transition-transform"
-                                    >
-                                       Ver Destaque <ChevronRight size={14} />
-                                    </button>
-                                 </div>
                               </div>
-                           </div>
-                        </div>
-                     ))}
-
-                     {/* Controles do Carrossel */}
-                     {bannerNews.length > 1 && (
-                        <>
-                           <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex items-center gap-3 z-20">
-                              {bannerNews.map((_, idx) => (
-                                 <button
-                                    key={idx}
-                                    onClick={() => setCurrentBannerIndex(idx)}
-                                    className={`h-1 md:h-1.5 transition-all duration-500 rounded-full ${idx === currentBannerIndex ? "w-6 md:w-10 bg-orange-600" : "w-2 md:w-4 bg-white/20 hover:bg-white/40"}`}
-                                 />
-                              ))}
-                           </div>
-                           <div className="absolute inset-y-0 left-8 right-8 flex items-center justify-between pointer-events-none">
-                              <button
-                                 onClick={() => setCurrentBannerIndex(prev => (prev - 1 + bannerNews.length) % bannerNews.length)}
-                                 className="w-10 h-10 md:w-14 md:h-14 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl md:rounded-2xl flex items-center justify-center text-white/40 hover:text-white hover:bg-orange-600 hover:border-orange-600 transition-all pointer-events-auto"
-                              >
-                                 <ChevronLeft size={24} />
-                              </button>
-                              <button
-                                 onClick={() => setCurrentBannerIndex(prev => (prev + 1) % bannerNews.length)}
-                                 className="w-10 h-10 md:w-14 md:h-14 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl md:rounded-2xl flex items-center justify-center text-white/40 hover:text-white hover:bg-orange-600 hover:border-orange-600 transition-all pointer-events-auto"
-                              >
-                                 <ChevronRight size={24} />
-                              </button>
-                           </div>
-                        </>
-                     )}
-                  </div>
-               ) : (
-                  /* Layout Original / Fallback se não houver banner */
-                  <div className="bg-[#0F172A] rounded-[32px] sm:rounded-[48px] lg:rounded-[64px] p-6 sm:p-12 lg:p-24 text-white shadow-2xl relative overflow-hidden group">
-                     <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-orange-600/10 rounded-full blur-[120px] -mr-64 -mt-64 group-hover:bg-orange-600/20 transition-all duration-700"></div>
-                     <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-emerald-600/5 rounded-full blur-[80px] -ml-32 -mb-32"></div>
-
-                     <div className="relative z-10 flex flex-col xl:flex-row xl:items-center justify-between gap-12">
-                        <div className="max-w-xl">
-                           <p className="text-orange-500 font-black text-[11px] md:text-[13px] uppercase tracking-[0.4em] mb-4 italic">Clube de Benefícios AMABE</p>
-                           <h1 className="text-2xl md:text-5xl lg:text-6xl font-black tracking-tighter italic mb-4 md:mb-8 uppercase leading-[1.1]">Olá, <br /><span className="text-orange-600">{liveUser.name.split(' ')[0]}</span></h1>
-                           <div className="flex flex-wrap gap-2 md:gap-3 mt-6 md:mt-10">
-                              <div className="bg-emerald-600/10 text-emerald-400 px-5 py-3 rounded-2xl border border-emerald-500/20 flex items-center gap-2.5 w-fit">
-                                 <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
-                                 <span className="text-[10px] font-black uppercase tracking-[0.1em] italic">Benefícios Ativos</span>
-                              </div>
-                              <div className="bg-white/5 text-white/60 px-5 py-3 rounded-2xl border border-white/10 flex items-center gap-2.5 w-fit">
-                                 <ShieldCheck size={14} className="text-orange-500" />
-                                 <span className="text-[10px] font-black uppercase tracking-[0.1em] italic">Acesso Elite</span>
-                              </div>
-                           </div>
-                        </div>
-                        <div className="hidden xl:flex items-center justify-center relative flex-1">
-                           <div className="relative">
-                              {/* Decorative Glow behind logo */}
-                              <div className="absolute inset-0 bg-orange-600/20 blur-[100px] rounded-full"></div>
-
-                              <div className="relative flex flex-col items-center animate-in zoom-in duration-1000">
-                                 <div className="w-32 h-32 md:w-48 md:h-48 bg-orange-600 rounded-[40px] md:rounded-[64px] flex items-center justify-center text-white shadow-2xl shadow-orange-600/40 rotate-6 hover:rotate-12 transition-all duration-700 border-4 border-white/20">
-                                    <ShieldCheck size={80} strokeWidth={1.5} className="md:hidden" />
-                                    <ShieldCheck size={120} strokeWidth={1.5} className="hidden md:block" />
-                                 </div>
-                                 <div className="mt-10 text-center">
-                                    <h1 className="text-5xl md:text-7xl font-black tracking-tighter italic uppercase text-white leading-none">AMABE</h1>
-                                    <p className="text-orange-500 font-black text-[12px] md:text-sm uppercase tracking-[1em] mt-4 mr-[-1em] italic">Elite Club</p>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
+                           );
+                        })}
                      </div>
                   </div>
-               )}
+               ))}
             </div>
 
-            <div className="grid grid-cols-1 gap-16 px-4">
-               {/* Seção de Destaques dos Parceiros */}
-               {news.some(n => n.isFeatured) && (
-                  <div className="space-y-10">
-                     <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 bg-orange-600 rounded-2xl flex items-center justify-center text-white shadow-xl rotate-3 transform group-hover:rotate-0 transition-transform"><Tag size={20} /></div>
-                        <div>
-                           <h2 className="text-xl md:text-3xl font-black text-slate-900 italic uppercase tracking-tighter leading-none">Destaques</h2>
-                           <p className="text-slate-400 font-bold text-[8px] md:text-[10px] uppercase tracking-widest mt-1">Club de Parceiros</p>
-                        </div>
-                     </div>
-
-                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8">
-                        {/* Notícias em Destaque Reais do Admin */}
-                        {news.filter(n => n.isFeatured).slice(0, 6).map((item) => (
-                           <div key={item.id} className="group bg-white rounded-3xl md:rounded-[48px] border border-slate-100 overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 flex flex-col">
-                              <div className="relative h-32 md:h-48 overflow-hidden">
-                                 <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
-                                 <div className="absolute top-4 left-4 md:top-6 md:left-6">
-                                    <span className="px-3 py-1 bg-white/60 backdrop-blur-md rounded-full text-[7px] md:text-[9px] font-bold uppercase tracking-widest text-slate-900/60 border border-white/20 shadow-sm">
-                                       {item.category}
-                                    </span>
-                                 </div>
-                              </div>
-                              <div className="p-4 md:p-8 flex-1 flex flex-col">
-                                 <div className="flex items-center gap-1.5 mb-2">
-                                    <div className="w-1 h-1 rounded-full bg-orange-600 animate-pulse"></div>
-                                    <span className="text-[7px] md:text-[9px] font-black text-orange-600 uppercase tracking-widest italic">Destaque</span>
-                                 </div>
-                                 <h3 className="text-sm md:text-xl font-black text-slate-900 italic mb-4 leading-tight group-hover:text-orange-600 transition-colors uppercase tracking-tight line-clamp-2">
-                                    {item.title}
-                                 </h3>
-                                 <button
-                                    onClick={() => setSelectedNews(item)}
-                                    className="mt-auto w-full py-3 md:py-4 bg-slate-900 text-white rounded-xl md:rounded-2xl text-[8px] md:text-[10px] font-black uppercase tracking-widest hover:bg-orange-600 transition-all flex items-center justify-center gap-2 active:scale-95 group/btn"
-                                 >
-                                    Ler Matéria <ChevronRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
-                                 </button>
-                              </div>
-                           </div>
-                        ))}
-                     </div>
-                  </div>
-               )}
-
-               {/* Seção de Notícias AMABE */}
-               {news.length > 0 && (
-                  <div className="space-y-10">
-                     <div className="flex items-center justify-between border-b border-slate-100 pb-8">
-                        <div>
-                           <h2 className="text-2xl md:text-4xl font-black text-slate-900 italic uppercase tracking-tighter">Notícias AMABE</h2>
-                           <p className="text-slate-400 font-bold text-[10px] uppercase tracking-widest mt-1">O que acontece na sua associação</p>
-                        </div>
-                        <button className="hidden md:flex items-center gap-2 px-6 py-3 bg-slate-50 text-slate-900 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-[#0A101E] hover:text-white transition-all group">
-                           Todas Notícias <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
-                        </button>
-                     </div>
-
-                     <div className="grid grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
-                        {[...news].sort((a, b) => (a.isFeatured === b.isFeatured ? 0 : a.isFeatured ? -1 : 1)).map((item) => (
-                           <div key={item.id} className="group bg-white rounded-[32px] md:rounded-[48px] border border-slate-100 overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 flex flex-col">
-                              <div className="relative h-32 md:h-64 overflow-hidden">
-                                 <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
-                                 <div className="absolute top-8 left-8">
-                                    <span className="px-5 py-2 bg-white/60 backdrop-blur-md rounded-full text-[7px] md:text-[9px] font-bold uppercase tracking-widest text-slate-900/60 border border-white/20 shadow-sm">
-                                       {item.category}
-                                    </span>
-                                 </div>
-                              </div>
-                              <div className="p-4 md:p-10 flex-1 flex flex-col">
-                                 {item.isFeatured && (
-                                    <div className="flex items-center gap-2 mb-2 md:mb-3">
-                                       <div className="w-1 md:w-1.5 h-1 md:h-1.5 rounded-full bg-orange-600 animate-pulse"></div>
-                                       <span className="text-[7px] md:text-[10px] font-black text-orange-600 uppercase tracking-widest italic">Destaque</span>
-                                    </div>
-                                 )}
-                                 <p className="text-[7px] md:text-[10px] font-black text-orange-500/60 uppercase tracking-widest mb-2 md:mb-4">{item.date}</p>
-                                 <h3 className="text-xs md:text-2xl font-black text-slate-900 italic mb-2 md:mb-4 leading-[1.1] group-hover:text-orange-600 transition-colors uppercase tracking-tight line-clamp-2 md:line-clamp-none">
-                                    {item.title}
-                                 </h3>
-                                 <p className="hidden md:block text-slate-500 text-[13px] font-medium leading-relaxed mb-8 line-clamp-2">
-                                    {item.excerpt}
-                                 </p>
-                                 <button
-                                    onClick={() => setSelectedNews(item)}
-                                    className="mt-auto w-full py-3 md:py-5 bg-slate-900 text-white rounded-xl md:rounded-[24px] text-[8px] md:text-[10px] font-black uppercase tracking-[0.1em] md:tracking-[0.2em] hover:bg-orange-600 transition-all flex items-center justify-center gap-2 md:gap-3 shadow-lg shadow-slate-900/10 active:scale-95 group/btn"
-                                 >
-                                    Ler Matéria <ChevronRight size={14} className="md:size-4 group-hover/btn:translate-x-1 transition-transform" />
-                                 </button>
-                              </div>
-                           </div>
-                        ))}
-                     </div>
-                  </div>
-               )}
-            </div>
-
-            {/* Banner de CTA Final Rodapé Full Width */}
-            <div className="px-4 mt-20">
-               <div className="bg-[#0A101E] p-6 sm:p-10 lg:p-16 rounded-[32px] sm:rounded-[48px] lg:rounded-[64px] text-white relative overflow-hidden group shadow-2xl">
-                  <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-orange-600/10 rounded-full blur-[120px] -mr-64 -mt-64 group-hover:bg-orange-600/20 transition-all duration-700"></div>
-                  <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-emerald-600/5 rounded-full blur-[100px] -ml-48 -mb-48"></div>
-
-                  <div className="relative z-10 flex flex-col xl:flex-row items-center justify-between gap-10">
-                     <div className="max-w-2xl text-center xl:text-left space-y-4">
-                        <h4 className="text-3xl md:text-5xl font-black italic uppercase tracking-tighter leading-none">Quer anunciar aqui?</h4>
-                        <p className="text-slate-400 text-xs md:text-lg font-bold uppercase tracking-widest">
-                           Seja um parceiro <span className="text-orange-500">AMABE Elite</span> e alcance milhares de associados com exclusividade.
-                        </p>
-                     </div>
-                     <a
-                        href="https://wa.me/5511999999999?text=Olá! Gostaria de saber mais sobre como anunciar no AMABE Elite."
-                        target="_blank"
-                        rel="noreferrer"
-                        className="px-12 py-6 bg-orange-600 text-white rounded-[32px] font-black text-xs md:text-base uppercase tracking-[0.2em] shadow-xl hover:bg-white hover:text-orange-600 transition-all active:scale-95 flex items-center gap-4 whitespace-nowrap"
-                     >
-                        Fale Conosco agora <MessageCircle size={20} />
-                     </a>
-                  </div>
+            {/* Footer Informativo */}
+            <div className="bg-slate-50 p-10 rounded-[48px] border-2 border-dashed border-slate-200 text-center space-y-4">
+               <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-slate-300 mx-auto shadow-sm">
+                  <Info size={24} />
                </div>
+               <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] max-w-md mx-auto leading-relaxed">
+                  As mensalidades são geradas anualmente. Em caso de dúvidas sobre pagamentos, entre em contato com o suporte AMABE.
+               </p>
             </div>
          </div>
-      )}
+      );
+   };
 
-      {activeTab === 'card' && renderWallet()}
-      {activeTab === 'profile' && renderProfile()}
-      {activeTab === 'payments' && renderFinancial()}
-      {activeTab === 'club' && renderClub()}
 
-      {/* Modal de Notícia na Íntegra */}
-      {selectedNews && (
-         <div className="fixed inset-0 bg-[#0A101E]/95 backdrop-blur-2xl z-[100] flex items-center justify-center p-4 md:p-10 animate-in fade-in duration-500">
-            <div className="absolute inset-0" onClick={() => setSelectedNews(null)}></div>
-            <div className="relative w-full max-w-5xl h-full max-h-[90vh] bg-white rounded-[48px] md:rounded-[64px] overflow-hidden flex flex-col md:flex-row shadow-2xl animate-in zoom-in duration-500">
-               <button
-                  onClick={() => setSelectedNews(null)}
-                  className="absolute top-8 right-8 z-50 p-4 bg-white/10 backdrop-blur-md text-white md:text-slate-400 md:bg-slate-50 rounded-2xl hover:bg-orange-600 hover:text-white transition-all shadow-lg"
-               >
-                  <X size={24} />
-               </button>
+   return (
+      <div className="min-h-screen bg-[#F8FAFC]">
+         {/* Renderização Condicional de Modais e Notificações */}
+         {renderPasswordChangeModal()}
+         {showSelfPasswordChange && (
+            <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 md:p-8 animate-in fade-in duration-500">
+               <div className="absolute inset-0 bg-[#0F172A]/95 backdrop-blur-2xl" onClick={() => setShowSelfPasswordChange(false)}></div>
+               <div className="relative w-full max-w-md bg-white rounded-[32px] sm:rounded-[48px] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-500 p-8 sm:p-12 text-center">
+                  <button
+                     onClick={() => setShowSelfPasswordChange(false)}
+                     className="absolute top-8 right-8 text-slate-400 hover:text-slate-900 transition-colors"
+                  >
+                     <X size={24} />
+                  </button>
+                  <div className="w-20 h-20 bg-orange-600 rounded-3xl flex items-center justify-center text-white mx-auto mb-8 shadow-xl shadow-orange-600/20">
+                     <Key size={36} />
+                  </div>
+                  <h3 className="text-3xl font-black text-slate-900 italic uppercase tracking-tighter mb-4">Alterar Senha</h3>
+                  <p className="text-slate-500 font-medium italic mb-10 leading-relaxed">
+                     Defina uma nova senha de acesso para sua conta AMABE Elite.
+                  </p>
 
-               <div className="w-full md:w-2/5 h-64 md:h-auto relative shrink-0">
-                  <img src={selectedNews.image} className="w-full h-full object-cover" alt="" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent md:hidden"></div>
-                  <div className="absolute bottom-6 left-8 md:hidden text-white">
-                     <p className="text-[10px] font-black uppercase tracking-widest opacity-80">{selectedNews.category}</p>
-                     <h2 className="text-2xl font-black italic uppercase leading-tight mt-1">{selectedNews.title}</h2>
+                  <div className="space-y-6 text-left">
+                     <div className="space-y-2">
+                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4 italic">Nova Senha</label>
+                        <input
+                           type="password"
+                           className="w-full bg-slate-50 border border-slate-100 rounded-3xl px-8 py-5 outline-none focus:ring-4 focus:ring-orange-50 font-bold text-slate-900 transition-all"
+                           placeholder="••••••••"
+                           value={newPasswords.password}
+                           onChange={e => setNewPasswords({ ...newPasswords, password: e.target.value })}
+                        />
+                     </div>
+                     <div className="space-y-2">
+                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4 italic">Confirmar Nova Senha</label>
+                        <input
+                           type="password"
+                           className="w-full bg-slate-50 border border-slate-100 rounded-3xl px-8 py-5 outline-none focus:ring-4 focus:ring-orange-50 font-bold text-slate-900 transition-all"
+                           placeholder="••••••••"
+                           value={newPasswords.confirm}
+                           onChange={e => setNewPasswords({ ...newPasswords, confirm: e.target.value })}
+                        />
+                     </div>
+
+                     <button
+                        onClick={() => {
+                           if (newPasswords.password !== newPasswords.confirm) {
+                              showAlert('Senhas Diferentes', 'As senhas não coincidem!', 'warning');
+                              return;
+                           }
+                           if (newPasswords.password.length < 4) {
+                              showAlert('Senha Curta', 'A senha deve ter pelo menos 4 caracteres.', 'warning');
+                              return;
+                           }
+                           onUpdateUser({
+                              ...user,
+                              password: newPasswords.password
+                           });
+                           setShowSelfPasswordChange(false);
+                           setNewPasswords({ password: '', confirm: '' });
+                           showAlert('Sucesso', 'Sua senha foi atualizada com sucesso!', 'success');
+                        }}
+                        className="w-full py-6 bg-orange-600 text-white rounded-[32px] font-black uppercase tracking-[0.4em] text-xs hover:bg-[#0A101E] transition-all transform hover:-translate-y-1 shadow-2xl mt-4"
+                     >
+                        Confirmar Alteração
+                     </button>
                   </div>
                </div>
+            </div>
+         )}
+         {renderNotification()}
+         {renderAllCardsModal()}
+         {renderVoucherSelectionModal()}
+         {renderVoucherTicket()}
+         {renderAddDependentModal()}
+         {renderPartnerModal()}
 
-               <div className="flex-1 p-8 md:p-16 overflow-y-auto no-scrollbar bg-white">
-                  <div className="hidden md:block mb-10">
-                     <p className="text-orange-600 font-black text-[11px] uppercase tracking-[0.4em] mb-3 italic">{selectedNews.category}</p>
-                     <h2 className="text-4xl lg:text-5xl font-black text-slate-900 italic uppercase leading-[1.1] tracking-tighter mb-4">{selectedNews.title}</h2>
-                     <div className="flex items-center gap-4 text-slate-400 font-bold text-[10px] uppercase tracking-widest">
-                        <Clock size={12} /> {selectedNews.date}
-                     </div>
-                  </div>
+         {activeTab === 'dash' && (
+            <div className="space-y-12 sm:space-y-16 animate-in fade-in duration-700 pb-20">
+               {/* Hero Section / Banner de Notícias */}
+               <div className="relative group">
+                  {bannerNews.length > 0 ? (
+                     <div className="relative h-[300px] md:h-[500px] rounded-[64px] overflow-hidden shadow-2xl">
+                        {bannerNews.map((banner, idx) => (
+                           <div
+                              key={banner.id}
+                              className={`absolute inset-0 transition-all duration-1000 ease-in-out ${idx === currentBannerIndex ? 'opacity-100 scale-100' : 'opacity-0 scale-105 pointer-events-none'}`}
+                           >
+                              <img src={banner.image} className="w-full h-full object-cover" alt="" />
+                              <div className="absolute inset-0 bg-gradient-to-t from-[#0A101E] via-[#0A101E]/40 to-transparent flex items-end">
+                                 <div className="hidden md:flex px-6 md:px-12 lg:px-24 pb-16 md:pb-20 w-full flex flex-col items-center md:items-start text-center md:text-left">
+                                    <p className="text-orange-500 font-black text-[10px] md:text-[13px] uppercase tracking-[0.4em] mb-4 italic animate-in fade-in slide-in-from-bottom duration-700">{banner.category}</p>
+                                    <h2 className="text-2xl md:text-5xl lg:text-6xl font-black tracking-tighter italic mb-4 md:mb-8 uppercase leading-tight md:leading-[1.1] text-white animate-in fade-in slide-in-from-bottom duration-1000 delay-200">
+                                       {banner.title}
+                                    </h2>
+                                    <p className="text-slate-300 text-[10px] md:text-base font-medium leading-relaxed mb-6 md:mb-10 line-clamp-3 md:line-clamp-2 max-w-lg animate-in fade-in slide-in-from-bottom duration-1000 delay-300">
+                                       {banner.excerpt}
+                                    </p>
+                                    <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6 animate-in fade-in slide-in-from-bottom duration-1000 delay-500 w-full md:w-auto">
+                                       <button
+                                          onClick={() => setSelectedNews(banner)}
+                                          className="w-full md:w-auto px-10 py-5 bg-orange-600 text-white rounded-[24px] text-[10px] font-black uppercase tracking-[0.2em] hover:bg-white hover:text-orange-600 transition-all shadow-2xl flex items-center justify-center gap-3 group/btn"
+                                       >
+                                          Ler Matéria Completa <ChevronRight size={18} className="group-hover/btn:translate-x-1 transition-transform" />
+                                       </button>
+                                       {banner.link && (
+                                          <a href={banner.link} target="_blank" rel="noreferrer" className="text-white/60 hover:text-white text-[9px] md:text-[10px] font-black uppercase tracking-widest flex items-center gap-2 transition-colors">
+                                             Abrir Link <ArrowUpRight size={14} />
+                                          </a>
+                                       )}
+                                    </div>
+                                    {/* Botão Simplificado para Mobile */}
+                                    <div className="md:hidden absolute bottom-8 left-8 right-8 z-20">
+                                       <button
+                                          onClick={() => setSelectedNews(banner)}
+                                          className="w-full py-4 bg-white/10 backdrop-blur-md border border-white/20 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest flex items-center justify-center gap-2 active:scale-95 transition-transform"
+                                       >
+                                          Ver Destaque <ChevronRight size={14} />
+                                       </button>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        ))}
 
-                  <div className="prose prose-slate max-w-none">
-                     <div className="text-slate-600 font-medium leading-relaxed text-sm md:text-lg space-y-6">
-                        {selectedNews.content ? (
-                           selectedNews.content.split('\n').map((para, i) => (
-                              <p key={i}>{para}</p>
-                           ))
-                        ) : (
-                           <p>{selectedNews.excerpt}</p>
+                        {/* Controles do Carrossel */}
+                        {bannerNews.length > 1 && (
+                           <>
+                              <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex items-center gap-3 z-20">
+                                 {bannerNews.map((_, idx) => (
+                                    <button
+                                       key={idx}
+                                       onClick={() => setCurrentBannerIndex(idx)}
+                                       className={`h-1 md:h-1.5 transition-all duration-500 rounded-full ${idx === currentBannerIndex ? "w-6 md:w-10 bg-orange-600" : "w-2 md:w-4 bg-white/20 hover:bg-white/40"}`}
+                                    />
+                                 ))}
+                              </div>
+                              <div className="absolute inset-y-0 left-8 right-8 flex items-center justify-between pointer-events-none">
+                                 <button
+                                    onClick={() => setCurrentBannerIndex(prev => (prev - 1 + bannerNews.length) % bannerNews.length)}
+                                    className="w-10 h-10 md:w-14 md:h-14 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl md:rounded-2xl flex items-center justify-center text-white/40 hover:text-white hover:bg-orange-600 hover:border-orange-600 transition-all pointer-events-auto"
+                                 >
+                                    <ChevronLeft size={24} />
+                                 </button>
+                                 <button
+                                    onClick={() => setCurrentBannerIndex(prev => (prev + 1) % bannerNews.length)}
+                                    className="w-10 h-10 md:w-14 md:h-14 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl md:rounded-2xl flex items-center justify-center text-white/40 hover:text-white hover:bg-orange-600 hover:border-orange-600 transition-all pointer-events-auto"
+                                 >
+                                    <ChevronRight size={24} />
+                                 </button>
+                              </div>
+                           </>
                         )}
                      </div>
-                  </div>
+                  ) : (
+                     /* Layout Original / Fallback se não houver banner */
+                     <div className="bg-[#0F172A] rounded-[32px] sm:rounded-[48px] lg:rounded-[64px] p-6 sm:p-12 lg:p-24 text-white shadow-2xl relative overflow-hidden group">
+                        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-orange-600/10 rounded-full blur-[120px] -mr-64 -mt-64 group-hover:bg-orange-600/20 transition-all duration-700"></div>
+                        <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-emerald-600/5 rounded-full blur-[80px] -ml-32 -mb-32"></div>
 
-                  {selectedNews.link && (
-                     <div className="mt-12 pt-10 border-t border-slate-100">
-                        <a
-                           href={selectedNews.link}
-                           target="_blank"
-                           rel="noreferrer"
-                           className="inline-flex items-center gap-3 px-8 py-4 bg-[#0A101E] text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-orange-600 transition-all shadow-xl"
-                        >
-                           Saiba Mais na Fonte <ArrowUpRight size={16} />
-                        </a>
+                        <div className="relative z-10 flex flex-col xl:flex-row xl:items-center justify-between gap-12">
+                           <div className="max-w-xl">
+                              <p className="text-orange-500 font-black text-[11px] md:text-[13px] uppercase tracking-[0.4em] mb-4 italic">Clube de Benefícios AMABE</p>
+                              <h1 className="text-2xl md:text-5xl lg:text-6xl font-black tracking-tighter italic mb-4 md:mb-8 uppercase leading-[1.1]">Olá, <br /><span className="text-orange-600">{liveUser.name.split(' ')[0]}</span></h1>
+                              <div className="flex flex-wrap gap-2 md:gap-3 mt-6 md:mt-10">
+                                 <div className="bg-emerald-600/10 text-emerald-400 px-5 py-3 rounded-2xl border border-emerald-500/20 flex items-center gap-2.5 w-fit">
+                                    <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+                                    <span className="text-[10px] font-black uppercase tracking-[0.1em] italic">Benefícios Ativos</span>
+                                 </div>
+                                 <div className="bg-white/5 text-white/60 px-5 py-3 rounded-2xl border border-white/10 flex items-center gap-2.5 w-fit">
+                                    <ShieldCheck size={14} className="text-orange-500" />
+                                    <span className="text-[10px] font-black uppercase tracking-[0.1em] italic">Acesso Elite</span>
+                                 </div>
+                              </div>
+                           </div>
+                           <div className="hidden xl:flex items-center justify-center relative flex-1">
+                              <div className="relative">
+                                 {/* Decorative Glow behind logo */}
+                                 <div className="absolute inset-0 bg-orange-600/20 blur-[100px] rounded-full"></div>
+
+                                 <div className="relative flex flex-col items-center animate-in zoom-in duration-1000">
+                                    <div className="w-32 h-32 md:w-48 md:h-48 bg-orange-600 rounded-[40px] md:rounded-[64px] flex items-center justify-center text-white shadow-2xl shadow-orange-600/40 rotate-6 hover:rotate-12 transition-all duration-700 border-4 border-white/20">
+                                       <ShieldCheck size={80} strokeWidth={1.5} className="md:hidden" />
+                                       <ShieldCheck size={120} strokeWidth={1.5} className="hidden md:block" />
+                                    </div>
+                                    <div className="mt-10 text-center">
+                                       <h1 className="text-5xl md:text-7xl font-black tracking-tighter italic uppercase text-white leading-none">AMABE</h1>
+                                       <p className="text-orange-500 font-black text-[12px] md:text-sm uppercase tracking-[1em] mt-4 mr-[-1em] italic">Elite Club</p>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
                      </div>
                   )}
                </div>
-            </div>
-         </div>
-      )}
-      {/* Alerta Global do Sistema */}
-      {showGlobalAlert && systemNotification && (
-         <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xl z-[100] flex items-center justify-center p-6 animate-in fade-in duration-500">
-            <div className="bg-white w-full max-w-xl rounded-[48px] shadow-2xl overflow-hidden animate-in zoom-in-95 slide-in-from-bottom-10 duration-700 relative">
-               <button
-                  onClick={() => setShowGlobalAlert(false)}
-                  className="absolute top-8 right-8 w-12 h-12 bg-slate-100 hover:bg-[#0A101E] text-slate-400 hover:text-white rounded-2xl flex items-center justify-center transition-all z-10 shadow-sm"
-               >
-                  <X size={20} />
-               </button>
 
-               {systemNotification.image && (
-                  <div className="aspect-[16/10] w-full overflow-hidden">
-                     <img src={systemNotification.image} className="w-full h-full object-cover" alt="alerta" />
+               <div className="grid grid-cols-1 gap-16 px-4">
+                  {/* Seção de Destaques dos Parceiros */}
+                  {news.some(n => n.isFeatured) && (
+                     <div className="space-y-10">
+                        <div className="flex items-center gap-4">
+                           <div className="w-12 h-12 bg-orange-600 rounded-2xl flex items-center justify-center text-white shadow-xl rotate-3 transform group-hover:rotate-0 transition-transform"><Tag size={20} /></div>
+                           <div>
+                              <h2 className="text-xl md:text-3xl font-black text-slate-900 italic uppercase tracking-tighter leading-none">Destaques</h2>
+                              <p className="text-slate-400 font-bold text-[8px] md:text-[10px] uppercase tracking-widest mt-1">Club de Parceiros</p>
+                           </div>
+                        </div>
+
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8">
+                           {/* Notícias em Destaque Reais do Admin */}
+                           {news.filter(n => n.isFeatured).slice(0, 6).map((item) => (
+                              <div key={item.id} className="group bg-white rounded-3xl md:rounded-[48px] border border-slate-100 overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 flex flex-col">
+                                 <div className="relative h-32 md:h-48 overflow-hidden">
+                                    <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
+                                    <div className="absolute top-4 left-4 md:top-6 md:left-6">
+                                       <span className="px-3 py-1 bg-white/60 backdrop-blur-md rounded-full text-[7px] md:text-[9px] font-bold uppercase tracking-widest text-slate-900/60 border border-white/20 shadow-sm">
+                                          {item.category}
+                                       </span>
+                                    </div>
+                                 </div>
+                                 <div className="p-4 md:p-8 flex-1 flex flex-col">
+                                    <div className="flex items-center gap-1.5 mb-2">
+                                       <div className="w-1 h-1 rounded-full bg-orange-600 animate-pulse"></div>
+                                       <span className="text-[7px] md:text-[9px] font-black text-orange-600 uppercase tracking-widest italic">Destaque</span>
+                                    </div>
+                                    <h3 className="text-sm md:text-xl font-black text-slate-900 italic mb-4 leading-tight group-hover:text-orange-600 transition-colors uppercase tracking-tight line-clamp-2">
+                                       {item.title}
+                                    </h3>
+                                    <button
+                                       onClick={() => setSelectedNews(item)}
+                                       className="mt-auto w-full py-3 md:py-4 bg-slate-900 text-white rounded-xl md:rounded-2xl text-[8px] md:text-[10px] font-black uppercase tracking-widest hover:bg-orange-600 transition-all flex items-center justify-center gap-2 active:scale-95 group/btn"
+                                    >
+                                       Ler Matéria <ChevronRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
+                                    </button>
+                                 </div>
+                              </div>
+                           ))}
+                        </div>
+                     </div>
+                  )}
+
+                  {/* Seção de Notícias AMABE */}
+                  {news.length > 0 && (
+                     <div className="space-y-10">
+                        <div className="flex items-center justify-between border-b border-slate-100 pb-8">
+                           <div>
+                              <h2 className="text-2xl md:text-4xl font-black text-slate-900 italic uppercase tracking-tighter">Notícias AMABE</h2>
+                              <p className="text-slate-400 font-bold text-[10px] uppercase tracking-widest mt-1">O que acontece na sua associação</p>
+                           </div>
+                           <button className="hidden md:flex items-center gap-2 px-6 py-3 bg-slate-50 text-slate-900 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-[#0A101E] hover:text-white transition-all group">
+                              Todas Notícias <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                           </button>
+                        </div>
+
+                        <div className="grid grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
+                           {[...news].sort((a, b) => (a.isFeatured === b.isFeatured ? 0 : a.isFeatured ? -1 : 1)).map((item) => (
+                              <div key={item.id} className="group bg-white rounded-[32px] md:rounded-[48px] border border-slate-100 overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 flex flex-col">
+                                 <div className="relative h-32 md:h-64 overflow-hidden">
+                                    <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
+                                    <div className="absolute top-8 left-8">
+                                       <span className="px-5 py-2 bg-white/60 backdrop-blur-md rounded-full text-[7px] md:text-[9px] font-bold uppercase tracking-widest text-slate-900/60 border border-white/20 shadow-sm">
+                                          {item.category}
+                                       </span>
+                                    </div>
+                                 </div>
+                                 <div className="p-4 md:p-10 flex-1 flex flex-col">
+                                    {item.isFeatured && (
+                                       <div className="flex items-center gap-2 mb-2 md:mb-3">
+                                          <div className="w-1 md:w-1.5 h-1 md:h-1.5 rounded-full bg-orange-600 animate-pulse"></div>
+                                          <span className="text-[7px] md:text-[10px] font-black text-orange-600 uppercase tracking-widest italic">Destaque</span>
+                                       </div>
+                                    )}
+                                    <p className="text-[7px] md:text-[10px] font-black text-orange-500/60 uppercase tracking-widest mb-2 md:mb-4">{item.date}</p>
+                                    <h3 className="text-xs md:text-2xl font-black text-slate-900 italic mb-2 md:mb-4 leading-[1.1] group-hover:text-orange-600 transition-colors uppercase tracking-tight line-clamp-2 md:line-clamp-none">
+                                       {item.title}
+                                    </h3>
+                                    <p className="hidden md:block text-slate-500 text-[13px] font-medium leading-relaxed mb-8 line-clamp-2">
+                                       {item.excerpt}
+                                    </p>
+                                    <button
+                                       onClick={() => setSelectedNews(item)}
+                                       className="mt-auto w-full py-3 md:py-5 bg-slate-900 text-white rounded-xl md:rounded-[24px] text-[8px] md:text-[10px] font-black uppercase tracking-[0.1em] md:tracking-[0.2em] hover:bg-orange-600 transition-all flex items-center justify-center gap-2 md:gap-3 shadow-lg shadow-slate-900/10 active:scale-95 group/btn"
+                                    >
+                                       Ler Matéria <ChevronRight size={14} className="md:size-4 group-hover/btn:translate-x-1 transition-transform" />
+                                    </button>
+                                 </div>
+                              </div>
+                           ))}
+                        </div>
+                     </div>
+                  )}
+               </div>
+
+               {/* Banner de CTA Final Rodapé Full Width */}
+               <div className="px-4 mt-20">
+                  <div className="bg-[#0A101E] p-6 sm:p-10 lg:p-16 rounded-[32px] sm:rounded-[48px] lg:rounded-[64px] text-white relative overflow-hidden group shadow-2xl">
+                     <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-orange-600/10 rounded-full blur-[120px] -mr-64 -mt-64 group-hover:bg-orange-600/20 transition-all duration-700"></div>
+                     <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-emerald-600/5 rounded-full blur-[100px] -ml-48 -mb-48"></div>
+
+                     <div className="relative z-10 flex flex-col xl:flex-row items-center justify-between gap-10">
+                        <div className="max-w-2xl text-center xl:text-left space-y-4">
+                           <h4 className="text-3xl md:text-5xl font-black italic uppercase tracking-tighter leading-none">Quer anunciar aqui?</h4>
+                           <p className="text-slate-400 text-xs md:text-lg font-bold uppercase tracking-widest">
+                              Seja um parceiro <span className="text-orange-500">AMABE Elite</span> e alcance milhares de associados com exclusividade.
+                           </p>
+                        </div>
+                        <a
+                           href="https://wa.me/5511999999999?text=Olá! Gostaria de saber mais sobre como anunciar no AMABE Elite."
+                           target="_blank"
+                           rel="noreferrer"
+                           className="px-12 py-6 bg-orange-600 text-white rounded-[32px] font-black text-xs md:text-base uppercase tracking-[0.2em] shadow-xl hover:bg-white hover:text-orange-600 transition-all active:scale-95 flex items-center gap-4 whitespace-nowrap"
+                        >
+                           Fale Conosco agora <MessageCircle size={20} />
+                        </a>
+                     </div>
                   </div>
-               )}
-
-               <div className="p-10 text-center">
-                  <div className="w-16 h-16 bg-orange-600 rounded-[28px] flex items-center justify-center text-white shadow-xl mx-auto mb-6 -mt-18 border-4 border-white relative z-10">
-                     <Bell size={28} className="animate-bounce" />
-                  </div>
-
-                  <h2 className="text-3xl font-black text-slate-900 italic uppercase tracking-tighter leading-tight mb-4">
-                     {systemNotification.title}
-                  </h2>
-
-                  <div className="prose prose-slate max-w-none">
-                     <p className="text-slate-500 font-bold text-sm leading-relaxed whitespace-pre-line">
-                        {systemNotification.message}
-                     </p>
-                  </div>
-
-                  <button
-                     onClick={() => setShowGlobalAlert(false)}
-                     className="w-full mt-10 py-5 bg-[#0A101E] text-white rounded-[24px] text-[11px] font-black uppercase tracking-[0.3em] hover:bg-orange-600 transition-all shadow-xl active:scale-95"
-                  >
-                     Entendido, obrigado!
-                  </button>
                </div>
             </div>
-         </div>
-      )}
-   </div>
-);
+         )}
+
+         {activeTab === 'card' && renderWallet()}
+         {activeTab === 'profile' && renderProfile()}
+         {activeTab === 'payments' && renderFinancial()}
+         {activeTab === 'club' && renderClub()}
+
+         {/* Modal de Notícia na Íntegra */}
+         {selectedNews && (
+            <div className="fixed inset-0 bg-[#0A101E]/95 backdrop-blur-2xl z-[100] flex items-center justify-center p-4 md:p-10 animate-in fade-in duration-500">
+               <div className="absolute inset-0" onClick={() => setSelectedNews(null)}></div>
+               <div className="relative w-full max-w-5xl h-full max-h-[90vh] bg-white rounded-[48px] md:rounded-[64px] overflow-hidden flex flex-col md:flex-row shadow-2xl animate-in zoom-in duration-500">
+                  <button
+                     onClick={() => setSelectedNews(null)}
+                     className="absolute top-8 right-8 z-50 p-4 bg-white/10 backdrop-blur-md text-white md:text-slate-400 md:bg-slate-50 rounded-2xl hover:bg-orange-600 hover:text-white transition-all shadow-lg"
+                  >
+                     <X size={24} />
+                  </button>
+
+                  <div className="w-full md:w-2/5 h-64 md:h-auto relative shrink-0">
+                     <img src={selectedNews.image} className="w-full h-full object-cover" alt="" />
+                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent md:hidden"></div>
+                     <div className="absolute bottom-6 left-8 md:hidden text-white">
+                        <p className="text-[10px] font-black uppercase tracking-widest opacity-80">{selectedNews.category}</p>
+                        <h2 className="text-2xl font-black italic uppercase leading-tight mt-1">{selectedNews.title}</h2>
+                     </div>
+                  </div>
+
+                  <div className="flex-1 p-8 md:p-16 overflow-y-auto no-scrollbar bg-white">
+                     <div className="hidden md:block mb-10">
+                        <p className="text-orange-600 font-black text-[11px] uppercase tracking-[0.4em] mb-3 italic">{selectedNews.category}</p>
+                        <h2 className="text-4xl lg:text-5xl font-black text-slate-900 italic uppercase leading-[1.1] tracking-tighter mb-4">{selectedNews.title}</h2>
+                        <div className="flex items-center gap-4 text-slate-400 font-bold text-[10px] uppercase tracking-widest">
+                           <Clock size={12} /> {selectedNews.date}
+                        </div>
+                     </div>
+
+                     <div className="prose prose-slate max-w-none">
+                        <div className="text-slate-600 font-medium leading-relaxed text-sm md:text-lg space-y-6">
+                           {selectedNews.content ? (
+                              selectedNews.content.split('\n').map((para, i) => (
+                                 <p key={i}>{para}</p>
+                              ))
+                           ) : (
+                              <p>{selectedNews.excerpt}</p>
+                           )}
+                        </div>
+                     </div>
+
+                     {selectedNews.link && (
+                        <div className="mt-12 pt-10 border-t border-slate-100">
+                           <a
+                              href={selectedNews.link}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="inline-flex items-center gap-3 px-8 py-4 bg-[#0A101E] text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-orange-600 transition-all shadow-xl"
+                           >
+                              Saiba Mais na Fonte <ArrowUpRight size={16} />
+                           </a>
+                        </div>
+                     )}
+                  </div>
+               </div>
+            </div>
+         )}
+         {/* Alerta Global do Sistema */}
+         {showGlobalAlert && systemNotification && (
+            <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xl z-[100] flex items-center justify-center p-6 animate-in fade-in duration-500">
+               <div className="bg-white w-full max-w-xl rounded-[48px] shadow-2xl overflow-hidden animate-in zoom-in-95 slide-in-from-bottom-10 duration-700 relative">
+                  <button
+                     onClick={() => setShowGlobalAlert(false)}
+                     className="absolute top-8 right-8 w-12 h-12 bg-slate-100 hover:bg-[#0A101E] text-slate-400 hover:text-white rounded-2xl flex items-center justify-center transition-all z-10 shadow-sm"
+                  >
+                     <X size={20} />
+                  </button>
+
+                  {systemNotification.image && (
+                     <div className="aspect-[16/10] w-full overflow-hidden">
+                        <img src={systemNotification.image} className="w-full h-full object-cover" alt="alerta" />
+                     </div>
+                  )}
+
+                  <div className="p-10 text-center">
+                     <div className="w-16 h-16 bg-orange-600 rounded-[28px] flex items-center justify-center text-white shadow-xl mx-auto mb-6 -mt-18 border-4 border-white relative z-10">
+                        <Bell size={28} className="animate-bounce" />
+                     </div>
+
+                     <h2 className="text-3xl font-black text-slate-900 italic uppercase tracking-tighter leading-tight mb-4">
+                        {systemNotification.title}
+                     </h2>
+
+                     <div className="prose prose-slate max-w-none">
+                        <p className="text-slate-500 font-bold text-sm leading-relaxed whitespace-pre-line">
+                           {systemNotification.message}
+                        </p>
+                     </div>
+
+                     <button
+                        onClick={() => setShowGlobalAlert(false)}
+                        className="w-full mt-10 py-5 bg-[#0A101E] text-white rounded-[24px] text-[11px] font-black uppercase tracking-[0.3em] hover:bg-orange-600 transition-all shadow-xl active:scale-95"
+                     >
+                        Entendido, obrigado!
+                     </button>
+                  </div>
+               </div>
+            </div>
+         )}
+      </div>
+   );
 };
 
 export default MemberDashboard;
