@@ -1715,23 +1715,24 @@ const MemberDashboard: React.FC<MemberDashboardProps> = ({
       const sortedYears = Object.keys(paymentsByYear).sort((a, b) => b.localeCompare(a));
 
       return (
-         <div className="max-w-4xl mx-auto space-y-12 animate-in fade-in slide-in-from-bottom-8 duration-700 pb-20 px-4">
-            <header className="flex items-center gap-6 mb-12">
-               <div className="w-16 h-16 bg-[#0F172A] rounded-3xl flex items-center justify-center text-white shadow-2xl rotate-3">
-                  <DollarSign size={32} />
+         <div className="max-w-4xl mx-auto space-y-10 md:space-y-12 animate-in fade-in slide-in-from-bottom-8 duration-700 pb-24 px-4 sm:px-6">
+            <header className="flex items-center gap-4 md:gap-6 mb-8 md:mb-12">
+               <div className="w-12 h-12 md:w-16 md:h-16 bg-[#0F172A] rounded-2xl md:rounded-3xl flex items-center justify-center text-white shadow-2xl rotate-3">
+                  <DollarSign size={24} className="md:hidden" />
+                  <DollarSign size={32} className="hidden md:block" />
                </div>
                <div>
-                  <h2 className="text-3xl md:text-5xl font-black text-slate-900 italic uppercase tracking-tighter">Financeiro</h2>
-                  <p className="text-slate-400 font-bold text-[10px] md:text-xs uppercase tracking-[0.2em] mt-1 italic">Gestão de Mensalidades Elite</p>
+                  <h2 className="text-2xl md:text-5xl font-black text-slate-900 italic uppercase tracking-tighter">Financeiro</h2>
+                  <p className="text-slate-400 font-bold text-[8px] md:text-xs uppercase tracking-[0.2em] mt-1 italic">Gestão de Mensalidades Elite</p>
                </div>
             </header>
 
             {/* Resumo Financeiro Premium */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-               <div className="bg-white p-10 rounded-[48px] border border-slate-100 shadow-sm relative overflow-hidden group hover:shadow-xl transition-all">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-orange-50 rounded-bl-[64px] -mr-8 -mt-8 opacity-50 transition-transform group-hover:scale-110"></div>
-                  <p className="relative z-10 text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 italic">Próximo Vencimento</p>
-                  <h3 className="relative z-10 text-4xl font-black text-slate-900 italic tracking-tighter">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+               <div className="bg-white p-8 md:p-10 rounded-[32px] md:rounded-[48px] border border-slate-100 shadow-sm relative overflow-hidden group hover:shadow-xl transition-all">
+                  <div className="absolute top-0 right-0 w-24 h-24 md:w-32 md:h-32 bg-orange-50 rounded-bl-[64px] -mr-6 -mt-6 md:-mr-8 md:-mt-8 opacity-50 transition-transform group-hover:scale-110"></div>
+                  <p className="relative z-10 text-[9px] md:text-[10px] font-black text-slate-400 uppercase italic mb-2 md:mb-3">Próximo Vencimento</p>
+                  <h3 className="relative z-10 text-3xl md:text-4xl font-black text-slate-900 italic tracking-tighter">
                      {(() => {
                         const unpaid = payments
                            .filter(p => p.status !== PaymentStatus.PAID)
@@ -1739,64 +1740,67 @@ const MemberDashboard: React.FC<MemberDashboardProps> = ({
                         return unpaid.length > 0 ? new Date(unpaid[0].dueDate).toLocaleDateString('pt-BR') : 'Nenhum débito';
                      })()}
                   </h3>
-                  <div className={`relative z-10 mt-8 flex items-center gap-3 px-6 py-2.5 rounded-2xl w-fit font-black text-[10px] uppercase tracking-widest ${payments.some(p => p.status === PaymentStatus.OVERDUE)
+                  <div className={`relative z-10 mt-6 md:mt-8 flex items-center gap-2 md:gap-3 px-4 md:px-6 py-2 md:py-2.5 rounded-xl md:rounded-2xl w-fit font-black text-[9px] md:text-[10px] uppercase tracking-widest ${payments.some(p => p.status === PaymentStatus.OVERDUE)
                         ? 'text-rose-600 bg-rose-50 border border-rose-100'
                         : 'text-amber-600 bg-amber-50 border border-amber-100'
                      }`}>
-                     <Clock size={16} />
+                     <Clock size={12} className="md:hidden" />
+                     <Clock size={16} className="hidden md:block" />
                      {payments.some(p => p.status === PaymentStatus.OVERDUE) ? 'Pagamento Atrasado' : 'Aguardando Pagamento'}
                   </div>
                </div>
 
-               <div className="bg-[#0A101E] p-10 rounded-[48px] text-white shadow-2xl relative overflow-hidden group">
-                  <div className="absolute top-0 right-0 w-48 h-48 bg-orange-600/10 rounded-full blur-3xl -mr-24 -mt-24"></div>
-                  <p className="text-[10px] font-black text-orange-400 uppercase tracking-widest mb-3 italic">Assinatura Ativa</p>
-                  <h3 className="text-4xl font-black italic tracking-tighter text-white">R$ 89,90<span className="text-lg opacity-40 ml-2">/mês</span></h3>
-                  <div className="mt-8 flex items-center gap-3">
-                     <div className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center border border-white/10">
-                        <ShieldCheck size={20} className="text-orange-500" />
+               <div className="bg-[#0A101E] p-8 md:p-10 rounded-[32px] md:rounded-[48px] text-white shadow-2xl relative overflow-hidden group">
+                  <div className="absolute top-0 right-0 w-40 h-40 md:w-48 md:h-48 bg-orange-600/10 rounded-full blur-3xl -mr-20 -mt-20 md:-mr-24 md:-mt-24"></div>
+                  <p className="text-[9px] md:text-[10px] font-black text-orange-400 uppercase italic mb-2 md:mb-3">Assinatura Ativa</p>
+                  <h3 className="text-3xl md:text-4xl font-black italic tracking-tighter text-white">R$ 89,90<span className="text-base md:text-lg opacity-40 ml-2">/mês</span></h3>
+                  <div className="mt-6 md:mt-8 flex items-center gap-3">
+                     <div className="w-8 h-8 md:w-10 md:h-10 bg-white/5 rounded-lg md:rounded-xl flex items-center justify-center border border-white/10">
+                        <ShieldCheck size={16} className="md:hidden text-orange-500" />
+                        <ShieldCheck size={20} className="hidden md:block text-orange-500" />
                      </div>
-                     <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest">Plano Individual Elite</p>
+                     <p className="text-[9px] md:text-[10px] text-slate-400 font-black uppercase tracking-widest">Plano Individual Elite</p>
                   </div>
                </div>
             </div>
 
             {/* Histórico Agrupado */}
-            <div className="space-y-12">
+            <div className="space-y-10 md:space-y-12">
                {sortedYears.map(year => (
-                  <div key={year} className="space-y-6">
-                     <div className="flex items-center gap-4 px-6">
-                        <h3 className="text-xl font-black text-slate-900 italic tracking-tighter uppercase">{year}</h3>
+                  <div key={year} className="space-y-4 md:space-y-6">
+                     <div className="flex items-center gap-3 md:gap-4 px-4 md:px-6">
+                        <h3 className="text-lg md:text-xl font-black text-slate-900 italic tracking-tighter uppercase">{year}</h3>
                         <div className="h-[2px] flex-1 bg-slate-100 rounded-full"></div>
-                        <span className="text-[10px] font-black text-slate-300 uppercase tracking-[0.2em]">{paymentsByYear[year].length} Parcelas</span>
+                        <span className="text-[8px] md:text-[10px] font-black text-slate-300 uppercase tracking-[0.2em]">{paymentsByYear[year].length} Parcelas</span>
                      </div>
 
-                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                     <div className="grid grid-cols-1 gap-4">
                         {paymentsByYear[year].sort((a: any, b: any) => new Date(b.dueDate).getTime() - new Date(a.dueDate).getTime()).map((p: any) => {
                            const isPaid = p.status === PaymentStatus.PAID;
                            const isOverdue = !isPaid && new Date(p.dueDate) < new Date();
 
                            return (
-                              <div key={p.id} className="group bg-white p-6 md:p-8 rounded-[40px] border border-slate-100 hover:border-orange-200 hover:shadow-xl transition-all duration-500 relative flex items-center justify-between overflow-hidden">
+                              <div key={p.id} className="group bg-white p-5 md:p-8 rounded-[32px] md:rounded-[40px] border border-slate-100 hover:border-orange-200 hover:shadow-xl transition-all duration-500 relative flex items-center justify-between overflow-hidden">
                                  {isPaid && (
-                                    <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-50 rounded-bl-full -mr-12 -mt-12 opacity-50"></div>
+                                    <div className="absolute top-0 right-0 w-20 h-20 md:w-24 md:h-24 bg-emerald-50 rounded-bl-full -mr-10 -mt-10 md:-mr-12 md:-mt-12 opacity-50"></div>
                                  )}
 
-                                 <div className="flex items-center gap-5 relative z-10">
-                                    <div className={`w-14 h-14 md:w-16 md:h-16 rounded-[24px] flex items-center justify-center transition-colors ${isPaid ? 'bg-emerald-50 text-emerald-600' : (isOverdue ? 'bg-rose-50 text-rose-600' : 'bg-amber-50 text-amber-600')
+                                 <div className="flex items-center gap-4 md:gap-5 relative z-10">
+                                    <div className={`w-12 h-12 md:w-16 md:h-16 rounded-2xl md:rounded-[24px] flex items-center justify-center transition-colors ${isPaid ? 'bg-emerald-50 text-emerald-600' : (isOverdue ? 'bg-rose-50 text-rose-600' : 'bg-amber-50 text-amber-600')
                                        }`}>
-                                       <CreditCard size={isPaid ? 32 : 28} className={isPaid ? 'rotate-3' : ''} />
+                                       <CreditCard size={isPaid ? 28 : 24} className={`md:hidden ${isPaid ? 'rotate-3' : ''}`} />
+                                       <CreditCard size={isPaid ? 32 : 28} className={`hidden md:block ${isPaid ? 'rotate-3' : ''}`} />
                                     </div>
                                     <div>
-                                       <p className="text-[8px] md:text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1 italic">
-                                          Venc. {new Date(p.dueDate).toLocaleDateString('pt-BR')}
+                                       <p className="text-[7px] md:text-[9px] font-black text-slate-400 uppercase tracking-widest mb-0.5 md:mb-1 italic">
+                                          {new Date(p.dueDate).toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' }).toUpperCase()}
                                        </p>
-                                       <h4 className="text-lg md:text-2xl font-black text-slate-900 italic tracking-tighter">R$ {p.amount.toFixed(2)}</h4>
+                                       <h4 className="text-base md:text-2xl font-black text-slate-900 italic tracking-tighter">R$ {p.amount.toFixed(2)}</h4>
                                     </div>
                                  </div>
 
-                                 <div className="flex flex-col items-end gap-2 relative z-10">
-                                    <span className={`px-5 py-2 rounded-full text-[9px] font-black uppercase tracking-widest border transition-all ${isPaid
+                                 <div className="flex flex-col items-end gap-1.5 md:gap-2 relative z-10">
+                                    <span className={`px-4 md:px-5 py-1.5 md:py-2 rounded-full text-[8px] md:text-[9px] font-black uppercase tracking-widest border transition-all ${isPaid
                                           ? 'bg-emerald-500 text-white border-emerald-500 shadow-lg shadow-emerald-500/20'
                                           : (isOverdue ? 'bg-rose-50 text-rose-600 border-rose-100' : 'bg-slate-50 text-slate-400 border-slate-100')
                                        }`}>
@@ -1804,7 +1808,7 @@ const MemberDashboard: React.FC<MemberDashboardProps> = ({
                                     </span>
                                     {!isPaid && (
                                        <button className="text-[7px] font-black text-orange-600 uppercase tracking-widest hover:underline underline-offset-4 decoration-2">
-                                          Ver Boleto
+                                          Pagar
                                        </button>
                                     )}
                                  </div>
@@ -1817,12 +1821,13 @@ const MemberDashboard: React.FC<MemberDashboardProps> = ({
             </div>
 
             {/* Footer Informativo */}
-            <div className="bg-slate-50 p-10 rounded-[48px] border-2 border-dashed border-slate-200 text-center space-y-4">
-               <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-slate-300 mx-auto shadow-sm">
-                  <Info size={24} />
+            <div className="bg-slate-50 p-8 md:p-10 rounded-[32px] md:rounded-[48px] border-2 border-dashed border-slate-200 text-center space-y-4">
+               <div className="w-10 h-10 md:w-12 md:h-12 bg-white rounded-xl md:rounded-2xl flex items-center justify-center text-slate-300 mx-auto shadow-sm">
+                  <Info size={20} className="md:hidden" />
+                  <Info size={24} className="hidden md:block" />
                </div>
-               <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] max-w-md mx-auto leading-relaxed">
-                  As mensalidades são geradas anualmente. Em caso de dúvidas sobre pagamentos, entre em contato com o suporte AMABE.
+               <p className="text-[8px] md:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] max-w-sm md:max-w-md mx-auto leading-relaxed">
+                  As mensalidades são geradas anualmente. Em caso de dúvidas, entre em contato com o suporte AMABE Elite.
                </p>
             </div>
          </div>
