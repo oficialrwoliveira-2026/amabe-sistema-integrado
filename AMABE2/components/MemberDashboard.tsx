@@ -740,8 +740,8 @@ const MemberDashboard: React.FC<MemberDashboardProps> = ({
                setEditingDependentId(null);
                setDependentForm({ name: '', cpf: '', rg: '', birthDate: '', relationship: 'Filho' });
             }}></div>
-            <div className="relative w-full max-w-lg bg-white rounded-[40px] md:rounded-[56px] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-500">
-               <div className="p-8 md:p-12 space-y-10">
+            <div className="relative w-full max-w-lg bg-white rounded-[40px] md:rounded-[56px] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-500 flex flex-col max-h-[90vh]">
+               <div className="p-8 md:p-12 space-y-10 overflow-y-auto custom-scrollbar">
                   <header>
                      <h3 className="text-2xl md:text-4xl font-black text-slate-900 italic uppercase tracking-tighter leading-tight mb-2">
                         {editingDependentId ? 'Editar Dependente' : 'Novo Dependente'}

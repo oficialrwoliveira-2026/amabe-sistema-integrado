@@ -66,7 +66,7 @@ const DigitalCard: React.FC<DigitalCardProps> = ({ member, isDependent = false, 
             <h3 className="text-[clamp(18px,7cqi,28px)] font-black leading-tight truncate tracking-tight uppercase italic text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]">{member.name}</h3>
             <div className="flex items-center justify-center space-x-2 mt-[0.5cqi]">
               <div className="h-[1px] w-[4cqi] bg-orange-600/50"></div>
-              <p className="text-[clamp(8px,2.2cqi,11px)] font-black tracking-[0.4em] text-orange-500 uppercase italic">Digital Access Member</p>
+              <p className="text-[clamp(8px,2.2cqi,11px)] font-black tracking-[0.4em] text-orange-500 uppercase italic">MEMBRO ACESSO DIGITAL</p>
               <div className="h-[1px] w-[4cqi] bg-orange-600/50"></div>
             </div>
           </div>
@@ -78,7 +78,7 @@ const DigitalCard: React.FC<DigitalCardProps> = ({ member, isDependent = false, 
           <div className="space-y-[4.5cqi] flex-1">
             <div className="space-y-[1.5cqi]">
               <div className="flex items-center justify-between px-[1cqi]">
-                <p className="text-[clamp(8px,2.2cqi,10px)] font-black text-white/30 uppercase tracking-[0.2em]">Credential ID</p>
+                <p className="text-[clamp(8px,2.2cqi,10px)] font-black text-white/30 uppercase tracking-[0.2em]">MATRÍCULA ID</p>
                 <div className="h-[2px] flex-1 mx-[3cqi] bg-white/5"></div>
               </div>
               <div className="bg-white/[0.03] px-[4cqi] py-[3.5cqi] rounded-[3cqi] border border-white/5 flex items-center justify-between group-hover:bg-white/[0.05] transition-colors">
@@ -94,11 +94,11 @@ const DigitalCard: React.FC<DigitalCardProps> = ({ member, isDependent = false, 
             {(member.cpf || member.rg) && (
               <div className="grid grid-cols-2 gap-[4cqi]">
                 <div className="space-y-[1.5cqi]">
-                  <p className="text-[clamp(8px,2.2cqi,10px)] font-black text-white/30 uppercase tracking-[0.1em] pl-[1cqi]">Registry CPF</p>
+                  <p className="text-[clamp(8px,2.2cqi,10px)] font-black text-white/30 uppercase tracking-[0.1em] pl-[1cqi]">REGISTRO CPF</p>
                   <p className="text-[clamp(10px,3.2cqi,15px)] font-bold text-white/90 italic tracking-widest bg-white/[0.02] p-2 rounded-lg border border-white/5 text-center truncate">{member.cpf || '---.---.---'}</p>
                 </div>
                 <div className="space-y-[1.5cqi]">
-                  <p className="text-[clamp(8px,2.2cqi,10px)] font-black text-white/30 uppercase tracking-[0.1em] pl-[1cqi]">Registry RG</p>
+                  <p className="text-[clamp(8px,2.2cqi,10px)] font-black text-white/30 uppercase tracking-[0.1em] pl-[1cqi]">REGISTRO RG</p>
                   <p className="text-[clamp(10px,3.2cqi,15px)] font-bold text-white/90 italic tracking-widest bg-white/[0.02] p-2 rounded-lg border border-white/5 text-center truncate">{member.rg || '-------'}</p>
                 </div>
               </div>
@@ -107,14 +107,14 @@ const DigitalCard: React.FC<DigitalCardProps> = ({ member, isDependent = false, 
             {/* Dates Row */}
             <div className="flex items-center justify-between gap-[4cqi] pt-[2cqi]">
               <div className="flex-1 space-y-[1.5cqi]">
-                <p className="text-[clamp(8px,2.2cqi,10px)] font-black text-orange-500 uppercase tracking-widest italic opacity-60">Verified Date</p>
+                <p className="text-[clamp(8px,2.2cqi,10px)] font-black text-orange-500 uppercase tracking-widest italic opacity-60">DATA DE VERIFICAÇÃO</p>
                 <div className="flex items-center space-x-2">
                   <Calendar size="3cqi" className="text-white/20" />
-                  <p className="text-[clamp(12px,4cqi,18px)] font-black text-white italic tracking-tighter">OCT 2024</p>
+                  <p className="text-[clamp(12px,4cqi,18px)] font-black text-white italic tracking-tighter">OUT 2024</p>
                 </div>
               </div>
               <div className="flex-1 space-y-[1.5cqi]">
-                <p className="text-[clamp(8px,2.2cqi,10px)] font-black text-orange-500 uppercase tracking-widest italic opacity-60">Birth Protocol</p>
+                <p className="text-[clamp(8px,2.2cqi,10px)] font-black text-orange-500 uppercase tracking-widest italic opacity-60">PROTOCOLO NASCIMENTO</p>
                 <div className="flex items-center space-x-2">
                   <div className="w-[1.5cqi] h-[1.5cqi] rounded-full bg-orange-600 shadow-[0_0_5px_rgba(234,88,12,0.8)] animate-pulse"></div>
                   <span className="text-[clamp(12px,3.5cqi,16px)] font-black text-white italic tracking-widest">{member.birthDate || '--/--/----'}</span>
@@ -126,7 +126,7 @@ const DigitalCard: React.FC<DigitalCardProps> = ({ member, isDependent = false, 
           {/* Footer with QR Code */}
           <div className="flex items-center justify-between pt-[4cqi] border-t border-white/5 mt-auto">
             <div className="space-y-[1cqi]">
-              <p className="text-[clamp(12px,3.5cqi,16px)] font-black text-white uppercase italic leading-tight">SYSTEM<br /><span className="text-orange-600 tracking-[0.2em]">ELITE-X</span></p>
+              <p className="text-[clamp(12px,3.5cqi,16px)] font-black text-white uppercase italic leading-tight">SISTEMA<br /><span className="text-orange-600 tracking-[0.2em]">ELITE-X</span></p>
               <div className="flex space-x-1">
                 {[...Array(4)].map((_, i) => <div key={i} className="w-1 h-1 bg-orange-600/20 rounded-full"></div>)}
               </div>
