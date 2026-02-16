@@ -52,6 +52,11 @@ const MemberDashboard: React.FC<MemberDashboardProps> = ({
    const [newPasswords, setNewPasswords] = useState({ password: '', confirm: '' });
    const [selectedOffer, setSelectedOffer] = useState<Offer | null>(null);
    const [selectedImage, setSelectedImage] = useState<string | null>(null);
+   const [showPaymentModal, setShowPaymentModal] = useState(false);
+   const [selectedPaymentForPay, setSelectedPaymentForPay] = useState<Payment | null>(null);
+   const [paymentMethod, setPaymentMethod] = useState<'PIX' | 'CARD' | null>(null);
+   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
+   const [paymentStep, setPaymentStep] = useState<'SELECT' | 'PROCESS' | 'SUCCESS'>('SELECT');
 
    useEffect(() => {
       if (systemNotification?.isActive) {
@@ -926,7 +931,7 @@ const MemberDashboard: React.FC<MemberDashboardProps> = ({
                   {allFamily.map((member, idx) => (
                      <div key={member.id} className="animate-in fade-in slide-in-from-bottom-8 duration-700" style={{ animationDelay: `${idx * 150}ms` }}>
                         <div className="mb-6 flex items-center justify-center gap-4">
-                           <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center border border-white/10">
+                           <div className="w-12 h-12 bg-white/5 flex items-center justify-center border border-white/10">
                               <img src={member.avatar} className="w-8 h-8 rounded-lg object-cover" alt="" />
                            </div>
                            <div>
@@ -1741,8 +1746,8 @@ const MemberDashboard: React.FC<MemberDashboardProps> = ({
                      })()}
                   </h3>
                   <div className={`relative z-10 mt-6 md:mt-8 flex items-center gap-2 md:gap-3 px-4 md:px-6 py-2 md:py-2.5 rounded-xl md:rounded-2xl w-fit font-black text-[9px] md:text-[10px] uppercase tracking-widest ${payments.some(p => p.status === PaymentStatus.OVERDUE)
-                        ? 'text-rose-600 bg-rose-50 border border-rose-100'
-                        : 'text-amber-600 bg-amber-50 border border-amber-100'
+                     ? 'text-rose-600 bg-rose-50 border border-rose-100'
+                     : 'text-amber-600 bg-amber-50 border border-amber-100'
                      }`}>
                      <Clock size={12} className="md:hidden" />
                      <Clock size={16} className="hidden md:block" />
@@ -1801,13 +1806,19 @@ const MemberDashboard: React.FC<MemberDashboardProps> = ({
 
                                  <div className="flex flex-col items-end gap-1.5 md:gap-2 relative z-10">
                                     <span className={`px-4 md:px-5 py-1.5 md:py-2 rounded-full text-[8px] md:text-[9px] font-black uppercase tracking-widest border transition-all ${isPaid
-                                          ? 'bg-emerald-500 text-white border-emerald-500 shadow-lg shadow-emerald-500/20'
-                                          : (isOverdue ? 'bg-rose-50 text-rose-600 border-rose-100' : 'bg-slate-50 text-slate-400 border-slate-100')
+                                       ? 'bg-emerald-500 text-white border-emerald-500 shadow-lg shadow-emerald-500/20'
+                                       : (isOverdue ? 'bg-rose-50 text-rose-600 border-rose-100' : 'bg-slate-50 text-slate-400 border-slate-100')
                                        }`}>
                                        {isPaid ? 'PAGO' : (isOverdue ? 'ATRASADO' : 'PENDENTE')}
                                     </span>
                                     {!isPaid && (
-                                       <button className="text-[7px] font-black text-orange-600 uppercase tracking-widest hover:underline underline-offset-4 decoration-2">
+                                       <button
+                                          onClick={() => {
+                                             setSelectedPaymentForPay(p);
+                                             setShowPaymentModal(true);
+                                          }}
+                                          className="text-[7px] font-black text-orange-600 uppercase tracking-widest hover:underline underline-offset-4 decoration-2"
+                                       >
                                           Pagar
                                        </button>
                                     )}
@@ -1835,10 +1846,173 @@ const MemberDashboard: React.FC<MemberDashboardProps> = ({
    };
 
 
+   const renderPaymentModal = () => {
+      if (!showPaymentModal || !selectedPaymentForPay) return null;
+
+      const handleSimulatePayment = () => {
+         setIsProcessingPayment(true);
+         setPaymentStep('PROCESS');
+
+         // Simulando processamento
+         setTimeout(() => {
+            setIsProcessingPayment(false);
+            setPaymentStep('SUCCESS');
+
+            // Após sucesso, poderíamos atualizar o status localmente para demonstração
+            // mas o ideal é deixar como simulação visual por enquanto
+         }, 3000);
+      };
+
+      const closePaymentModal = () => {
+         setShowPaymentModal(false);
+         setSelectedPaymentForPay(null);
+         setPaymentMethod(null);
+         setPaymentStep('SELECT');
+      };
+
+      return (
+         <div className="fixed inset-0 z-[250] flex items-center justify-center p-4 md:p-8 animate-in fade-in duration-300">
+            <div className="absolute inset-0 bg-slate-900/80 backdrop-blur-md" onClick={closePaymentModal}></div>
+            <div className="relative w-full max-w-xl bg-white rounded-[40px] md:rounded-[56px] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-500 flex flex-col max-h-[90vh]">
+               <button
+                  onClick={closePaymentModal}
+                  className="absolute top-6 right-6 md:top-10 md:right-10 z-50 p-3 bg-slate-100 text-slate-400 rounded-2xl hover:bg-orange-600 hover:text-white transition-all"
+               >
+                  <X size={20} />
+               </button>
+
+               <div className="p-8 md:p-12 space-y-8 overflow-y-auto custom-scrollbar">
+                  {paymentStep === 'SELECT' && (
+                     <>
+                        <header className="text-center">
+                           <div className="w-16 h-16 bg-orange-100 rounded-[28px] flex items-center justify-center text-orange-600 mx-auto mb-6">
+                              <CreditCard size={32} />
+                           </div>
+                           <h3 className="text-2xl md:text-3xl font-black text-slate-900 italic uppercase tracking-tighter leading-tight">Pagamento da Parcela</h3>
+                           <p className="text-slate-400 font-bold text-[10px] md:text-xs uppercase tracking-[0.2em] mt-2 italic">
+                              {new Date(selectedPaymentForPay.dueDate).toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' }).toUpperCase()}
+                           </p>
+                        </header>
+
+                        <div className="bg-slate-50 p-6 rounded-[32px] border border-slate-100 flex items-center justify-between">
+                           <div>
+                              <p className="text-[10px] font-black text-slate-300 uppercase tracking-widest mb-1">Valor Total</p>
+                              <h4 className="text-3xl font-black text-slate-900 italic tracking-tighter">R$ {selectedPaymentForPay.amount.toFixed(2)}</h4>
+                           </div>
+                           <div className={`px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest ${new Date(selectedPaymentForPay.dueDate) < new Date() ? 'bg-rose-50 text-rose-600 border border-rose-100' : 'bg-amber-50 text-amber-600 border border-amber-100'
+                              }`}>
+                              {new Date(selectedPaymentForPay.dueDate) < new Date() ? 'Atrasada' : 'Pendente'}
+                           </div>
+                        </div>
+
+                        <div className="space-y-4">
+                           <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] ml-4">Escolha a Forma de Pagamento</p>
+
+                           <button
+                              onClick={() => setPaymentMethod('PIX')}
+                              className={`w-full p-6 rounded-3xl border-2 transition-all flex items-center justify-between group ${paymentMethod === 'PIX' ? 'border-orange-600 bg-orange-50/10' : 'border-slate-50 bg-white hover:border-orange-200'
+                                 }`}
+                           >
+                              <div className="flex items-center gap-4">
+                                 <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-colors ${paymentMethod === 'PIX' ? 'bg-orange-600 text-white' : 'bg-slate-50 text-slate-400'
+                                    }`}>
+                                    <QrCode size={24} />
+                                 </div>
+                                 <div className="text-left">
+                                    <h5 className="font-black text-slate-900 uppercase italic tracking-tight">PIX Instantâneo</h5>
+                                    <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest">Liberação Imediata</p>
+                                 </div>
+                              </div>
+                              <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${paymentMethod === 'PIX' ? 'border-orange-600 bg-orange-600' : 'border-slate-100'
+                                 }`}>
+                                 {paymentMethod === 'PIX' && <CheckCircle2 size={14} className="text-white" />}
+                              </div>
+                           </button>
+
+                           <button
+                              onClick={() => setPaymentMethod('CARD')}
+                              className={`w-full p-6 rounded-3xl border-2 transition-all flex items-center justify-between group ${paymentMethod === 'CARD' ? 'border-orange-600 bg-orange-50/10' : 'border-slate-50 bg-white hover:border-orange-200'
+                                 }`}
+                           >
+                              <div className="flex items-center gap-4">
+                                 <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-colors ${paymentMethod === 'CARD' ? 'bg-orange-600 text-white' : 'bg-slate-50 text-slate-400'
+                                    }`}>
+                                    <CreditCard size={24} />
+                                 </div>
+                                 <div className="text-left">
+                                    <h5 className="font-black text-slate-900 uppercase italic tracking-tight">Cartão de Crédito</h5>
+                                    <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest">Parcelas em até 12x</p>
+                                 </div>
+                              </div>
+                              <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${paymentMethod === 'CARD' ? 'border-orange-600 bg-orange-600' : 'border-slate-100'
+                                 }`}>
+                                 {paymentMethod === 'CARD' && <CheckCircle2 size={14} className="text-white" />}
+                              </div>
+                           </button>
+                        </div>
+
+                        <button
+                           disabled={!paymentMethod}
+                           onClick={handleSimulatePayment}
+                           className="w-full py-6 bg-orange-600 text-white rounded-[32px] font-black text-xs md:text-sm uppercase tracking-[0.4em] shadow-2xl shadow-orange-600/20 hover:bg-orange-700 transition-all disabled:opacity-30 disabled:grayscale active:scale-95 flex items-center justify-center gap-3 mt-4"
+                        >
+                           Confirmar e Pagar Agora
+                        </button>
+                     </>
+                  )}
+
+                  {paymentStep === 'PROCESS' && (
+                     <div className="py-20 text-center space-y-8 animate-in fade-in zoom-in-95 duration-700">
+                        <div className="relative w-32 h-32 mx-auto">
+                           <div className="absolute inset-0 border-4 border-slate-100 rounded-full"></div>
+                           <div className="absolute inset-0 border-4 border-orange-600 rounded-full border-t-transparent animate-spin"></div>
+                           <div className="absolute inset-0 flex items-center justify-center text-orange-600">
+                              <ShieldCheck size={48} className="animate-pulse" />
+                           </div>
+                        </div>
+                        <div className="space-y-4">
+                           <h3 className="text-2xl font-black text-slate-900 italic uppercase">Processando...</h3>
+                           <p className="text-slate-400 font-bold text-xs uppercase tracking-widest leading-relaxed">
+                              Estamos validando sua transação com segurança <br /> através do GATEWAY Elite AMABE.
+                           </p>
+                        </div>
+                     </div>
+                  )}
+
+                  {paymentStep === 'SUCCESS' && (
+                     <div className="py-12 text-center space-y-10 animate-in fade-in slide-in-from-bottom-10 duration-700">
+                        <div className="w-24 h-24 bg-emerald-500 rounded-[36px] flex items-center justify-center text-white mx-auto shadow-2xl shadow-emerald-500/30 rotate-12 scale-110 hover:rotate-0 transition-transform duration-500">
+                           <CheckCircle2 size={56} strokeWidth={3} />
+                        </div>
+                        <div className="space-y-4">
+                           <h3 className="text-3xl md:text-4xl font-black text-slate-900 italic uppercase tracking-tighter">Pagamento Realizado!</h3>
+                           <p className="text-slate-500 font-medium italic text-sm md:text-base leading-relaxed">
+                              Parabéns! Sua parcela de {new Date(selectedPaymentForPay.dueDate).toLocaleDateString('pt-BR', { month: 'long' })} foi liquidada em nosso sistema com sucesso.
+                           </p>
+                        </div>
+                        <div className="bg-emerald-50 p-6 rounded-[32px] border border-emerald-100 inline-block px-12">
+                           <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest mb-1">Comprovante Gerado</p>
+                           <p className="font-mono text-emerald-800 font-bold text-lg tracking-tighter">#AMB-{Math.random().toString(36).substr(2, 8).toUpperCase()}</p>
+                        </div>
+                        <button
+                           onClick={closePaymentModal}
+                           className="w-full py-6 bg-[#0A101E] text-white rounded-[32px] font-black text-xs uppercase tracking-[0.4em] hover:bg-emerald-600 transition-all shadow-xl"
+                        >
+                           Voltar ao Dashboard
+                        </button>
+                     </div>
+                  )}
+               </div>
+            </div>
+         </div>
+      );
+   };
+
    return (
       <div className="min-h-screen bg-[#F8FAFC]">
          {/* Renderização Condicional de Modais e Notificações */}
          {renderPasswordChangeModal()}
+         {renderPaymentModal()}
          {showSelfPasswordChange && (
             <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 md:p-8 animate-in fade-in duration-500">
                <div className="absolute inset-0 bg-[#0F172A]/95 backdrop-blur-2xl" onClick={() => setShowSelfPasswordChange(false)}></div>
