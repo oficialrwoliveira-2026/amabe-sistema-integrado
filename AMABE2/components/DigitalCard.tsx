@@ -84,7 +84,7 @@ const DigitalCard: React.FC<DigitalCardProps> = ({ member, isDependent = false, 
               <div className="bg-white/[0.03] px-[4cqi] py-[3.5cqi] rounded-[3cqi] border border-white/5 flex items-center justify-between group-hover:bg-white/[0.05] transition-colors">
                 <p className="text-[clamp(14px,4.5cqi,20px)] font-black tracking-widest text-white uppercase leading-none italic drop-shadow-md">
                   {isDependent ? `${member.relationship} • ` : ''}
-                  <span className="text-orange-500">{member.memberId || 'N/A'}</span>
+                  <span className="text-orange-500">{member.simRegistry || member.memberId || 'N/A'}</span>
                 </p>
                 <CheckCircle2 size="4cqi" className="text-orange-500/50" />
               </div>
