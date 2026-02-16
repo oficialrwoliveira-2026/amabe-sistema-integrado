@@ -29,6 +29,7 @@ const App: React.FC = () => {
   const [passwordResetUser, setPasswordResetUser] = useState<{ id: string; name: string } | null>(null);
   const [customPassword, setCustomPassword] = useState('');
   const [isResetting, setIsResetting] = useState(false);
+  const [isLoadingPartners, setIsLoadingPartners] = useState(true);
 
   // Interface de Notificações Customizadas
   const [appNotification, setAppNotification] = useState<{
@@ -111,6 +112,7 @@ const App: React.FC = () => {
   const fetchPrivateData = async () => {
     if (!user || isFetchingRef.current) return;
     isFetchingRef.current = true;
+    setIsLoadingPartners(true);
     try {
       const userRoleStr = String(user.role).toUpperCase();
       const isAdmin = userRoleStr === 'ADMIN';
@@ -118,7 +120,7 @@ const App: React.FC = () => {
 
       // Consultas independentes para evitar falhas em cascata
       // 1. Otimização: Filtrar no banco de dados para evitar download de dados desnecessários
-      let usageQuery = supabase.from('benefit_usage').select('id, member_id, member_name, beneficiary_name, beneficiary_id, partner_id, partner_name, date, offer_title, offer_discount, status').order('date', { ascending: false }).limit(50);
+      let usageQuery = supabase.from('benefit_usage').select('id, member_id, member_name, beneficiary_name, beneficiary_id, partner_id, partner_name, date, offer_title, offer_discount, status, code').order('date', { ascending: false }).limit(50);
       let paymentQuery = supabase.from('payments').select('id, member_id, member_name, amount, due_date, status, updated_at, updated_by').order('due_date', { ascending: false }).limit(100);
 
       if (!isAdmin) {
@@ -179,7 +181,8 @@ const App: React.FC = () => {
             partnerName: h.partner_name,
             offerTitle: h.offer_title,
             offerDiscount: h.offer_discount,
-            code: h.id.includes('VCH-') ? h.id.split('-').pop() : h.id.substring(0, 6).toUpperCase()
+            status: h.status || 'VALIDADO',
+            code: h.code || (h.id.includes('VCH-') ? h.id.split('-').pop() : h.id.substring(0, 6).toUpperCase())
           } as unknown as BenefitUsage)));
         }
       } else if (usageResult.status === 'rejected') {
@@ -258,6 +261,7 @@ const App: React.FC = () => {
       }
     } finally {
       isFetchingRef.current = false;
+      setIsLoadingPartners(false);
     }
   };
   const handleLogout = async () => {
@@ -804,8 +808,13 @@ const App: React.FC = () => {
   };
 
   const addUsage = async (usage: BenefitUsage) => {
+    console.log('Syncing benefit validation:', usage.id || 'new', 'Status:', usage.status);
     try {
-      // Tentar inserir com todos os campos (novas colunas)
+      const now = new Date().toISOString();
+      const status = usage.status || 'VALIDADO';
+      const code = usage.code || (usage.id?.includes('VCH-') ? usage.id.split('-').pop() : usage.id?.substring(0, 6).toUpperCase()) || 'CODE';
+
+      // 1. Database Persistence via Upsert (handles both new and updates)
       const { error } = await supabase.from('benefit_usage').upsert({
         id: usage.id,
         member_id: usage.memberId,
@@ -816,42 +825,62 @@ const App: React.FC = () => {
         partner_name: usage.partnerName,
         offer_title: usage.offerTitle,
         offer_discount: usage.offerDiscount,
-        status: usage.status || 'VALIDADO',
-        date: new Date().toISOString()
+        code: code,
+        status: status,
+        date: now
       }, { onConflict: 'id' });
 
       if (error) {
-        console.warn('Erro ao registrar uso (tentando fallback):', error);
-        // Fallback: Inserir apenas campos básicos se as novas colunas não existirem
-        const { error: fallbackError } = await supabase.from('benefit_usage').insert({
+        console.warn('Upsert fallback to insert:', error);
+        const { error: insError } = await supabase.from('benefit_usage').insert({
           member_id: usage.memberId,
           member_name: usage.memberName,
           beneficiary_name: usage.beneficiaryName,
           beneficiary_id: usage.beneficiaryId,
           partner_id: usage.partnerId || user?.id,
           partner_name: usage.partnerName,
-          date: new Date().toISOString()
+          offer_title: usage.offerTitle,
+          offer_discount: usage.offerDiscount,
+          code: code,
+          status: status,
+          date: now
         });
-        if (fallbackError) throw fallbackError;
+        if (insError) throw insError;
       }
 
-      // Atualização local do histórico para economizar I/O
-      setHistory(prev => [{
-        ...usage,
-        id: usage.id || `VCH-${Math.random().toString(36).substring(2, 9).toUpperCase()}`,
-        status: 'VALIDADO',
-        date: new Date().toISOString()
-      }, ...prev].slice(0, 100)); // Mantém cache limitado
+      // 2. Atomic UI State Update
+      setHistory(prev => {
+        const usageId = usage.id;
+        // Check if item exists in local state
+        const exists = usageId ? prev.some(h => h.id === usageId) : false;
 
-      showAlert('Sucesso', 'Benefício validado!', 'success');
+        if (exists) {
+          // Replace exactly the matching item to update status properly
+          console.log('Updating existing local usage item:', usageId);
+          return prev.map(h => h.id === usageId ? { ...h, ...usage, status, code, date: now } : h);
+        } else {
+          // Add as new at the top
+          console.log('Adding new usage item to local state');
+          return [{
+            ...usage,
+            id: usageId || `VCH-${Math.random().toString(36).substring(2, 9).toUpperCase()}`,
+            status: status,
+            code: code,
+            date: now
+          }, ...prev].slice(0, 100);
+        }
+      });
+
+      const successMsg = status === 'VALIDADO' ? 'Benefício validado!' : 'Voucher gerado com sucesso!';
+      showAlert('Sucesso', successMsg, 'success');
+
+      // Auto-refresh profile if the member is viewing their own history
+      if (user && user.id === usage.memberId) {
+        fetchPrivateData();
+      }
     } catch (err: any) {
-      console.error('Erro crítico ao registrar uso:', err);
-      const isTimeout = err.message?.toLowerCase().includes('timeout') || err.message?.toLowerCase().includes('connection');
-      const detail = err.details || err.message || '';
-      const message = isTimeout
-        ? 'A conexão com o banco de dados expirou. Verifique se a luz de "Project Status" no Supabase está verde e tente novamente.'
-        : `Ocorreu um problema ao registrar o uso: ${detail}`;
-      showAlert('Erro ao Gerar', message, 'error');
+      console.error('Critical failure in addUsage:', err);
+      showAlert('Erro ao Processar', 'Falha ao sincronizar dados. Verifique sua conexão.', 'error');
     }
   };
 
@@ -1284,6 +1313,7 @@ const App: React.FC = () => {
           onRegisterNewsView={onRegisterNewsView}
           showAlert={showAlert} showConfirm={showConfirm}
           onLoadFullProfile={fetchFullProfileOnDemand}
+          isLoadingPartners={isLoadingPartners}
         />
       );
     }
