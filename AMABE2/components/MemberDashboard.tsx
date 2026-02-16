@@ -1330,65 +1330,65 @@ const MemberDashboard: React.FC<MemberDashboardProps> = ({
                      onClick={() => setSelectedPartner(p)}
                      className="group bg-white rounded-[40px] md:rounded-[48px] border border-slate-100 shadow-sm hover:shadow-2xl transition-all duration-500 cursor-pointer relative overflow-hidden flex flex-col min-h-[380px] md:min-h-[460px] hover:-translate-y-2"
                   >
-                     {/* Hero Image Background for Elegant Look */}
-                     {p.gallery && p.gallery.length > 0 ? (
-                        <div className="relative h-44 md:h-52 overflow-hidden">
+                     {/* Premium Hero Image with Integrated Logo */}
+                     <div className="relative h-44 md:h-52 bg-slate-50 overflow-hidden">
+                        {p.gallery && p.gallery.length > 0 ? (
                            <img
                               src={p.gallery[0]}
                               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[3000ms]"
                               alt=""
                            />
-                           <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-black/10"></div>
-                           <div className="absolute top-4 left-4 md:top-8 md:left-8">
-                              <div className="w-14 h-14 md:w-24 md:h-24 bg-white/95 rounded-[24px] md:rounded-[36px] p-3 md:p-5 shadow-2xl flex items-center justify-center border border-white/50 backdrop-blur-xl">
-                                 <img src={p.logo} className="w-full h-full object-contain" alt="" />
-                              </div>
+                        ) : (
+                           <div className="w-full h-full bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center">
+                              <Building2 className="text-slate-300 opacity-20" size={64} />
                            </div>
-                        </div>
-                     ) : (
-                        <div className="p-8 md:p-12 pb-0 flex justify-center">
-                           <div className="w-20 h-20 md:w-32 md:h-32 bg-slate-50 rounded-[32px] md:rounded-[48px] p-4 md:p-6 flex items-center justify-center border border-slate-100 shadow-inner group-hover:scale-110 group-hover:-rotate-3 transition-all duration-500">
+                        )}
+                        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent opacity-60"></div>
+
+                        {/* Integrated Logo Positioning */}
+                        <div className="absolute -bottom-6 left-6 md:left-8">
+                           <div className="w-16 h-16 md:w-24 md:h-24 bg-white rounded-3xl md:rounded-[36px] p-3 md:p-5 shadow-2xl flex items-center justify-center border-4 border-white backdrop-blur-xl group-hover:scale-105 transition-transform duration-500 z-20">
                               <img src={p.logo} className="w-full h-full object-contain" alt="" />
                            </div>
                         </div>
-                     )}
+                     </div>
 
-                     <div className="p-6 md:p-8 pt-5 md:pt-6 flex flex-col flex-1 relative z-10">
+                     <div className="p-6 md:p-8 pt-10 md:pt-12 flex flex-col flex-1 relative z-10">
                         <div className="mb-6">
-                           <div className="flex items-center justify-between mb-2">
+                           <div className="flex items-center justify-between mb-3">
                               <span className="text-[9px] md:text-[11px] font-black text-white px-4 py-1.5 bg-orange-600 rounded-full lowercase tracking-tighter italic border border-orange-400/20 shadow-lg shadow-orange-500/30">{p.category}</span>
-                              <div className="flex items-center gap-1 opacity-20">
-                                 <div className="w-1.5 h-1.5 rounded-full bg-slate-400"></div>
-                                 <div className="w-1.5 h-1.5 rounded-full bg-slate-400"></div>
+                              <div className="flex items-center gap-1.5">
+                                 <div className="w-1.5 h-1.5 rounded-full bg-slate-200"></div>
+                                 <div className="w-1.5 h-1.5 rounded-full bg-slate-100"></div>
                               </div>
                            </div>
-                           <h4 className="text-base md:text-2xl font-black uppercase italic text-slate-900 tracking-tighter leading-tight group-hover:text-orange-600 transition-colors line-clamp-1">{p.name}</h4>
+                           <h4 className="text-lg md:text-2xl font-black uppercase italic text-slate-900 tracking-tighter leading-tight group-hover:text-orange-600 transition-colors line-clamp-1">{p.name}</h4>
                            <p className="text-slate-500 text-[10px] md:text-sm font-medium leading-relaxed line-clamp-2 md:line-clamp-2 italic mt-2 opacity-70">
                               {p.description || "Referência em qualidade e benefícios exclusivos para membros."}
                            </p>
                         </div>
 
-                        {/* Premium Gallery Stack */}
-                        {p.gallery && p.gallery.length > 0 && (
-                           <div className="flex -space-x-4 md:-space-x-6 mb-8 mt-auto py-2 group/gallery">
-                              {p.gallery.slice(0, 3).map((img, i) => (
+                        {/* Premium Gallery Stack with Hover Effects */}
+                        {p.gallery && p.gallery.length > 1 && (
+                           <div className="flex -space-x-3 md:-space-x-4 mb-8 mt-auto py-2 group/gallery">
+                              {p.gallery.slice(1, 4).map((img, i) => (
                                  <div
                                     key={i}
                                     onClick={(e) => { e.stopPropagation(); setSelectedImage(img); }}
-                                    className="w-12 h-12 md:w-20 md:h-20 rounded-2xl md:rounded-[28px] overflow-hidden border-2 border-white shadow-2xl relative hover:-translate-y-3 transition-all duration-500 hover:rotate-3 cursor-zoom-in z-10 hover:z-30"
+                                    className="w-10 h-10 md:w-14 md:h-14 rounded-2xl md:rounded-[20px] overflow-hidden border-2 border-white shadow-xl relative hover:-translate-y-2 hover:scale-110 transition-all duration-500 cursor-zoom-in z-10 hover:z-30"
                                     style={{ zIndex: 10 + i }}
                                  >
                                     <img src={img} className="w-full h-full object-cover" alt="" />
-                                    {i === 2 && p.gallery!.length > 3 && (
-                                       <div className="absolute inset-0 bg-orange-600/90 flex items-center justify-center backdrop-blur-[1px]">
-                                          <span className="text-white text-[9px] md:text-xs font-black">+{p.gallery!.length - 3}</span>
+                                    {i === 2 && p.gallery!.length > 4 && (
+                                       <div className="absolute inset-0 bg-[#0F172A]/80 flex items-center justify-center backdrop-blur-[1px]">
+                                          <span className="text-white text-[8px] md:text-[10px] font-black">+{p.gallery!.length - 4}</span>
                                        </div>
                                     )}
                                  </div>
                               ))}
-                              <div className="flex flex-col justify-center ml-8 pl-4 opacity-0 group-hover:opacity-100 transition-all duration-700 translate-x-4 group-hover:translate-x-0">
-                                 <span className="text-[7px] md:text-[9px] font-black text-orange-600 uppercase tracking-widest leading-none mb-1">Visualizar</span>
-                                 <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Galeria</span>
+                              <div className="flex flex-col justify-center ml-6 pl-2 opacity-0 group-hover:opacity-100 transition-all duration-700 translate-x-4 group-hover:translate-x-0">
+                                 <span className="text-[7px] md:text-[8px] font-black text-orange-600 uppercase tracking-[0.2em] leading-none mb-1">Visualizar</span>
+                                 <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Fotos</span>
                               </div>
                            </div>
                         )}
@@ -2224,7 +2224,7 @@ const MemberDashboard: React.FC<MemberDashboardProps> = ({
                               <div key={item.id} className="group bg-white rounded-3xl md:rounded-[48px] border border-slate-100 overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 flex flex-col">
                                  <div className="relative h-32 md:h-48 overflow-hidden">
                                     <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
-                                    <div className="absolute top-4 left-4 md:top-6 md:left-6">
+                                    <div className="absolute top-4 left-4 md:top-6 md:left-6 hidden md:block">
                                        <span className="px-3 py-1 bg-white/60 backdrop-blur-md rounded-full text-[7px] md:text-[9px] font-bold uppercase tracking-widest text-slate-900/60 border border-white/20 shadow-sm">
                                           {item.category}
                                        </span>
@@ -2269,7 +2269,7 @@ const MemberDashboard: React.FC<MemberDashboardProps> = ({
                               <div key={item.id} className="group bg-white rounded-[32px] md:rounded-[48px] border border-slate-100 overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 flex flex-col">
                                  <div className="relative h-32 md:h-64 overflow-hidden">
                                     <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
-                                    <div className="absolute top-8 left-8">
+                                    <div className="absolute top-8 left-8 hidden md:block">
                                        <span className="px-5 py-2 bg-white/60 backdrop-blur-md rounded-full text-[7px] md:text-[9px] font-bold uppercase tracking-widest text-slate-900/60 border border-white/20 shadow-sm">
                                           {item.category}
                                        </span>

@@ -138,7 +138,7 @@ const App: React.FC = () => {
 
       // Otimização de Performance: Carregar apenas colunas leves na listagem inicial.
       // Campos pesados (gallery, offers, dependents) serão carregados sob demanda.
-      const profilesColumns = 'id, name, surname, email, role, avatar_url, member_id, status, valid_until, company_name, city, created_at, birth_date, whatsapp, address, description, rg, cpf, sim_registry, instagram, facebook, linkedin, website, category, discount, rules';
+      const profilesColumns = 'id, name, surname, email, role, avatar_url, member_id, status, valid_until, company_name, city, created_at, birth_date, whatsapp, address, description, rg, cpf, sim_registry, instagram, facebook, linkedin, website, category, discount, rules, gallery, offers';
 
       const [usageResult, paymentResult, profilesResult] = await Promise.allSettled([
         usageQuery,
@@ -644,6 +644,8 @@ const App: React.FC = () => {
           company_name: updatedUser.companyName || null,
           valid_until: updatedUser.validUntil || null,
           dependents: updatedUser.dependents || [],
+          gallery: (updatedUser as any).gallery || [],
+          offers: (updatedUser as any).offers || [],
           updated_at: new Date().toISOString()
         })
         .eq('id', updatedUser.id);
@@ -1131,6 +1133,7 @@ const App: React.FC = () => {
           description: newPartner.description || '',
           avatar_url: newPartner.logo,
           gallery: Array.isArray(newPartner.gallery) ? newPartner.gallery : [],
+          offers: Array.isArray(newPartner.offers) ? newPartner.offers : [],
           updated_at: new Date().toISOString()
         };
 
